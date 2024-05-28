@@ -54,6 +54,15 @@ const routes = [
           },
         ],
       },
+      {
+        path: 'std',
+        children: [
+            {
+                path: 'lectureList',
+                component: <LectureList />
+            }
+        ]
+      }
     ],
     component: Dashboard,
   },
