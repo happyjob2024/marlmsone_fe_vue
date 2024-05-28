@@ -10,18 +10,13 @@
                             </p>
                         </div>
                         <div class="modal-body">
-                            <div class="input-group mb-3" v-if="props.equipId">
+                            <div class="input-group mb-3" v-if="equipId">
                                 <span class="input-group-text">강의실 명</span>
-                                <input 
-                                    type="text" 
-                                    class="form-control" disabled/>
+                                <input type="text" class="form-control" v-model="equipment.lecrm_name" disabled />
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">장비 명</span>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    v-model="equipment.equ_name">
+                                <input type="text" class="form-control" v-model="equipment.equ_name" />
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">장비 수</span>
@@ -34,32 +29,20 @@
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">비고</span>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    v-model="equipment.equ_note"/>
+                                <input type="text" class="form-control" v-model="equipment.equ_note" />
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button 
-                                type="button" 
-                                class="btn btn-info"
-                                @click="postEquipmentDetail()"
-                                v-if="!equipId">등록</button>
+                            <button type="button" class="btn btn-info" @click="postEquipmentDetail" v-if="!equipId">
+                                등록
+                            </button>
                             <template v-else>
-                                <button 
-                                    type="button" 
-                                    class="btn btn-info" 
-                                    @click="postEquipmentDetail()">수정</button>
-                                <button 
-                                    type="button" 
-                                    class="btn btn-info"
-                                    @click="deleteEquipmentDetail()">삭제</button>
+                                <button type="button" class="btn btn-info" @click="postEquipmentDetail">수정</button>
+                                <button type="button" class="btn btn-info" @click="deleteEquimentDetail">삭제</button>
                             </template>
-                            <button 
-                                type="button" 
-                                class="btn btn-light" 
-                                @click="$emit('closeModal', false)">닫기</button>
+                            <button type="button" class="btn btn-light" @click="$emit('closeModal', false)">
+                                닫기
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -78,77 +61,46 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['closeAndSearch']);
-const equipment = ref(new Object);
+
+const equipment = ref(new Object());
 const updateHandler = ref(props.equipId ? 'U' : 'I');
 
 const postEquipmentDetail = () => {
-    // var param = {
-    //     lecrm_id : $("#lecrm_id").val()
-    //     , equ_name : $("#equ_name").val()
-    //     , equ_num : $("#equ_num").val()
-    //     , equ_note : $("#equ_note").val()
-    //     , equ_id : $("#equ_id").val()
-    //     , action : $("#action").val()
-    // }
-    // callAjax("/adm/equSave.do", "post", "json", false, param, saveCallback);
-
     let param = new URLSearchParams(equipment.value);
     param.append('action', updateHandler.value);
     param.append('lecrm_id', props.lectureId);
 
-    axios.post("/adm/equSave.do", param)
-        .then((res) => {
-            // {result: "S", resultmsg: "저장되었습니다."}
-            if (res.data.result === 'S') {
-                alert(res.data.resultmsg);
-                emit('closeAndSearch', false);
-            }
-        })
+    axios.post('/adm/equSave.do', param).then((res) => {
+        if (res.data.result === 'S') {
+            alert(res.data.resultmsg);
+            emit('closeAndSearch', false);
+        }
+    });
 };
 
 const getEquipmentDetail = () => {
-    // var param = {
-    //     equ_id : equ_id
-    // }
-    // callAjax("/adm/equDtl.do", "post", "json", false, param, dtlCallback);
-
-    let param = new URLSearchParams(equipment.value);
-    param.append('equ_id', props.equipId);
-
-    axios.post("/adm/equDtl.do", param)
-        .then((res) => {
-            equipment.value = res.data.selinfo;
-            // {result: "S", resultmsg: "저장되었습니다."}
-            if (res.data.result === 'S') {
-                alert(res.data.resultmsg);
-                emit('closeAndSearch', false);
-            }
-        })
-};
-
-const deleteEquipmentDetail = () => {
-    // var param = {
-    //     equ_id : equ_id
-    // }
-    // callAjax("/adm/equDelete.do", "post", "json", false, param, dtlCallback);
-
     let param = new URLSearchParams();
     param.append('equ_id', props.equipId);
 
-    axios.post("/adm/equDelete.do", param)
-        .then((res) => {
-            equipment.value = res.data.selinfo;
-            // {result: "S", resultmsg: "삭제되었습니다."}
-            if (res.data.result === 'S') {
-                alert(res.data.resultmsg);
-                emit('closeAndSearch', false);
-            }
-        })
-}
+    axios.post('/adm/equDtl.do', param).then((res) => {
+        equipment.value = res.data.selinfo;
+    });
+};
+
+const deleteEquimentDetail = () => {
+    let param = new URLSearchParams();
+    param.append('equ_id', props.equipId);
+    axios.post('/adm/equDelete.do', param).then((res) => {
+        if (res.data.result === 'S') {
+            alert(res.data.resultmsg);
+            emit('closeAndSearch', false);
+        }
+    });
+};
 
 onMounted(() => {
     props.equipId ? getEquipmentDetail() : null;
-})
+});
 </script>
 
 <style>
