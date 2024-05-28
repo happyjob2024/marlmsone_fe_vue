@@ -1,0 +1,108 @@
+<template>
+    <div style="margin-top: 70px">
+        <div>
+            <p class="conTitle">
+                <span>장비 목록</span>
+                <button class="btn btn-light" style="float: right; margin-top: 10px"
+                        @click="modalHandler()">장비 신규등록</button>
+            </p>
+            <div style="float: left">
+                <b> 총건수 : {{total}} 현재 페이지 번호 : {{currentPage}} </b>
+            </div>
+
+            <table class="table table-info" style="margin-top: 1%">
+                <thead>
+                    <tr>
+                        <th>강의실명</th>
+                        <th>장비명</th>
+                        <th>장비수</th>
+                        <th>비고</th>
+                        <th style="width: 10%; text-align: center">수정</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="data in dataList" :key="data.equ_id">
+                        <th>{{ data.lecrm_name }}</th>
+                        <td>{{ data.equ_name }}</td>
+                        <td>{{ data.equ_num }}</td>
+                        <td>{{ data.equ_note }}</td>
+                        <td><button class="btn btn-outline-dark btn-sm" 
+                                    style="margin-right: 15px"
+                                    @click="modalHandler(data.equ_id)">수정</button></td>
+                    </tr>
+                    <!-- <tr>
+                        <td colspan="5" style="text-align: center">데이터가 없습니다</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <Pagination 
+            v-bind="{currentPage, totalItems: total, itemsPerPage: 2}"
+            @search="getEquipmentList($event)"
+            v-if="dataList.length > 0"/>
+        <ModalEquipment v-if="modalBloolean" 
+                        :lectureId="lectureId"
+                        :equipId="equipId"
+                        @closeModal="modalBloolean = $event"
+                        @closeAndSearch="modalClose"/>
+    </div>
+</template>
+
+<script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import ModalEquipment from './ModalEquipment.vue';
+import Pagination from '@/components/common/PaginationComponent.vue';
+
+const route = useRoute();
+const modalBloolean = ref(false);
+const dataList = ref([]);
+const lectureId = ref(route.params.id);
+const equipId = ref(0);
+const total = ref(0);
+const currentPage = ref(1);
+
+const getEquipmentList = (cpage) => {
+    cpage = cpage || 1;
+
+    // var param = {
+    //     lecrm_id : $("#lecrm_id").val()
+    //     , cpage : cpage
+    //     , pagesize : pagesize
+    // };
+    // callAjax("/adm/equList.do", "post", "text", false, param, listCallback);
+
+    let param = new URLSearchParams();
+    param.append('cpage', cpage);
+    param.append('pagesize', 2);
+    param.append('lecrm_id', lectureId.value);
+
+    axios.post("/adm/equListjson.do", param)
+        .then((res) => {
+            // {"listcnt": 4,
+            //  "listdata": [{"lecrm_id": 92,"lecrm_name": "3333","lecrm_size": null,"lecrm_snum": 0,
+            //                "lecrm_note": null,"equ_id": 126,"equ_name": "저장","equ_num": 1,"equ_note": "ㅎㅎ"}]}
+            dataList.value = res.data.listdata;
+            total.value = res.data.listcnt;
+            currentPage.value = cpage;
+        });
+};
+
+const modalHandler = (param) => {
+    modalBloolean.value = true;
+    equipId.value = param;
+}
+
+const modalClose = (param) => {
+    // console.log(param);
+    modalBloolean.value = param;
+    getEquipmentList();
+}
+
+onMounted(() => {
+    getEquipmentList();
+})
+</script>
+
+<style></style>
