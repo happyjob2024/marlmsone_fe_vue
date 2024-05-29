@@ -4,6 +4,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
 
 const routes = [
@@ -56,14 +57,23 @@ const routes = [
         ],
       },
       {
+        path: 'adm',
+        children: [
+          {
+            path: 'a_surveyControl',
+            component: <SurveyMgt/>
+          },
+        ],
+      },
+      {
         path: 'std',
         children: [
-            {
-                path: 'lectureList',
-                component: <LectureList />
-            }
-        ]
-      }
+          {
+            path: 'lectureList',
+            component: <LectureList />
+          },
+        ],
+      },
     ],
     component: Dashboard,
   },
