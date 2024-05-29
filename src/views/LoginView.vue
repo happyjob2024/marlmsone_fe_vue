@@ -55,30 +55,32 @@
                             id="cb_saveId"
                             type="checkbox"
                         />
-                        <span class="id_save">ID저장</span>
+                        <label class="id_save" for="cb_saveId">ID저장</label>
                     </p>
                     <div>
-                        <a href="" id="RegisterBtn" name="modal"
-                            ><strong>[회원가입]</strong></a
-                        >
-                        <a href=""><strong>[아이디/비밀번호 찾기]</strong></a>
+                        <span class="btn" @click="openModal">[회원가입]</span>
+                        <span class="btn">[아이디/비밀번호 찾기]</span>
                     </div>
-                    <a class="btn_login" id="btn_login" @click="fLoginProc">
+                    <a id="btn_login" @click="fLoginProc">
                         <strong>Login</strong>
                     </a>
                 </fieldset>
             </div>
         </div>
     </div>
+    <SignUpModal v-if="modalFlag" @closeModal="modalFlag = false" />
 </template>
 
 <script>
+import SignUpModal from "@/components/modals/login/SignUpModal.vue";
+
 export default {
     data: function () {
         return {
             loginId: "",
             pwd: "",
             saveId: false,
+            modalFlag: false,
         };
     },
     mounted() {
@@ -153,7 +155,11 @@ export default {
 
             return val;
         },
+        openModal: function () {
+            this.modalFlag = true;
+        },
     },
+    components: { SignUpModal },
 };
 </script>
 
@@ -167,15 +173,20 @@ export default {
     font-family: "Alata", sans-serif;
 }
 
-a {
-    text-decoration: none;
+span.btn {
     color: #666;
     font-size: 12px;
+    font-weight: bold;
+    padding: 0;
 }
 
-a:hover {
+span.btn:hover {
     text-decoration: underline;
     color: black;
+}
+
+span.btn:first-child {
+    padding-right: 5px;
 }
 
 #background_board {
@@ -194,6 +205,7 @@ a:hover {
     display: flex;
     text-align: center;
     box-shadow: var(--bs-box-shadow);
+    border-radius: 10px;
 }
 
 .login-form-right-side {
@@ -269,7 +281,7 @@ a:hover {
     margin: 10px auto;
 }
 
-a.btn_login {
+#btn_login {
     position: absolute;
     top: 170px;
     width: 325px;
@@ -281,6 +293,11 @@ a.btn_login {
     border-radius: 5rem;
     letter-spacing: 0.1rem;
     cursor: pointer;
+    text-decoration: none;
+}
+
+#btn_login:hover {
+    text-decoration: underline;
 }
 
 .member_info > .id_save {
