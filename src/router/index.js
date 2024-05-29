@@ -4,6 +4,8 @@ import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+import LecturePlan from "@/views/tut/LecturePlan.vue";
+import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 
 const routes = [
   {
@@ -51,6 +53,19 @@ const routes = [
           {
             path: 'write',
             component: <LectureHandle />,
+          },
+        ],
+      },
+      {
+        path: 'tut',
+        children: [
+          {
+            path: 'lecturePlan',
+            component: <LecturePlan />,
+          },
+          {
+            path: 'lecturePlanDetail/:id',
+            component: <LecturePlanHandle />,
           },
         ],
       },
