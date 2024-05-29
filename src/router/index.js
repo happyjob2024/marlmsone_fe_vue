@@ -4,6 +4,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+import RegisterListControl from "@/views/register/RegisterListControl";
 
 const routes = [
   {
@@ -54,6 +55,15 @@ const routes = [
           },
         ],
       },
+      {
+        path: 'register',
+        children: [
+          {
+            path: 'registerListControl',
+            component: <RegisterListControl/>
+          }
+        ],
+      }
     ],
     component: Dashboard,
   },
