@@ -1,10 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Login from "../views/Login.vue";
+import Login from "../views/LoginView.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
+import LectureList from "@/views/std/LectureList.vue";
 
 const routes = [
   {
@@ -62,8 +63,17 @@ const routes = [
             path: 'a_surveyControl',
             component: <SurveyMgt/>
           },
-        ]
-      }
+        ],
+      },
+      {
+        path: 'std',
+        children: [
+          {
+            path: 'lectureList',
+            component: <LectureList />
+          },
+        ],
+      },
     ],
     component: Dashboard,
   },
