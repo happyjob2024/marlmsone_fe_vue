@@ -113,7 +113,7 @@
       @closeModal="modalState = false"
       :getNoticeList="getNoticeList"
       :modalProps="modalProps"
-      :currentPage="currengPage"
+      :currentPage="currentPage"
     />
   </div>
 </template>
@@ -150,7 +150,7 @@ export default {
     modalHandler(noticeId) {
       this.modalState = true;
       this.modalProps = noticeId;
-      d;
+      
     },
   },
   mounted() {

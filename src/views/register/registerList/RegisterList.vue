@@ -93,7 +93,8 @@
             <template v-if="registerList.length > 0">
               <tr v-for="(list, i) in registerList" :key="i">
                 <td>{{ list.lec_id }}</td>
-                <td @click="getStdList(list.lec_id)">
+                <!-- <td @click="getStdList(list.lec_id) "> -->
+                <td @click="getStdList(list.lec_id) ">
                   {{ list.lec_name }}
                 </td>
                 <td>{{ list.t_name }}</td>
@@ -125,7 +126,7 @@
         :currentPage="currengPage"
       />
     </div><br>
-    <table class="col">
+    <table class="col" v-show="totalStudent > 0">
           <caption></caption>
           <colgroup>
             <col width="30%" />
@@ -143,9 +144,9 @@
           <tbody>
             <template v-if="studentList.length > 0">
               <tr v-for="(list, i) in studentList" :key="i">
-                <td>{{ list.lecrm_id }}</td>
-                <td>{{ list.t_name }}</td>
-                <td>{{ list.t_name }}</td>
+                <td>{{ list.std_num }}</td>
+                <td>{{ list.name }}</td>
+                <td>{{ list.lec_name }}</td>
               </tr>
             </template>
             <template v-else>
@@ -154,6 +155,12 @@
               </tr>
             </template>
           </tbody>
+          <Pagination
+            :currentPage="currentPage"
+            :totalStudent="totalStudent"
+            @search="getStdList(id, $event)"
+            v-if="totalStudent.length > 0"
+          />
         </table>
 
   </template>
@@ -170,10 +177,11 @@
         paramObj: { searchInfo: "", searchKey: "", all: "all", lec_name: "lec_name", t_name: "t_name"},
         currentPage: 0,
         totalItems: 0,
-        modalState: false,
-        modalProps: 0,
         studentList: [],
         totalStudent: 0,
+        isVisible: false,
+        stdinfo: 0,
+  
       };
     },
     methods: {
@@ -189,19 +197,28 @@
           this.totalItems = res.data.lec_Total;
         });
       },
-      getStdList(cpage){
+
+   
+      getStdList(lec_id, cpage){
         cpage = cpage || 1;
-        let param = new URLSearchParams(this.paramObj);
+        let param = new URLSearchParams();
+        param.append("lec_id", lec_id); 
         param.append("currentPage", cpage);
         param.append("pageSize", 10);
 
-        axios.post("/register/stdList.do", param).then((res) => {
+        axios.post("/register/stdListjson.do", param).then((res) => {
           this.studentList = res.data.stdList;
           this.currentPage = cpage;
           this.totalStudent = res.data.std_Total;
         });
 
       },
+
+      // toggleVisibility(lec_id){
+      //   this.isVisible = !this.isVisible;
+      //   this.getStdList(lec_id, 1);
+      //   this.stdinfo = lec_id;
+      // },
 
 
       modalHandler(noticeId) {
