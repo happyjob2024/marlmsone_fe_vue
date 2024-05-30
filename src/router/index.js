@@ -11,6 +11,8 @@ import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import CheckGrades from "@/views/tut/CheckGrades.vue";
+import CheckGradesHandle from "@/views/tut/StdGrades.vue";
 
 const routes = [
   {
@@ -61,7 +63,7 @@ const routes = [
           },
         ],
       },
-      {            
+      {
         path: "adm",
         children: [
           {
@@ -81,7 +83,7 @@ const routes = [
             component: <SurveyMgt/>
           },
         ],
-      },      
+      },
       {
         path: 'tut',
         children: [
@@ -92,6 +94,10 @@ const routes = [
           {
             path: 'lecturePlanDetail/:id',
             component: <LecturePlanHandle />,
+          },
+          {
+            path: 'checkGrades',
+            component: <CheckGrades />,
           },
         ],
       },

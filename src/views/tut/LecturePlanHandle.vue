@@ -5,7 +5,7 @@
             <span class="btn_nav bold">강의계획서</span>
         </p>
         <p class="conTitle">
-            <span v-if="id">강의계획서</span>
+            <span>강의계획서</span>
             <button class="btn btn-light" 
                     style="float: inline-end; margin-top: 10px" 
                     @click="postLecInfoDetail">
@@ -170,7 +170,7 @@ const postLecInfoDetail = async () => {
 };
 
 onMounted(() => {
-    console.log("LecturePlanHandle> id : " + id.value);
+    // console.log("LecturePlanHandle> id : " + id.value);
     id.value ? getTutLectureDetail(id.value) : null;
 });
 </script>
