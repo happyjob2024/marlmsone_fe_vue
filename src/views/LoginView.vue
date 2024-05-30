@@ -127,6 +127,7 @@ export default {
                             JSON.stringify(data)
                         );
                         sessionStorage.setItem("loginId", data.loginId);
+                        sessionStorage.setItem('userType', data.userType);
                         this.$router.push("/dashboard");
                     } else {
                         alert("ID 혹은 비밀번호가 틀립니다.");
