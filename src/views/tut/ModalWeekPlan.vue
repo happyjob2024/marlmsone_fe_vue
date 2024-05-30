@@ -18,19 +18,19 @@
                                 <tbody>
                                     <tr>
                                         <th class="table-active t-header">주차수</th>
-                                        <td v-if="dataDetail.lec_id">
-                                            <input 
-                                                type="text" 
-                                                class="form-control" 
-                                                v-model="dataDetail.week" disabled 
-                                            />
-                                        </td>
                                         <td>
                                             <input 
                                                 type="text" 
                                                 class="form-control" 
+                                                v-model="dataDetail.week" disabled 
+                                                v-if="dataDetail.lec_id"
+                                            />
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
                                                 v-model="dataDetail.week" 
-                                            />                                                
+                                                v-else
+                                            />
                                         </td>
                                     </tr>
                                     <tr>
@@ -81,7 +81,6 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { axiosAction } from '.';
 import { Tut } from '@/api/api';
@@ -90,20 +89,15 @@ const props = defineProps({
     lectureId: Number,
     weekPlan: Object,
 });
-
 const updateHandler = ref(props.weekPlan ? 'U' : 'I');
-const dataDetail = ref(new Object);
-const lectureId = ref(0);
 const emit = defineEmits(['closeAndSearch']);
 
-
-const equipment = ref(new Object());
-
-
+const lectureId = ref(0);
+const dataDetail = ref(new Object);
 
 
+// 강의 주간계획 저장(등록, 수정)
 const postWeekPlanDetail = async () => {
-
     // data : {
     //     lec_id : lec_id,
     //     week : week,
@@ -128,8 +122,8 @@ const postWeekPlanDetail = async () => {
     }
 };
 
+// 강의 주간계획 삭제
 const deleteWeekPlanDetail = async () => {
-
     // data : {
     //     lec_id : lec_id,
     //     week : week
@@ -147,23 +141,12 @@ const deleteWeekPlanDetail = async () => {
     }   
 };
 
-const getEquipmentDetail = () => {
-    let param = new URLSearchParams();
-    param.append('equ_id', props.equipId);
-
-    axios.post('/adm/equDtl.do', param).then((res) => {
-        equipment.value = res.data.selinfo;
-    });
-};
-
-
-
 onMounted(() => {
     props.lectureId? lectureId.value = props.lectureId : null;
     props.weekPlan ? dataDetail.value = props.weekPlan : null;
 
-    console.log("ModalWeekPlan> props.weekPlan: " + JSON.stringify(dataDetail.value));
-    console.log("ModalWeekPlan> props.lectureId : " + lectureId.value);
+    // console.log("ModalWeekPlan> props.weekPlan: " + JSON.stringify(dataDetail.value));
+    // console.log("ModalWeekPlan> props.lectureId : " + lectureId.value);
 });
 </script>
 

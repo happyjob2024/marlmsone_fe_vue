@@ -16,7 +16,6 @@
                 </select>
                 <span>강의명 </span>
                 <input type="text" class="lecure-name" v-model="searchWord"/>
-                <!-- <button class="btn btn-light btn-sm" @click="$router.push('write')">강의실 신규등록</button> -->
                 <button class="btn btn-secondary btn-sm" @click="searchTutLecture()">검색</button>
             </span>
         </p>
@@ -28,10 +27,10 @@
         <table class="table table-hover" style="margin-top: 1%; text-align: center">
             <thead class="table-active">
                 <tr>
-                    <th class="t-header">분류</th>
-                    <th class="t-header">강의명</th>
-                    <th class="t-header">기간</th>
-                    <th class="t-header">수강인원</th>
+                    <th class="t-header-c">분류</th>
+                    <th class="t-header-c">강의명</th>
+                    <th class="t-header-c">기간</th>
+                    <th class="t-header-c">수강인원</th>
                 </tr>
             </thead>            
             <tbody>
@@ -84,6 +83,7 @@ const selectOptions = ref([
 const dataList = ref([]);
 const dataTotalCnt = ref(0);
 
+// 강사 강의목록 조회
 const searchTutLecture = async (cpage) => {
     cpage = cpage || 1;
 
@@ -104,8 +104,7 @@ const searchTutLecture = async (cpage) => {
 
     const tutLectureList = await axiosAction(Tut.TutLectureList, param);
 
-    // {"listcnt": 4,
-    //  "listdata": [{...}]}
+    // {"listcnt": 4, "listdata": [{...}]}
     if (tutLectureList) {
         dataList.value = tutLectureList.listdata;
         dataTotalCnt.value = tutLectureList.listcnt;
@@ -127,7 +126,7 @@ onMounted(() => {
 .btn-sm {
     margin-left: 10px;
 }
-.t-header {
+.t-header-c {
     text-align: center;
     font-weight: bold;
 }

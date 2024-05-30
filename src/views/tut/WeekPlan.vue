@@ -3,7 +3,11 @@
         <div>
             <p class="conTitle">
                 <span>주차별 강의 계획</span>
-                <button class="btn btn-light" style="float: right; margin-top: 10px" @click="modalHandler()">
+                <button 
+                    class="btn btn-light" 
+                    style="float: right; 
+                    margin-top: 10px" 
+                    @click="modalHandler()">
                     주차 계획 신규등록
                 </button>
             </p>
@@ -63,47 +67,20 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { axiosAction } from '.';
 import { Tut } from '@/api/api';
 import ModalWeekPlan from './ModalWeekPlan.vue';
 
+const weekPlan = ref({});
 const dataList = ref([]);
 const modalBoolean = ref(false);
-
-
-const weekPlan = ref({});
-const lectureId = ref(0);
-const week = ref('');
-
-
-
-const route = useRoute();
-// const lectureId = ref(route.params.id);
-const equipId = ref(0);
-const total = ref(0);
-const currentPage = ref(0);
 
 const props = defineProps({
     lectureId: Number,
 });
 
-const getEquipmentList = (cpage) => {
-    cpage = cpage || 1;
-    let param = new URLSearchParams();
-    param.append('cpage', cpage);
-    param.append('pagesize', 5);
-    param.append('lecrm_id', lectureId.value);
-
-    axios.post('/adm/equListjson.do', param).then((res) => {
-        dataList.value = res.data.listdata;
-        total.value = res.data.listcnt;
-        currentPage.value = cpage;
-    });
-};
-
+// 강의 주간계획 전체 조회
 const getWeekPlanList = async () => {
 
     // var param = {
@@ -118,7 +95,7 @@ const getWeekPlanList = async () => {
 
     // {"result": "SUCCESS","week_plan": [{...}],"resultMsg": "조회 되었습니다."}
     if (weekPlanList && weekPlanList.result === "SUCCESS") {
-        console.log("WeekPlan> weekPlanList : " + JSON.stringify(weekPlanList));
+        // console.log("WeekPlan> weekPlanList : " + JSON.stringify(weekPlanList));
         dataList.value = weekPlanList.week_plan;
     }
 };

@@ -6,7 +6,6 @@
         </p>
         <p class="conTitle">
             <span v-if="id">강의계획서</span>
-            <!-- <span v-else>강의실 신규등록</span> -->
             <button class="btn btn-light" 
                     style="float: inline-end; margin-top: 10px" 
                     @click="postLecInfoDetail">
@@ -40,19 +39,22 @@
                 <tr>
                     <th class="table-active t-header">강의분류 <span style="color: red">*</span></th>
                     <td class="t-data">
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            v-model="dataDetail.lec_type_name" 
-                        />
+                        <select v-model="dataDetail.lec_type_id">
+                            <option value="">강의분류 선택</option>
+                            <option v-for="option in lecTypeList" 
+                                :key="option.lec_type_id" 
+                                :value="option.lec_type_id"
+                            > {{ option.lec_type_name }}
+                            </option>
+                        </select>
                     </td>
                     <th class="table-active t-header">대상자 <span style="color: red">*</span></th>
                     <td class="t-data">
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            v-model="dataDetail.lec_sort" 
-                        />
+                        <select v-model="dataDetail.lec_sort">
+                            <option value="">대상자 선택</option>
+                            <option value="실업자">실업자</option>
+                            <option value="직장인">직장인</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -60,11 +62,14 @@
                     <td class="t-data">{{ dataDetail.name }}</td>
                     <th class="table-active t-header">강의실 <span style="color: red">*</span></th>
                     <td class="t-data">
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            v-model="dataDetail.lecrm_name" 
-                        />
+                        <select v-model="dataDetail.lecrm_id">
+                            <option value="">강의실 선택</option>
+                            <option v-for="option in lecRoomList" 
+                                :key="option.lecrm_id" 
+                                :value="option.lecrm_id"
+                            > {{ option.lecrm_name }}
+                            </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -92,7 +97,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, ref  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { axiosAction } from '.';
 import { nullcheck } from '@/common/common';
@@ -104,54 +109,11 @@ const router = useRouter();
 const id = ref(route.params.id);
 
 const dataDetail = ref({});
+const lecTypeList = ref([]);
+const lecRoomList = ref([]);
 
-
-
-
-
-
-// const lecture = reactive({ lecrm_name: '', lecrm_size: 0, lecrm_snum: 0, lecrm_note: '' });
-// const updateHandler = ref(id.value ? 'U' : 'I');
-// let preLecture = Object;
-
-// const getLectureDetail = (id) => {
-//     let param = new URLSearchParams();
-//     param.append('lecrm_id', id);
-//     axios.post('/adm/lectureRoomDtl.do', param).then((res) => {
-//         lecture.lecrm_name = res.data.selinfo.lecrm_name;
-//         lecture.lecrm_size = res.data.selinfo.lecrm_size;
-//         lecture.lecrm_snum = res.data.selinfo.lecrm_snum;
-//         lecture.lecrm_note = res.data.selinfo.lecrm_note;
-//         preLecture = { ...lecture };
-//     });
-// };
-
-// const postLectureDetail = () => {
-//     let checkresult = nullcheck([
-//         { inval: lecture.lecrm_name, msg: '강의실 명을 입력해 주세요.' },
-//         { inval: lecture.lecrm_size, msg: '강의실 크기을 입력해 주세요.' },
-//         { inval: lecture.lecrm_snum, msg: '강의실 자리수을 입력해 주세요.' },
-//     ]);
-//     if (!checkresult) return;
-
-//     let param = new URLSearchParams(lecture);
-//     param.append('action', updateHandler.value);
-//     id.value ? param.append('lecrm_id', id.value) : null;
-
-//     axios
-//         .post('/adm/lectureRoomSave.do', param)
-//         .then((res) => {
-//             if (res.data.result === 'S') {
-//                 alert('저장되었습니다.');
-//                 router.push('/dashboard/sampletest/samplepage5');
-//             }
-//         })
-//         .catch((err) => {
-//             alert(err.message);
-//         });
-// };
-
-const getTutLectureDetail = async () => {
+// 강의 상세정보, 강의분류 리스트, 강의실 리스트 조회
+const getTutLectureDetail = async () => {    
     // var param = {
     //     lec_id : lec_id
     // };
@@ -162,14 +124,26 @@ const getTutLectureDetail = async () => {
 
     const lectureDetail = await axiosAction(Tut.TutLectureDetail, param);
 
-    // {"result": "SUCCESS","lec_info": {...},"resultMsg": "조회 되었습니다."}
+    // {"result": "SUCCESS","lec_info": {...},"type_list": {...},"lec_room": {...},"resultMsg": "조회 되었습니다."}
     if (lectureDetail && lectureDetail.result === 'SUCCESS') {
-        console.log("LeturePlanHandle> lectureDetail : " + JSON.stringify(lectureDetail.value));
         dataDetail.value = lectureDetail.lec_info;
+        lecTypeList.value = lectureDetail.type_list;
+        lecRoomList.value = lectureDetail.lec_room;
+
+        // console.log("LeturePlanHandle> lectureDetail : " + JSON.stringify(dataDetail.value));
+        // console.log("LeturePlanHandle> lecTypeList : " + JSON.stringify(lecTypeList.value));
+        // console.log("LeturePlanHandle> lecRoomList : " + JSON.stringify(lecRoomList.value));
     }
 };
 
+// 강의 상세정보 수정
 const postLecInfoDetail = async () => {
+    let checkresult = nullcheck([
+        { inval: dataDetail.value.lec_type_id, msg: '강의분류를 선택해 주세요.' },
+        { inval: dataDetail.value.lec_sort, msg: '대상자를 선택해 주세요.' },
+        { inval: dataDetail.value.lecrm_id, msg: '강의실을 선택해 주세요.' },
+    ]);
+    if (!checkresult) return;
 
     // var param = {
     //     lec_id :  $("#tmp_lec").val(),
@@ -182,8 +156,8 @@ const postLecInfoDetail = async () => {
     // callAjax("/tut/savePlan.do", "post", "json", true, param, resultCallback);
 
     let param = new URLSearchParams(dataDetail.value);
+    // console.log("postLecInfoDetail> param : " + param);
 
-    console.log("postLecInfoDetail> param : " + param);
     const data = await axiosAction(Tut.TutLectureSave, param);
 
     // {"result":"SUCCESS","resultMsg":"저장되었습니다."}
@@ -194,13 +168,6 @@ const postLecInfoDetail = async () => {
         }
     }
 };
-
-// watch(lecture, (newData) => {
-//     if (newData.lecrm_name.length > 15) {
-//         alert('15자 이상입니다.');
-//         lecture.lecrm_name = preLecture.lecrm_name;
-//     }
-// });
 
 onMounted(() => {
     console.log("LecturePlanHandle> id : " + id.value);
