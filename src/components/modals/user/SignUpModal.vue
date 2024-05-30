@@ -4,6 +4,13 @@ import PostCodeModal from "./PostCodeModal.vue";
 import axios from "axios";
 import { nullcheck } from "@/common/common";
 import { SignUp } from "@/api/api";
+import {
+    preventNotNumberInput,
+    validateEmail,
+    validateId,
+    validatePassword,
+    validateTel,
+} from "@/common/validation";
 
 const emit = defineEmits(["closeModal"]);
 
@@ -36,21 +43,25 @@ const closeModal = (event) => {
 const signup = () => {
     if (isCheckedId.value === undefined) {
         alert("중복된 아이디가 있는지 확인해 주세요.");
+        return;
     } else if (!isCheckedId.value) {
         alert("중복된 아이디입니다.\n다른 아이디를 입력해 주세요.");
+        return;
     } else if (id.value !== checkedId.value) {
         alert(
             "중복이 확인된 아이디가 아닙니다.\n중복된 아이디가 있는지 확인해 주세요."
         );
+        return;
     }
 
-    if (!validatePwd()) {
+    if (!validatePassword(pwd.value)) {
         alert("올바른 비밀번호를 입력해 주세요.");
         return;
     }
 
     if (pwd.value !== pwdCheck.value) {
         alert("비밀번호와 비밀번호 확인이 같은지 확인해 주세요.");
+        return;
     }
 
     if (!validateBirthDay()) {
@@ -58,12 +69,12 @@ const signup = () => {
         return;
     }
 
-    if (!validateTel()) {
+    if (!validateTel(tel.value)) {
         alert("올바른 전화번호를 입력해 주세요.");
         return;
     }
 
-    if (!validateEmail()) {
+    if (!validateEmail(email.value)) {
         alert("올바른 이메일을 입력해 주세요.");
         return;
     }
@@ -107,7 +118,7 @@ const signup = () => {
 };
 
 const checkId = () => {
-    if (!validateId()) {
+    if (!validateId(id.value)) {
         alert("올바른 아이디를 입력해 주세요.");
         return;
     }
@@ -135,307 +146,254 @@ const addAddress = (data) => {
     postCodeModalFlag.value = false;
 };
 
-const preventNotNumberInput = (event) => {
-    if (
-        !/^\d$/.test(event.key) &&
-        event.key !== "Backspace" &&
-        event.key !== "Delete" &&
-        event.key !== "ArrowUp" &&
-        event.key !== "ArrowDown" &&
-        event.key !== "ArrowLeft" &&
-        event.key !== "ArrowRight" &&
-        event.key !== "Tab"
-    ) {
-        event.preventDefault();
-    }
-};
-
-const validateId = () => {
-    return /[a-zA-Z0-9]{6,20}/.test(id.value);
-};
-const validatePwd = () => {
-    return /^(?=.*\d)(?=.*\w)(?=.*[!@#$%^&+=])[\w\d!@#$%^&+=]{8,15}$/.test(
-        pwd.value
-    );
-};
 const validateBirthDay = () => {
     return birthday1.value.length === 6 && birthday2.value.length === 7;
-};
-const validateTel = () => {
-    return tel.value.startsWith("010") && tel.value.length === 11;
-};
-const validateEmail = () => {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email.value);
 };
 </script>
 
 <template>
-    <div class="background" @click="closeModal">
-        <div class="main">
-            <p class="title">회원가입</p>
-            <table>
-                <colgroup>
-                    <col width="25%" />
-                    <col width="25%" />
-                    <col width="25%" />
-                    <col width="25%" />
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <th scope="col">
-                            회원유형<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3" style="height: 40px; font-size: 15px">
-                            <input
-                                id="studnet"
-                                name="type"
-                                type="radio"
-                                value="A"
-                                style="margin-left: 6px"
-                                v-model="type"
-                            />
-                            <label for="studnet" style="margin-left: 2px">
-                                학생
-                            </label>
-                            <input
-                                id="teacher"
-                                name="type"
-                                type="radio"
-                                value="B"
-                                style="margin-left: 6px"
-                                v-model="type"
-                            />
-                            <label for="teacher" style="margin-left: 2px">
-                                강사
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            아이디<span class="font_red">*</span>
-                        </th>
-                        <td colspan="2">
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="숫자, 영문자만 사용하여 6~20자리"
-                                maxlength="20"
-                                v-model="id"
-                            />
-                        </td>
-                        <td>
-                            <button
-                                class="btn btn-primary mx-2"
-                                @click="checkId"
+    <div class="modal show">
+        <div class="background" @click="closeModal">
+            <div class="main">
+                <p class="title">회원가입</p>
+                <table>
+                    <colgroup>
+                        <col width="25%" />
+                        <col width="25%" />
+                        <col width="25%" />
+                        <col width="25%" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="col">
+                                회원유형<span class="font_red">*</span>
+                            </th>
+                            <td
+                                colspan="3"
+                                style="height: 40px; font-size: 15px"
                             >
-                                중복확인
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            비밀번호<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3">
-                            <input
-                                type="password"
-                                class="form-control"
-                                placeholder="숫자, 영문자, 특수문자 조합으로 8~15자리"
-                                v-model="pwd"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            비밀번호 확인<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3">
-                            <input
-                                type="password"
-                                class="form-control"
-                                v-model="pwdCheck"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">이름<span class="font_red">*</span></th>
-                        <td>
-                            <input
-                                type="text"
-                                class="form-control"
-                                maxlength="10"
-                                v-model="name"
-                            />
-                        </td>
-                        <th scope="col">성별<span class="font_red">*</span></th>
-                        <td>
-                            <select
-                                id="genderId"
-                                class="form-control"
-                                v-model="gender"
-                            >
-                                <option value="" selected="selected" disabled>
-                                    선택
-                                </option>
-                                <option value="M">남자</option>
-                                <option value="F">여자</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            주민등록번호<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                maxLength="6"
-                                style="width: 47%; display: inline"
-                                v-model="birthday1"
-                                @keydown="preventNotNumberInput"
-                            />
-                            -
-                            <input
-                                type="text"
-                                class="form-control"
-                                maxLength="7"
-                                style="width: 47%; display: inline"
-                                v-model="birthday2"
-                                @keydown="preventNotNumberInput"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            전화번호<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="핸드폰 번호를 숫자만 입력하세요."
-                                maxLength="11"
-                                v-model="tel"
-                                @keydown="preventNotNumberInput"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            이메일<span class="font_red">*</span>
-                        </th>
-                        <td colspan="3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="email"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">
-                            우편번호<span class="font_red">*</span>
-                        </th>
-                        <td colspan="2">
-                            <input
-                                type="text"
-                                class="form-control"
-                                style="width: 252px; display: inline"
-                                disabled
-                                v-model="zipCode"
-                            />
-                        </td>
-                        <td>
-                            <button
-                                class="btn btn-primary mx-2"
-                                @click="postCodeModalFlag = true"
-                            >
-                                우편번호 찾기
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">주소<span class="font_red">*</span></th>
-                        <td colspan="3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                disabled
-                                v-model="addr"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="col">상세주소</th>
-                        <td colspan="3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="addr_dtl"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="buttons">
-                <button class="btn btn-primary mx-2" @click="signup">
-                    회원가입
-                </button>
-                <button class="btn btn-primary mx-2" @click="closeModal()">
-                    취소
-                </button>
+                                <input
+                                    id="studnet"
+                                    name="type"
+                                    type="radio"
+                                    value="A"
+                                    style="margin-left: 6px"
+                                    v-model="type"
+                                />
+                                <label for="studnet" style="margin-left: 2px">
+                                    학생
+                                </label>
+                                <input
+                                    id="teacher"
+                                    name="type"
+                                    type="radio"
+                                    value="B"
+                                    style="margin-left: 6px"
+                                    v-model="type"
+                                />
+                                <label for="teacher" style="margin-left: 2px">
+                                    강사
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                아이디<span class="font_red">*</span>
+                            </th>
+                            <td colspan="2">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="숫자, 영문자만 사용하여 6~20자리"
+                                    maxlength="20"
+                                    v-model="id"
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    class="btn btn-primary mx-2"
+                                    @click="checkId"
+                                >
+                                    중복확인
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                비밀번호<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="숫자, 영문자, 특수문자 조합으로 8~15자리"
+                                    v-model="pwd"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                비밀번호 확인<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    v-model="pwdCheck"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                이름<span class="font_red">*</span>
+                            </th>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    maxlength="10"
+                                    v-model="name"
+                                />
+                            </td>
+                            <th scope="col">
+                                성별<span class="font_red">*</span>
+                            </th>
+                            <td>
+                                <select
+                                    id="genderId"
+                                    class="form-control"
+                                    v-model="gender"
+                                >
+                                    <option
+                                        value=""
+                                        selected="selected"
+                                        disabled
+                                    >
+                                        선택
+                                    </option>
+                                    <option value="M">남자</option>
+                                    <option value="F">여자</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                주민등록번호<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    maxLength="6"
+                                    style="width: 47%; display: inline"
+                                    v-model="birthday1"
+                                    @keydown="preventNotNumberInput"
+                                />
+                                -
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    maxLength="7"
+                                    style="width: 47%; display: inline"
+                                    v-model="birthday2"
+                                    @keydown="preventNotNumberInput"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                전화번호<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="핸드폰 번호를 숫자만 입력하세요."
+                                    maxLength="11"
+                                    v-model="tel"
+                                    @keydown="preventNotNumberInput"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                이메일<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    v-model="email"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                우편번호<span class="font_red">*</span>
+                            </th>
+                            <td colspan="2">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    style="width: 252px; display: inline"
+                                    disabled
+                                    v-model="zipCode"
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    class="btn btn-primary mx-2"
+                                    @click="postCodeModalFlag = true"
+                                >
+                                    우편번호 찾기
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                주소<span class="font_red">*</span>
+                            </th>
+                            <td colspan="3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    disabled
+                                    v-model="addr"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">상세주소</th>
+                            <td colspan="3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    v-model="addr_dtl"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <button class="btn btn-primary" @click="signup">
+                        회원가입
+                    </button>
+                    <button class="btn btn-primary" @click="closeModal()">
+                        취소
+                    </button>
+                </div>
             </div>
         </div>
+        <PostCodeModal
+            v-if="postCodeModalFlag"
+            @closeModal="postCodeModalFlag = false"
+            @complete="addAddress"
+        />
     </div>
-    <PostCodeModal
-        v-if="postCodeModalFlag"
-        @closeModal="postCodeModalFlag = false"
-        @complete="addAddress"
-    />
 </template>
 
 <style scoped>
-.background {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-th {
-    text-align: center;
-    font-size: 12px;
-    background-color: rgb(212, 212, 212);
-}
-
-input::placeholder {
-    font-size: 12px;
-}
-
 .main {
     width: 520px;
-    background-color: white;
-    padding: 10px;
-}
-
-.title {
-    line-height: 60px;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.btn {
-    font-size: 12px;
 }
 </style>

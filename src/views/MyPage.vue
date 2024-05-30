@@ -6,6 +6,11 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { nullcheck } from "@/common/common";
+import {
+    preventNotNumberInput,
+    validateEmail,
+    validateTel,
+} from "@/common/validation";
 
 const router = useRouter();
 
@@ -16,12 +21,12 @@ const postCodeModalFlag = ref(false);
 const passowrdModalFlag = ref(false);
 
 const updateUserInfo = async () => {
-    if (!validateTel()) {
+    if (!validateTel(user.value.tel)) {
         alert("올바른 전화번호를 입력해 주세요.");
         return;
     }
 
-    if (!validateEmail()) {
+    if (!validateEmail(user.value.mail)) {
         alert("올바른 이메일을 입력해 주세요.");
         return;
     }
@@ -106,32 +111,6 @@ onMounted(() => {
         user.value = res.data.userInfo;
     });
 });
-
-const preventNotNumberInput = (event) => {
-    console.log(event.key);
-    if (
-        !/^\d$/.test(event.key) &&
-        event.key !== "Backspace" &&
-        event.key !== "Delete" &&
-        event.key !== "ArrowUp" &&
-        event.key !== "ArrowDown" &&
-        event.key !== "ArrowLeft" &&
-        event.key !== "ArrowRight" &&
-        event.key !== "Tab" &&
-        event.key !== "End" &&
-        event.key !== "Home"
-    ) {
-        event.preventDefault();
-    }
-};
-
-const validateTel = () => {
-    return user.value.tel.startsWith("010") && user.value.tel.length === 11;
-};
-
-const validateEmail = () => {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(user.value.mail);
-};
 </script>
 
 <template>
@@ -300,6 +279,6 @@ input::placeholder {
 }
 
 .buttons .btn:first-child {
-    margin-right: 5px;
+    margin-right: 15px;
 }
 </style>
