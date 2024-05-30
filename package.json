@@ -11,10 +11,13 @@
         "axios": "^1.6.8",
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
+        "chart.js": "^4.4.3",
         "core-js": "^3.8.3",
+        "dayjs": "^1.11.11",
         "mitt": "^3.0.1",
         "vue": "^3.2.13",
         "vue-bs-modal": "^0.7.9",
+        "vue-daum-postcode": "^1.2.1",
         "vue-router": "^4.0.3",
         "vue3-slide-up-down": "^1.2.5",
         "vuex": "^4.0.0",
@@ -44,7 +47,16 @@
         "parserOptions": {
             "parser": "@babel/eslint-parser"
         },
-        "rules": {}
+        "rules": {
+            "no-unused-vars": [
+                "warn",
+                {
+                    "argsIgnorePattern": "^_",
+                    "varsIgnorePattern": "^_",
+                    "caughtErrorsIgnorePattern": "^_"
+                }
+            ]
+        }
     },
     "browserslist": [
         "> 1%",
