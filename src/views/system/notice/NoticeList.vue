@@ -150,7 +150,7 @@ export default {
     modalHandler(noticeId) {
       this.modalState = true;
       this.modalProps = noticeId;
-      d;
+      
     },
   },
   mounted() {
