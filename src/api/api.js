@@ -13,3 +13,8 @@ export const EquipmentList = {
 export const LectureRoomSave = {
     RoomSave: '/adm/lectureRoomSave.do',
 };
+
+export const SignUp = {
+    CheckId: "/check_loginID.do",
+    Register: "/register.do",
+};
