@@ -7,46 +7,48 @@
         </p>
         <p class="conTitle">
             <span>공지사항</span>
-            <span>
-                <table style="border: 1px #50bcdf" width="100%" cellpadding="5" cellspacing="0" border="1" align="left">
-                    <tr style="border: 0px; border-color: blue">
-                        <td width="50" height="25" style="font-size: 100%; text-align: left">
-                            <div id="searchArea" class="d-flex justify-content-around mb-2 mt-2">
-                                <span style="font-size: large">검색 조건을 입력하세요</span>
-
-                                <input
-                                    type="text"
-                                    style="width: 200px"
-                                    class="form-control"
-                                    v-model="paramObj.searchtitle"
-                                />
-                                <input
-                                    type="date"
-                                    style="width: 15%"
-                                    class="form-control"
-                                    v-model="paramObj.searchstdate"
-                                />
-                                ~
-                                <input
-                                    type="date"
-                                    style="width: 15%"
-                                    class="form-control"
-                                    v-model="paramObj.searcheddate"
-                                />
-                                <span class="fr">
-                                    <a class="btn btn-primary mx-2" @click="getNoticeList()">
-                                        <span>검 색</span>
-                                    </a>
-                                    <a class="btn btn-primary mx-2" v-show="(userType == 'C' || userType == 'B') "  @click="newNotice()">
-                                        <span>신규등록</span>
-                                    </a>
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </span>
         </p>
+            <div id="searchArea" style="display: flex; justify-content: space-around;">
+    <table style="border: 1px #50bcdf;" width="100%" cellpadding="5" cellspacing="0" border="1" align="left" >
+        <tr style="border: 0px; border-color: blue">
+            <td width="50" height="25" style="font-size: 100%; text-align: left" >
+                
+                <span style="font-size: large; margin: 10px;" >검색 조건을 입력하세요</span>
+
+                <input
+                    type="text"
+                    style="width: 200px; height: 40px; border-radius: 0.375rem; margin-right: 10px" 
+                    v-model="paramObj.searchtitle"
+                />
+                
+                <input
+                    type="date"
+                    style="width: 15%; height: 40px; border-radius: 0.375rem; padding: 0.375rem 0.75rem;
+                        font-size: 1rem;"
+                    v-model="paramObj.searchstdate"
+                />
+                ~
+                <input
+                    type="date"
+                    style="width: 15%; height: 40px; border-radius: 0.375rem; padding: 0.375rem 0.75rem;
+                        font-size: 1rem; margin-right: 10px;"
+                    v-model="paramObj.searcheddate"
+                />
+                <span class="fr">
+                    <a class="btn btn-primary mx-2" @click="getNoticeList()" style="margin-left: 10px;" >
+                        <span>검 색</span>
+                    </a>
+                    <a class="btn btn-primary mx-2" v-show="(userType == 'C' || userType == 'B') "  @click="newNotice()">
+                        <span>신규등록</span>
+                    </a>
+                </span>
+            
+            </td>
+        </tr>
+    </table>
+</div>
+
+        
 
         <div class="divComGrpCodList">
             <div style="float: left">
