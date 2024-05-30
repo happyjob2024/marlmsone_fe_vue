@@ -4,6 +4,8 @@ import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+import LecturePlan from "@/views/tut/LecturePlan.vue";
+import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import LectureRoom from "@/views/sampletest/lectureRoom.vue";
 import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
@@ -59,7 +61,7 @@ const routes = [
           },
         ],
       },
-      {
+      {            
         path: "adm",
         children: [
           {
@@ -77,6 +79,19 @@ const routes = [
           {
             path: 'a_surveyControl',
             component: <SurveyMgt/>
+          },
+        ],
+      },      
+      {
+        path: 'tut',
+        children: [
+          {
+            path: 'lecturePlan',
+            component: <LecturePlan />,
+          },
+          {
+            path: 'lecturePlanDetail/:id',
+            component: <LecturePlanHandle />,
           },
         ],
       },
