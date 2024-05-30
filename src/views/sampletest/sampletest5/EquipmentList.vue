@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="data in dataList" :key="data.equ_id">
+                    <tr v-for="data in dataList" :key="data.lecrm_id">
                         <th>{{ data.lecrm_name }}</th>
                         <td>{{ data.equ_name }}</td>
                         <td>{{ data.equ_num }}</td>
