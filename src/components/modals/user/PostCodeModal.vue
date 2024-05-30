@@ -34,6 +34,17 @@ const complete = (data) => {
 </template>
 
 <style scoped>
+.background {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 .main {
     padding: 20px;
     background: gray;

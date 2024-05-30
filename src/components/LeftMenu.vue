@@ -20,7 +20,9 @@
                     class="LoginImg"
                     alt="사진"
                 />
-                <span class="name">{{ loginInfo.loginId }}</span>
+                <router-link class="name" to="/dashboard/mypage">{{
+                    loginInfo.name
+                }}</router-link>
                 <div class="btn_loginArea">
                     <button type="button" @click="logoutProc">LOGOUT</button>
                 </div>
@@ -77,6 +79,7 @@ export default {
             loginInfo: {
                 menulist: [],
                 loginId: "",
+                name: "",
             },
         };
     },
@@ -90,7 +93,9 @@ export default {
         loginInfo.usrMnuAtrt.forEach((item) => {
             item.isShow = false;
         });
+
         this.loginInfo.loginId = loginInfo.loginId;
+        this.loginInfo.name = loginInfo.userNm;
         this.loginInfo.menulist = loginInfo.usrMnuAtrt;
     },
     methods: {

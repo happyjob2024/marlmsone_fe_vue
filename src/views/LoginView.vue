@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import SignUpModal from "@/components/modals/login/SignUpModal.vue";
+import SignUpModal from "@/components/modals/user/SignUpModal.vue";
 
 export default {
     data: function () {
