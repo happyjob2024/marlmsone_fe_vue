@@ -16,107 +16,105 @@ import CheckGradesHandle from "@/views/tut/StdGrades.vue";
 import MyPage from "../views/MyPage.vue";
 
 const routes = [
-    {
-        path: "/",
-        name: "home",
-        component: Login,
-    },
-    {
-        path: "/login",
-        name: "login",
-        component: Login,
-    },
-    {
-        path: "/dashboard",
-        name: "dashboard",
+  {
+    path: "/",
+    name: "home",
+    component: Login,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    children: [
+      {
+        path: ":type/:menu",
+        component: () => import("../views/Content.vue"),
+      },
+      {
+        path: "home",
+        component: () => import("../views/Home.vue"),
+      },
+      {
+        path: "notice",
         children: [
             {
-                path: ":type/:menu",
-                component: () => import("../views/Content.vue"),
-            },
-            {
-                path: "home",
-                component: () => import("../views/Home.vue"),
-            },
-            {
                 path: "notice",
-                children: [
-                    {
-                        path: "notice",
-                        component: <Notice />,
-                    },
-                ],
+                component: <Notice />,
+            },
+        ],
+      },
+      {
+        path: "sampletest",
+        children: [
+            {
+                path: "samplepage5",
+                component: <SamplePage5 />,
             },
             {
-                path: "sampletest",
-                children: [
-                    {
-                        path: "samplepage5",
-                        component: <SamplePage5 />,
-                    },
-                    {
-                        path: "detail/:id",
-                        component: <LectureHandle />,
-                    },
-                    {
-                        path: "write",
-                        component: <LectureHandle />,
-                    },
-                ],
-            },         
-            {
-                path: "adm",
-                children: [
-                    {
-                        path: "lectureRoom",
-                        component: <LectureRoom />,
-                    },
-                    {
-                        path: "LectureRoomList",
-                        component: <LectureRoomList />,
-                    },
-                    {
-                        path: "detail/:id",
-                        component: <EquipmentList />,
-                    },
-                    {
-                        path: "a_surveyControl",
-                        component: <SurveyMgt />,
-                    },
-                ],
+                path: "detail/:id",
+                component: <LectureHandle />,
             },
             {
-                path: "tut",
-                children: [
-                    {
-                        path: "lecturePlan",
-                        component: <LecturePlan />,
-                    },
-                    {
-                        path: "lecturePlanDetail/:id",
-                        component: <LecturePlanHandle />,
-                    },
-                    {
-                      path: 'checkGrades',
-                      component: <CheckGrades />,
-                    },
-                ],
-            },
-            {
-                path: "std",
-                children: [
-                    {
-                        path: "lectureList",
-                        component: <LectureList />,
-                    },
-                ],
-            },
-            {
-                path: "mypage",
-                component: MyPage,
+                path: "write",
+                component: <LectureHandle />,
             },
         ],
       },         
+      {
+        path: "adm",
+        children: [
+          {
+            path: "lectureRoom",
+            component: <LectureRoom />,
+          },
+          {
+            path: "LectureRoomList",
+            component: <LectureRoomList />,
+          },
+          {
+            path: "detail/:id",
+            component: <EquipmentList />,
+          },
+          {
+            path: "a_surveyControl",
+            component: <SurveyMgt />,
+          },
+        ],
+      },
+      {
+        path: "tut",
+        children: [
+          {
+            path: "lecturePlan",
+            component: <LecturePlan />,
+          },
+          {
+            path: "lecturePlanDetail/:id",
+            component: <LecturePlanHandle />,
+          },
+          {
+            path: 'checkGrades',
+            component: <CheckGrades />,
+          },
+        ],
+      },
+      {
+        path: "std",
+        children: [
+          {
+            path: "lectureList",
+            component: <LectureList />,
+          },
+        ],
+      },
+      {
+        path: "mypage",
+        component: MyPage,
+      },
     ],
     component: Dashboard,
   },
