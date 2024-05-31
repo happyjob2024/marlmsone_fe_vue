@@ -118,13 +118,8 @@
           v-if="totalItems > 0"
         />
       </div>
-      <NoticeModal
-        v-if="modalState"
-        @closeModal="modalState = false"
-        :getNoticeList="getNoticeList"
-        :modalProps="modalProps"
-        :currentPage="currengPage"
-      />
+      <!-- 모달있던 자리 -->
+  
     </div><br>
     <table class="col" v-show="totalStudent > 0">
           <caption></caption>
@@ -162,14 +157,21 @@
             v-if="totalStudent.length > 0"
           />
         </table>
-
+        <RegisterModal
+        v-if="modalState"
+        @closeModal="modalState = false"
+        :getRegisterList="getRegisterList"
+        :modalProps="modalProps"
+        :currentPage="currentPage"
+      />
   </template>
   
   <script>
   import axios from "axios";
   import Pagination from "@/components/common/PaginationComponent.vue";
   import NoticeModal from "@/views/system/notice/NoticeModal.vue";
-  
+  import RegisterModal from '../registerList/RegisterModal.vue';
+
   export default {
     data() {
       return {
@@ -180,8 +182,11 @@
         studentList: [],
         totalStudent: 0,
         isVisible: false,
-        stdinfo: 0,
-  
+        modalState: false,
+        modalProps: 0,
+        lecrmList: [],
+        tutList: [],
+        typeList: []
       };
     },
     methods: {
@@ -195,6 +200,12 @@
           this.registerList = res.data.lec_List;
           this.currentPage = cpage;
           this.totalItems = res.data.lec_Total;
+        });
+
+        axios.post("/register/registerListControljson.do", param).then((res) => {
+          this.lecrmList = res.data.lecrmList;
+          this.tutList = res.data.tutList;
+          this.typeList = res.data.typeList;
         });
       },
 
@@ -211,7 +222,6 @@
           this.currentPage = cpage;
           this.totalStudent = res.data.std_Total;
         });
-
       },
 
       // toggleVisibility(lec_id){
@@ -230,7 +240,7 @@
     mounted() {
       this.getRegisterList();
     },
-    components: { Pagination, NoticeModal },
+    components: { Pagination, NoticeModal, RegisterModal },
   };
   </script>
   
