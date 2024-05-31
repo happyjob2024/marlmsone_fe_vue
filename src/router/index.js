@@ -11,6 +11,8 @@ import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import CheckGrades from "@/views/tut/CheckGrades.vue";
+import CheckGradesHandle from "@/views/tut/StdGrades.vue";
 import MyPage from "../views/MyPage.vue";
 
 const routes = [
@@ -61,7 +63,7 @@ const routes = [
                         component: <LectureHandle />,
                     },
                 ],
-            },
+            },         
             {
                 path: "adm",
                 children: [
@@ -94,6 +96,10 @@ const routes = [
                         path: "lecturePlanDetail/:id",
                         component: <LecturePlanHandle />,
                     },
+                    {
+                      path: 'checkGrades',
+                      component: <CheckGrades />,
+                    },
                 ],
             },
             {
@@ -110,17 +116,19 @@ const routes = [
                 component: MyPage,
             },
         ],
-        component: Dashboard,
-    },
-    {
-        path: "/about",
-        name: "about",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-    },
+      },         
+    ],
+    component: Dashboard,
+  },
+  {
+    path: "/about",
+    name: "about",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
 ];
 
 const router = createRouter({
