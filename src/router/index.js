@@ -9,6 +9,7 @@ import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import Advice from "@/views/adv/Advice.vue";
 
 const routes = [
   {
@@ -41,6 +42,15 @@ const routes = [
             component: <Notice />,
           },
         ],
+      },
+      {
+        path: "adv",
+        children: [
+          {
+            path: "advice",
+            component: <Advice />
+          }
+        ]
       },
       {
         path: 'sampletest',
@@ -76,7 +86,7 @@ const routes = [
           },
           {
             path: 'a_surveyControl',
-            component: <SurveyMgt/>
+            component: <SurveyMgt />
           },
         ],
       },
