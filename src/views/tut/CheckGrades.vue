@@ -19,7 +19,7 @@
             </span>
         </p>
         <div>
-            <div>
+            <div class="fr" style="margin: 1%;">
                 <b> 총건수 : {{ dataTotalCnt }} , 현재 페이지 번호 : {{ currentPage }} </b>
             </div>
         </div>
@@ -45,7 +45,9 @@
                     <tr v-for="data in dataList" :key="data.lec_id">
                         <td>{{ data.lec_name }}</td>
                         <!-- <td @click="$router.push(`checkGradesDetail/${data.lec_id}`)">{{ data.test_name }}</td> -->
-                        <td @click="stdListHandler(data.lec_id)">{{ data.test_name }}</td>
+                        <td @click="stdListHandler(data.lec_id, data.lec_name, data.test_name)">
+                            {{ data.test_name }}
+                        </td>
                         <td>{{ data.lecStatus }}</td>
                         <td>{{ data.pre_pnum }}</td>
                         <td>{{ data.cnt }}</td>
@@ -54,7 +56,7 @@
                 </template>
                 <template v-else>
                     <tr>
-                        <td colspan="4">데이터가 없습니다</td>
+                        <td colspan="6">데이터가 없습니다</td>
                     </tr>
                 </template>
             </tbody>
@@ -67,7 +69,10 @@
         <div>
             <StdGrades
                 v-if="stdGradesListBoolean"
-                :lectureId="selLectureId"/>
+                :lectureId="selLectureId"
+                :lectureName="selLectureName"
+                :testName="selTestName"
+            />
         </div>
     </div>
 </template>
@@ -78,10 +83,6 @@ import { axiosAction } from '.';
 import { Tut } from '@/api/api';
 import Pagination from '@/components/common/PaginationComponent.vue';
 import StdGrades from './StdGrades.vue';
-
-const stdGradesListBoolean = ref(false);
-const selLectureId = ref(0);
-
 
 const currentPage = ref(1);
 const pageSize = 5;
@@ -97,6 +98,12 @@ const selectOptions = ref([
 
 const dataList = ref([]);
 const dataTotalCnt = ref(0);
+
+const stdGradesListBoolean = ref(false);    //자식 컴포넌트 (시험응시 학생목록)
+const selLectureId = ref(0);
+const selLectureName = ref('');
+const selTestName = ref('');
+
 
 // 강사 시험목록 조회
 const getTutLectureList = async (cpage) => {
@@ -125,14 +132,18 @@ const getTutLectureList = async (cpage) => {
     if (tutCheckGradesList) {
         dataList.value = tutCheckGradesList.checkgradeList;
         dataTotalCnt.value = tutCheckGradesList.totalGradeCnt;
+
         currentPage.value = cpage;
     }
 };
 
-const stdListHandler = (param) => {
-    console.log("###### " + param);
+const stdListHandler = (lectureId, lectureName, testName) => {
+    console.log("CheckGrades> lectureId="+ lectureId + ", lectureName=" + lectureName + ", testName=" + testName);
+
     stdGradesListBoolean.value = true;
-    selLectureId.value = param;
+    selLectureId.value = lectureId;
+    selLectureName.value = lectureName;
+    selTestName.value = testName;
 };
 
 onMounted(() => {

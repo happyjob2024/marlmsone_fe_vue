@@ -6,17 +6,17 @@
         </p>
         <p class="conTitle">
             <span>강의계획서</span>
-            <button class="btn btn-light" 
-                    style="float: inline-end; margin-top: 10px" 
-                    @click="postLecInfoDetail">
-                수정
-            </button>
-                <button class="btn btn-light" 
-                        style="float: inline-end; margin-top: 10px" 
-                        @click="router.back()">
-                목록보기
-            </button>
         </p>
+        <button class="btn btn-light" 
+                style="float: inline-end;" 
+                @click="postLecInfoDetail">
+            수정
+        </button>
+        <button class="btn btn-light" 
+                style="float: inline-end;" 
+                @click="router.back()">
+            목록보기
+        </button>
         <!-- "lec_info": {"lec_id": 87,"lecrm_id": 0,"lecrm_name": null,"max_pnum": 10,"pre_pnum": 1,
                 "start_date": "2024-05-01","end_date": "2024-05-30","process_day": 0,
                 "test_id": 0,"test_start": null,"test_end": null,"tutor_id": "bbb123","lec_name": "스마트웹&콘텐츠 개발",

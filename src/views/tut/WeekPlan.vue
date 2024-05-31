@@ -3,14 +3,13 @@
         <div>
             <p class="conTitle">
                 <span>주차별 강의 계획</span>
-                <button 
-                    class="btn btn-light" 
-                    style="float: right; 
-                    margin-top: 10px" 
-                    @click="modalHandler()">
-                    주차 계획 신규등록
-                </button>
             </p>
+            <button 
+                class="btn btn-light" 
+                style="float: right;" 
+                @click="modalHandler()">
+                주차계획 신규등록
+            </button>
             <!-- <table class="table table-bordered" style="margin-top: 1%"> -->
             <table class="table table-bordered">
                 <colgroup>

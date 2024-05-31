@@ -4,12 +4,16 @@
             <span class="conNm">시험응시 학생목록</span>
         </p>        
         <div>
-            <div>
+            <div style="font-size: 18px; margin-left: 2%">
+                <b>{{ props.lectureName }} : {{ props.testName }}</b>
+            </div>
+            <div class="fr" style="margin: 1%;">
                 <b> 총건수 : {{ dataTotalCnt }} , 현재 페이지 번호 : {{ currentPage }} </b>
             </div>
-        </div>        
+        </div>
         <table class="table table-hover" style="margin-top: 1%; text-align: center">
             <thead class="table-active">
+
                 <tr>
                     <th class="t-header">아이디</th>
                     <th class="t-header">학생명</th>
@@ -20,7 +24,7 @@
             </thead>            
             <tbody>
                 <!-- {"checkStdCount": 4,
-                      "checkStdList": [{"lec_id": 0,"std_id": null,"test_id": 0,"que_id": 0,"test_name": null,
+                    "checkStdList": [{"lec_id": 0,"std_id": null,"test_id": 0,"que_id": 0,"test_name": null,
                         "lec_type_id": 0,"lec_type_name": null,"pre_pnum": 0,"loginID": "123123","pass": "과락",
                         "test_score": 43,"lec_name": null,"start_date": null,"end_date": null,"lecStatus": null,
                         "cnt": 0,"noTest": 0,"name": "123","test_yn": "미응시","tutor_id": null}]} -->
@@ -55,17 +59,18 @@ import { axiosAction } from '.';
 import { Tut } from '@/api/api';
 import Pagination from '@/components/common/PaginationComponent.vue';
 
+const props = defineProps({
+    lectureId: Number,
+    lectureName: Object,
+    testName: Object,
+});
+
 const currentPage = ref(1);
 const pageSize = 5;
 const pageBlockSize = 5;
 
 const dataList = ref([]);
 const dataTotalCnt = ref(0);
-
-const props = defineProps({
-    lectureId: Number,
-});
-
 
 // 시험응시 학생목록 조회
 const getStdGradesList = async (cpage) => {
@@ -91,19 +96,21 @@ const getStdGradesList = async (cpage) => {
     if (stdGradesList) {
         dataList.value = stdGradesList.checkStdList;
         dataTotalCnt.value = stdGradesList.checkStdCount;
+
         currentPage.value = cpage;
 
-        console.log("StdGrades> checkStdList : " + JSON.stringify(dataList.value));
-        console.log("StdGrades> checkStdCount : " + dataTotalCnt.value);
+        // console.log("StdGrades> checkStdList : " + JSON.stringify(dataList.value));
+        // console.log("StdGrades> checkStdCount : " + dataTotalCnt.value);
     }
 };
 
-watch(props.lectureId, (newData) => {
-    console.log("@@@@@@@ " + newData)
+watch(props, () => {
+    // console.log("StdGrades> WATCH!!! props.lectureId=" + props.lectureId);
+    getStdGradesList();
 });
 
 onMounted(() => {
-    console.log("StdGrades> lectureId : " + props.lectureId);
+    // console.log("StdGrades> lectureId : " + props.lectureId);
     props.lectureId ? getStdGradesList() : null;
 });
 </script>
@@ -118,5 +125,4 @@ onMounted(() => {
     text-align: left;
     vertical-align: middle;
 }
-
 </style>
