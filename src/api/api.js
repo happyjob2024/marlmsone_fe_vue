@@ -38,3 +38,7 @@ export const MyPage = {
     Quit: "/personal/personalQuit.do",
     Update: "/personal/personalBasicSave.do",
 };
+
+export const CourseSize = {
+    GetLectureList: '/adm/selectCoursejson.do',
+};
