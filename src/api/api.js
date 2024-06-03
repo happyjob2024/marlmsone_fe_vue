@@ -1,3 +1,4 @@
+
 export const SamplePage5 = {
     LectureRoomList: '/adm/lectureRoomListjson.do',
 };
@@ -26,8 +27,12 @@ export const LectureRoomSave = {
 };
 
 export const SignUp = {
-    CheckId: '/check_loginID.do',
-    Register: '/register.do',
+    CheckId: "/check_loginID.do",
+    Register: "/register.do",
+};
+
+export const EquManagementList = {
+    EquManagementList: '/adm/equManagementListJson.do',
 };
 
 export const ResumeControl = {

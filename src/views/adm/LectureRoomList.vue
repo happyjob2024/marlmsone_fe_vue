@@ -41,7 +41,7 @@
         
      <tbody id="listLectureBody">
        <tr v-for="data in dataList" :key="data.lecrm_id">
-          <td @click="$router.push(`detail/${data.lecrm_id}`)">
+          <td @click="$router.push(`Equipmentdetail/${data.lecrm_id}`)">
             {{ data.lecrm_name }}</td>
           <td>{{ data.lecrm_size }}</td>
           <td>{{ data.lecrm_snum }}</td>
