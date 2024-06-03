@@ -3,7 +3,7 @@
         <p class="Location">
             <a href="/dashboard/home" class="btn_set home"></a>
             <span class="btn_nav bold">기준정보</span>
-            <span class="btn_nav bold">공지사항 관리</span>
+            <span class="btn_nav bold">설문조사 관리</span>
         </p>
         <p class="conTitle">
             <span>설문조사 관리</span>
@@ -175,15 +175,22 @@ const searchSurvey = (cpage) => {
     let param = new URLSearchParams();
     param.append("cpage", cpage);
     param.append("pagesize", 5);
-
-    axios.post('/adm/a_surveyListJson.do', param).then((res) => {
-        dataList.value = res.data.listdata;
-        total.value = res.data.listcnt;
-        currentPage.value = cpage;
-    });
-
+    const loginInfo = JSON.parse(sessionStorage.getItem('loginInfo'));
+    if (loginInfo.userType === 'C') {
+        axios.post('/adm/a_surveyListJson.do', param).then((res) => {
+            dataList.value = res.data.listdata;
+            total.value = res.data.listcnt;
+            currentPage.value = cpage;
+        });
+    } else {
+        param.append("loginId", sessionStorage.getItem('loginId'));
+        axios.post('/tut/t_surveyTutorListJson.do', param).then((res) => {
+            dataList.value = res.data.listdata;
+            total.value = res.data.listcnt;
+            currentPage.value = cpage;
+        });
+    }
 };
-
 const selectedLectureView = (lec_id, lec_name, tutor_name) => {
     isClickedOption.value = true;
     selectedName.value = '강의명';

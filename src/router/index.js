@@ -11,6 +11,7 @@ import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import TestGenerate from "@/views/tut/TestGenerate.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import CheckGradesHandle from "@/views/tut/StdGrades.vue";
@@ -96,6 +97,14 @@ const routes = [
           {
             path: "lecturePlanDetail/:id",
             component: <LecturePlanHandle />,
+          },
+          {
+            path: 't_surveyControl',
+            component: <SurveyMgt/>
+          },
+          {
+            path: 'testGenerate',
+            component: <TestGenerate/>
           },
           {
             path: 'checkGrades',
