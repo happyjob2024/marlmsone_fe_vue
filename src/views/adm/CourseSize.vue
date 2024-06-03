@@ -14,65 +14,33 @@
                     > {{ option.text }}
                     </option>
                 </select>                
-                <input type="text" class="lecure-name" style="margin-left:10px;" v-model="searchWord"/>
-                <button class="btn btn-secondary btn-sm" @click="searchTutLecture()">검색</button>
+                <input type="text" 
+                    class="lecure-name" 
+                    style="margin-left:10px; margin-right: 10px" 
+                    v-model="searchWord"/>
+                <button class="btn btn-primary" @click="searchLectureList()">검색</button>
             </span>
         </p>
-        <div>
+        <span class="fr">
+            <Strong>수업일 조회 </Strong>
+            <input type="date" v-model="fromDate"> ~ <input type="date" v-model="toDate">
+            <button class="btn btn-primary" 
+                style="margin-left: 10px"
+                @click="searchLectureList()">조회</button>
+            <!-- <a class="btnType blue" href="javascript:sLectureList()" name="search">
+                <span id="searchEnter">조회</span>
+            </a> -->
+        </span>
+        <div style="margin-top: 50px;">
             <div>
                 <b> 총건수 : {{ dataTotalCnt }} , 현재 페이지 번호 : {{ currentPage }} </b>
             </div>
         </div>
-        <table class="table table-hover" style="margin-top: 1%; text-align: center">
-            <colgroup>
-                <col width="15%">
-                <col width="15%">
-                <col width="10%">
-                <col width="8%">
-                <col width="8%">
-                <col width="8%">
-                <col width="8%">
-                <col width="8%">
-                <col width="8%">
-            </colgroup>            
-            <thead class="table table-hover">
-                <tr>
-                    <th class="t-header-c">과정명</th>
-                    <th class="t-header-c">기간</th>
-                    <th class="t-header-c">강사명</th>
-                    <th class="t-header-c">과락인원</th>
-                    <th class="t-header-c">총점수</th>
-                    <th class="t-header-c">평균</th>
-                    <th class="t-header-c">최대 점수</th>
-                    <th class="t-header-c">최소 점수</th>
-                </tr>
-            </thead>            
-            <tbody>
-                <!-- {"totalCnt": 27,"lecList": [{"lec_id": 1,"tutor_id": null,"lec_name": "자바의이해","max_pnum": 51,"pre_pnum": 0,
-                                        "start_date": "2024.03.05","end_date": "2024.06.15","process_day": null,"test_id": 0,
-                                        "loginID": null,"user_type": null,"use_yn": null,"name": "스티븐잡스","std_id": null,
-                                        "test_score": 0,"tot_score": 286,"max_score": 100,"min_score": 43,"avg_score": 71,
-                                        "fail_cnt": 2,"fail_rate": 0.0}],"pageSize": 6,"currentPage": 1} -->
-                <template v-if="dataTotalCnt > 0">
-                    <tr v-for="data in dataList" :key="data.lec_id">
-                        <td>{{ data.lec_name }}</td>
-                        <td>{{ data.start_date }} ~ {{ data.end_date }}</td>
-                        <td>{{ data.name }}</td>                        
-                        <td>{{ data.fail_cnt }}</td>                        
-                        <td>{{ data.tot_score }}</td>                        
-                        <td>{{ data.avg_score }}</td>                        
-                        <td>{{ data.max_score }}</td>                        
-                        <td>{{ data.min_score }}</td>                        
-                        <!-- <td @click="$router.push(`lecturePlanDetail/${data.lec_id}`)">{{ data.lec_name }}</td> -->
-                    </tr>
-                </template>
-                <template v-else>
-                    <tr>
-                        <td colspan="8">데이터가 없습니다</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
+        <div class="row">
+            <CardCouseSize v-for="data in dataList"
+                            :key="data.lec_id"
+                            :data="data"/>
+        </div>
         <Pagination
             v-bind="{ currentPage, totalItems: dataTotalCnt, itemsPerPage: pageSize }"
             @search="searchLectureList($event)"
@@ -86,6 +54,7 @@ import { onMounted, ref } from 'vue';
 import { CourseSize } from '@/api/api';
 import { axiosAction } from '.';
 import Pagination from '@/components/common/PaginationComponent.vue';
+import CardCouseSize from './CardCouseSize.vue';
 
 const pageSize = 6;
 const currentPage = ref(0);
@@ -97,6 +66,8 @@ const selectOptions = ref([
     { text: '강사명', value: 'tutor_name' },
 ]);
 const searchWord = ref('');
+const fromDate = ref('');
+const toDate = ref('');
 
 const dataList = ref([]);
 const dataTotalCnt = ref(0);
@@ -121,8 +92,8 @@ const searchLectureList = async (cpage) => {
     param.append('searchWord', searchWord.value);
     param.append('currentPage', cpage);
     param.append('pageSize', pageSize);
-    param.append('from_date', '');
-    param.append('to_date', '');
+    param.append('from_date', fromDate.value);
+    param.append('to_date', toDate.value);
 
     const lectureList = await axiosAction(CourseSize.GetLectureList, param);
 
