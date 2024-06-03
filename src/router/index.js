@@ -15,6 +15,7 @@ import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import CheckGradesHandle from "@/views/tut/StdGrades.vue";
 import MyPage from "../views/MyPage.vue";
+import LearningMaterials_S from '@/views/std/LearningMaterials_S.vue';
 
 const routes = [
   {
@@ -114,6 +115,10 @@ const routes = [
             path: 'myLecInfo',
             component: <MyLectureInfo />
           },
+          {
+            path: 's_learningMaterials',
+            component: <LearningMaterials_S />
+          }
         ]
       },
       {
