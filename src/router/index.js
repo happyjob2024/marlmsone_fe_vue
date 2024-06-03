@@ -12,6 +12,10 @@ import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
+import CheckGrades from "@/views/tut/CheckGrades.vue";
+import CheckGradesHandle from "@/views/tut/StdGrades.vue";
+import MyPage from "../views/MyPage.vue";
 
 const routes = [
   {
@@ -39,30 +43,30 @@ const routes = [
       {
         path: "notice",
         children: [
-          {
-            path: "notice",
-            component: <Notice />,
-          },
+            {
+                path: "notice",
+                component: <Notice />,
+            },
         ],
       },
       {
-        path: 'sampletest',
+        path: "sampletest",
         children: [
-          {
-            path: 'samplepage5',
-            component: <SamplePage5 />,
-          },
-          {
-            path: 'detail/:id',
-            component: <LectureHandle />,
-          },
-          {
-            path: 'write',
-            component: <LectureHandle />,
-          },
+            {
+                path: "samplepage5",
+                component: <SamplePage5 />,
+            },
+            {
+                path: "detail/:id",
+                component: <LectureHandle />,
+            },
+            {
+                path: "write",
+                component: <LectureHandle />,
+            },
         ],
-      },
-      {            
+      },         
+      {
         path: "adm",
         children: [
           {
@@ -70,28 +74,28 @@ const routes = [
             component: <LectureRoom />,
           },
           {
-            path: 'LectureRoomList',
+            path: "LectureRoomList",
             component: <LectureRoomList />,
           },
           {
-            path: 'detail/:id',
+            path: "detail/:id",
             component: <EquipmentList />,
           },
           {
-            path: 'a_surveyControl',
-            component: <SurveyMgt/>
+            path: "a_surveyControl",
+            component: <SurveyMgt />,
           },
         ],
-      },      
+      },
       {
-        path: 'tut',
+        path: "tut",
         children: [
           {
-            path: 'lecturePlan',
+            path: "lecturePlan",
             component: <LecturePlan />,
           },
           {
-            path: 'lecturePlanDetail/:id',
+            path: "lecturePlanDetail/:id",
             component: <LecturePlanHandle />,
           },
           {
@@ -101,17 +105,29 @@ const routes = [
           {
             path: 'testGenerate',
             component: <TestGenerate/>
-          }
+          },
+          {
+            path: 'checkGrades',
+            component: <CheckGrades />,
+          },
         ],
       },
       {
-        path: 'std',
+        path: "std",
         children: [
           {
             path: 'lectureList',
             component: <LectureList />
           },
-        ],
+          {
+            path: 'myLecInfo',
+            component: <MyLectureInfo />
+          },
+        ]
+      },
+      {
+        path: "mypage",
+        component: MyPage,
       },
     ],
     component: Dashboard,
@@ -128,8 +144,8 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory("/"),
-  routes,
+    history: createWebHashHistory("/"),
+    routes,
 });
 
 export default router;
