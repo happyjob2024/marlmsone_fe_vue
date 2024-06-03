@@ -5,6 +5,7 @@ import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 
 const routes = [
   {
@@ -58,10 +59,14 @@ const routes = [
       {
         path: 'std',
         children: [
-            {
-                path: 'lectureList',
-                component: <LectureList />
-            }
+          {
+            path: 'lectureList',
+            component: <LectureList />
+          },
+          {
+            path: 'myLecInfo',
+            component: <MyLectureInfo />
+          }
         ]
       }
     ],
