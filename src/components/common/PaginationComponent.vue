@@ -1,5 +1,5 @@
 <template>
-    <nav aria-label="Page navigation example" style="z-index: 0">
+    <nav aria-label="Page navigation" style="z-index: 0">
         <ul class="pagination justify-content-center">
             <li class="page-item" v-if="currentPage > 1">
                 <a class="page-link" @click="previousPage">Previous</a>
