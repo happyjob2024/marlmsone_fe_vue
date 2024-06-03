@@ -9,6 +9,18 @@ import EquipmentList from "@/views/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
 import EquManagementList from "@/views/adm/EquManagementList.vue";
+import LecturePlan from "@/views/tut/LecturePlan.vue";
+import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
+import LectureRoom from "@/views/sampletest/lectureRoom.vue";
+import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
+import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
+import SurveyMgt from "../views/adm/SurveyMgt.vue";
+import LectureList from "@/views/std/LectureList.vue";
+import TestGenerate from "@/views/tut/TestGenerate.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
+import CheckGrades from "@/views/tut/CheckGrades.vue";
+import CheckGradesHandle from "@/views/tut/StdGrades.vue";
+import MyPage from "../views/MyPage.vue";
 
 const routes = [
   {
@@ -36,58 +48,95 @@ const routes = [
       {
         path: "notice",
         children: [
-          {
-            path: "notice",
-            component: <Notice />,
-          },
+            {
+                path: "notice",
+                component: <Notice />,
+            },
         ],
       },
       {
-        path: 'sampletest',
+        path: "sampletest",
         children: [
-          {
-            path: 'samplepage5',
-            component: <SamplePage5 />,
-          },
-          {
-            path: 'detail/:id',
-            component: <LectureHandle />,
-          },
-          {
-            path: 'write',
-            component: <LectureHandle />,
-          },
+            {
+                path: "samplepage5",
+                component: <SamplePage5 />,
+            },
+            {
+                path: "detail/:id",
+                component: <LectureHandle />,
+            },
+            {
+                path: "write",
+                component: <LectureHandle />,
+            },
         ],
-      },
+      },         
       {
         path: "adm",
         children: [
           {
-            path: 'lectureRoom',
+            path: "lectureRoom",
+            component: <LectureRoom />,
+          },
+          {
+            path: "LectureRoomList",
             component: <LectureRoomList />,
           },
           {
             path: 'Equipmentdetail/:id',
-            component: <EquipmentList />,
-          },
-          {
-            path: 'a_surveyControl',
-            component: <SurveyMgt/>
+            component: <EquipmentList />,           
           },
           {
             path: 'equManagement',
             component: <EquManagementList />
+          },          
+          {
+            path: "a_surveyControl",
+            component: <SurveyMgt />,
           },
         ],
       },
       {
-        path: 'std',
+        path: "tut",
+        children: [
+          {
+            path: "lecturePlan",
+            component: <LecturePlan />,
+          },
+          {
+            path: "lecturePlanDetail/:id",
+            component: <LecturePlanHandle />,
+          },
+          {
+            path: 't_surveyControl',
+            component: <SurveyMgt/>
+          },
+          {
+            path: 'testGenerate',
+            component: <TestGenerate/>
+          },
+          {
+            path: 'checkGrades',
+            component: <CheckGrades />,
+          },
+        ],
+      },
+      {
+        path: "std",
         children: [
           {
             path: 'lectureList',
             component: <LectureList />
           },
-        ],
+          {
+            path: 'myLecInfo',
+            component: <MyLectureInfo />
+          },
+        ]
+      },
+      {
+        path: "mypage",
+        component: MyPage,
       },
     ],
     component: Dashboard,
@@ -104,8 +153,8 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory("/"),
-  routes,
+    history: createWebHashHistory("/"),
+    routes,
 });
 
 export default router;
