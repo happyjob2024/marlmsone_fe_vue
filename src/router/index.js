@@ -11,6 +11,7 @@ import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import CheckGradesHandle from "@/views/tut/StdGrades.vue";
 import MyPage from "../views/MyPage.vue";
@@ -106,10 +107,14 @@ const routes = [
         path: "std",
         children: [
           {
-            path: "lectureList",
-            component: <LectureList />,
+            path: 'lectureList',
+            component: <LectureList />
           },
-        ],
+          {
+            path: 'myLecInfo',
+            component: <MyLectureInfo />
+          },
+        ]
       },
       {
         path: "mypage",
