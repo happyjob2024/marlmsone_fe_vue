@@ -183,7 +183,7 @@
         totalStudent: 0,
         isVisible: false,
         modalState: false,
-        modalProps: 0,
+        modalProps: {},
         lecrmList: [],
         tutList: [],
         typeList: []
@@ -231,10 +231,12 @@
       // },
 
 
-      modalHandler(noticeId) {
+      modalHandler(lecId) {
         this.modalState = true;
-        this.modalProps = noticeId;
-
+        this.modalProps = {
+          lecId: lecId,
+        typeList: this.typeList
+        };
       },
     },
     mounted() {
