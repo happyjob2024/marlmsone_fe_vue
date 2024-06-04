@@ -101,7 +101,23 @@
                 <td>{{ list.lecrm_name }}</td>
                 <td>{{ list.pre_pnum }}</td>
                 <td>{{ list.start_date }} ~ {{ list.end_date }}</td>
-                <td>{{ list.lecrm_name }}</td>
+                <td>
+                  <button
+                  type="button"
+                  class="btn btn-info"
+                  @click="modalHandler(list.lec_id)"
+                  style="margin-right: 5px;"
+                >
+                  수정
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  @click="delRegister(list.lec_id)"
+                >
+                  삭제
+                </button>
+                </td>
               </tr>
             </template>
             <template v-else>
@@ -121,7 +137,7 @@
       <!-- 모달있던 자리 -->
   
     </div><br>
-    <table class="col" v-show="totalStudent > 0">
+    <table class="col" v-show="isVisible">
           <caption></caption>
           <colgroup>
             <col width="30%" />
@@ -146,7 +162,7 @@
             </template>
             <template v-else>
               <tr>
-                <td colspan="7">일치하는 검색 결과가 없습니다</td>
+                <td colspan="3">일치하는 검색 결과가 없습니다</td>
               </tr>
             </template>
           </tbody>
@@ -183,10 +199,10 @@
         totalStudent: 0,
         isVisible: false,
         modalState: false,
-        modalProps: {},
+        modalProps: 0,
         lecrmList: [],
         tutList: [],
-        typeList: []
+        typeList: [],
       };
     },
     methods: {
@@ -221,7 +237,10 @@
           this.studentList = res.data.stdList;
           this.currentPage = cpage;
           this.totalStudent = res.data.std_Total;
+
+          this.isVisible = true
         });
+
       },
 
       // toggleVisibility(lec_id){
@@ -230,13 +249,27 @@
       //   this.stdinfo = lec_id;
       // },
 
+      delRegister(lec_id) {
+        let param = new URLSearchParams();
+        param.append("lec_id", lec_id);
+  
+        axios.post("/register/delRegister.do", param).then((res) => {
+          if (res.data.result) {
+            alert(res.data.resultMsg);
+            // this.$emit("closeModal", false);
+            this.getRegisterList();
+          }
+        });
+      },
 
       modalHandler(lecId) {
+        console.log("맹구" + lecId)
         this.modalState = true;
-        this.modalProps = {
-          lecId: lecId,
-        typeList: this.typeList
-        };
+        this.modalProps = lecId
+        //  {
+        //   lecId: lecId,
+        // typeList: this.typeList
+        // };
       },
     },
     mounted() {

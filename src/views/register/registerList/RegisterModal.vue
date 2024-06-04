@@ -6,7 +6,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <p class="conTitle">
-                                <span>강의등록</span>
+                              <span v-if="modalProps">강의 수정</span>
+                              <span v-if="!modalProps">강의 등록</span>
                             </p>
                         </div>
                         <div class="modal-body">
@@ -20,7 +21,7 @@
 								<td colspan="3">
                   <select class="inputTxt p100" name="lec_type_id" id="lec_type_id" v-model="lecData.lec_type_id" >
 									<option value="" id="">강의 분류 선택</option>
-									<option v-for="(list, i) in typeList" :key="i">{{ list.lec_type_name }}</option>
+									<option v-for="(list, i) in typeList" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option>
 								</select></td>
 							</tr>
 
@@ -45,7 +46,7 @@
 								<td colspan="3">
                   <select class="inputTxt p100" name="tutor_id" id="tutor_id" v-model="lecData.tutor_id" >
 									<option value="" id="">강사 선택</option>
-									<option v-for="(list, i) in tutList" :key="i">{{ list.t_name }}</option>
+									<option v-for="(list, i) in tutList" :key="i" :value="list.tutor_id">{{ list.t_name }}</option>
 								</select></td>
 							</tr>
 
@@ -56,9 +57,9 @@
                             <tr>
 								<th scope="row">강의실 선택</th>
 								<td colspan="3">
-                  <select class="inputTxt p100" name="lecrm_name" id="lecrm_name" v-model="lecData.lecrm_name" >
+                  <select class="inputTxt p100" name="lecrm_name" id="lecrm_name" v-model="lecData.lecrm_id" >
 									<option value="" id="">강의실 선택</option>
-									<option v-for="(list, i) in lecrmList" :key="i">{{ list.lecrm_name }}</option>
+									<option v-for="(list, i) in lecrmList" :key="i" :value="list.lecrm_id">{{ list.lecrm_name }}</option>
 								</select></td>
 							</tr>
                             <div class="input-group mb-3">
@@ -75,11 +76,11 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-info" @click="insertRegisterDetail" v-show="!modalProps.lecId">
+                            <button type="button" class="btn btn-info" @click="insertRegisterDetail('I')" v-show="!modalProps">
                                 등록
                             </button>
-                                <button type="button" class="btn btn-info" @click="updateRegisterDetail" v-show="modalProps.lecId">수정</button>
-                                <button type="button" class="btn btn-info" @click="deleteEquimentDetail">삭제</button>
+                                <button type="button" class="btn btn-info" @click="insertRegisterDetail('U')" v-show="modalProps">수정</button>
+                                <button type="button" class="btn btn-info" @click="delRegister">삭제</button>
                             <button type="button" class="btn btn-light" @click="$emit('closeModal', false)">
                                 닫기
                             </button>
@@ -99,10 +100,10 @@
     data() {
       return {
         lecData: {},
+        // lecInfo: {},
         lecrmList: [],
         tutList: [],
         typeList: [],
-        action: 'I'
       };
     },
     // computed: {
@@ -111,13 +112,15 @@
     //   },
     // },
     methods: {
-      insertRegisterDetail() {
-        let param = new URLSearchParams(this.lecdata);
+      insertRegisterDetail(action) {
+        let param = new URLSearchParams(this.lecData);
+        console.log(this.lecData)
         // param.append("loginID", this.userInfo.loginId);
+        param.append("action", action);
         
         axios.post("/register/saveRegister.do", param).then((res) => {
-          if (res.data.result === "s") {
-            alert(res.data.msg);
+          if (res.data.result === "S") {
+            alert(res.data.resultMsg);
             this.$emit("closeModal", false);
             this.getNoticeList();
           }
@@ -125,14 +128,19 @@
       },
       getRegisterDetail() {
         let param = new URLSearchParams();
-        param.append("register_id", this.modalProps.lecId);
-  
+        param.append("lec_id", this.modalProps);//여기서 lec_id 를 맵퍼파일의 파라미터명과 일치 시켜줘야 한다.
+
         console.log("getRegisterDetail 호출됨, register_id:", this.modalProps);
-        if(this.modalProps.lecId) {
-          this.action = "U"
+        // if(this.modalProps.lecId) {
+        //   axios.post("/register/lecInfo.do", param).then((res) => {
+        //     this.lecData = res.data.lecinfo;
+        //     console.log("lecData:", this.lecData, res.data);
+        //   });
+        // }
+        if(this.modalProps) {
           axios.post("/register/lecInfo.do", param).then((res) => {
             this.lecData = res.data.lecinfo;
-            console.log("lecData:", this.lecData, res.data);
+            console.log("lecInfo:", this.lecInfo, res.data);
           });
         }
 
@@ -145,32 +153,24 @@
         });
       },
       
-      updateRegisterDetail() {
-        let param = new URLSearchParams(this.noticeData);
-        axios.post("/notice/noticeModify.do", param).then((res) => {
-          if (res.data.result === "success") {
-            alert(res.data.msg);
-            this.$emit("closeModal", false);
-            this.getNoticeList(this.currengPage);
-          }
-        });
-      },
-      deleteNoticeDetail() {
+
+      delRegister() {
         let param = new URLSearchParams();
-        param.append("noticeNo", this.modalProps);
+        param.append("lec_id", this.modalProps);
   
-        axios.post("/notice/noticeDelete.do", param).then((res) => {
-          if (res.data.success) {
-            alert(res.data.msg);
+        axios.post("/register/delRegister.do", param).then((res) => {
+          if (res.data.result) {
+            alert(res.data.resultMsg);
             this.$emit("closeModal", false);
-            this.getNoticeList();
+            this.getRegisterList();
           }
         });
       },
     },
     mounted() {
       console.log("mounted 호출됨, modalProps:", this.modalProps);
-      this.modalProps ? this.getRegisterDetail() : null;
+      this.getRegisterDetail()
+      // this.modalProps ? this.getRegisterDetail() : null;
     },
   };
   </script>
