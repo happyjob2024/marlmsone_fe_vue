@@ -136,6 +136,6 @@ body.bgNone {
 
 /* 페이지 네이게이션에 대한 포인터 커서 설정 */
 
-.pagination {
+.pagination .page-item {
     cursor: pointer;
 }
