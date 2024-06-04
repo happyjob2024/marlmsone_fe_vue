@@ -22,6 +22,7 @@ import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import LecList from "@/views/adm/LecList.vue";
+
 const routes = [
   {
     path: "/",
