@@ -2,17 +2,13 @@
 import Pagination from '@/components/common/PaginationComponent.vue';
 import SaveEmployModal from '@/components/modals/employ/SaveEmployModal.vue';
 import { Employ } from '@/api/api';
+import { EmptyEmploy } from '@/common/models/Employ';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
 const emptyEmploy = {
     action: 'I',
-    id: 0,
-    name: '',
-    company: '',
-    tel: '',
-    startDate: '',
-    endDate: '',
+    ...EmptyEmploy,
 };
 
 const emit = defineEmits(['doAction']);
@@ -154,22 +150,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.search {
-    display: flex;
-    align-items: center;
-}
-
-.search select {
-    width: 90px;
-    height: auto;
-    padding-left: 5px;
-}
-
-.search input {
-    width: 200px;
-    margin-right: 5px;
-}
-
 .btn {
     padding: 6px;
     font-size: 15px;

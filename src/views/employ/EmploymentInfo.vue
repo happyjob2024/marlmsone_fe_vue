@@ -3,17 +3,13 @@ import Pagination from '@/components/common/PaginationComponent.vue';
 import StudentList from '@/components/employ/StudentList.vue';
 import SaveEmployModal from '@/components/modals/employ/SaveEmployModal.vue';
 import { Employ } from '@/api/api';
+import { EmptyEmploy } from '@/common/models/Employ';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
 const emptyEmploy = {
     action: 'U',
-    id: 0,
-    name: '',
-    company: '',
-    tel: '',
-    startDate: '',
-    endDate: '',
+    ...EmptyEmploy,
 };
 
 const pageSize = 5;
@@ -102,11 +98,12 @@ onMounted(() => {
     searchList();
 });
 </script>
+
 <template>
     <div class="content">
         <p class="Location">
             <a href="#" class="btn_set home">메인으로</a>
-            <span class="btn_nav bold">취업관리 / 취업 정보</span>
+            <span class="btn_nav bold">취업 관리 / 취업 정보</span>
             <a href="#" class="btn_set refresh">새로고침</a>
         </p>
         <p class="conTitle">
@@ -198,22 +195,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.search {
-    display: flex;
-    align-items: center;
-}
-
-.search select {
-    width: 90px;
-    height: auto;
-    padding-left: 5px;
-}
-
-.search input {
-    width: 200px;
-    margin-right: 5px;
-}
-
 .btn {
     padding: 6px;
     font-size: 15px;
