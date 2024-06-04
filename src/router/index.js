@@ -6,6 +6,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+import RegisterListControl from "@/views/register/RegisterListControl";
 
 import LectureRoomList from "@/views/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/adm/EquipmentList.vue";
@@ -146,6 +147,15 @@ const routes = [
         path: "mypage",
         component: MyPage,
       },
+      {
+        path: 'register',
+        children: [
+          {
+            path: 'registerListControl',
+            component: <RegisterListControl/>
+          }
+        ],
+      }
     ],
     component: Dashboard,
   },
