@@ -13,6 +13,7 @@ import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import LectureList from "@/views/std/LectureList.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import MyPage from "../views/MyPage.vue";
+import CourseSize from "@/views/adm/CourseSize.vue";
 
 const routes = [
   {
@@ -82,6 +83,10 @@ const routes = [
             path: "a_surveyControl",
             component: <SurveyMgt />,
           },
+          {
+            path: "courseSize",
+            component: <CourseSize />,
+          },          
         ],
       },
       {

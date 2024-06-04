@@ -22,7 +22,7 @@
             </span>
         </p>
         <span class="fr">
-            <Strong>수업일 조회 </Strong>
+            <strong>수업일 조회</strong>
             <input type="date" v-model="fromDate"> ~ <input type="date" v-model="toDate">
             <button class="btn btn-primary" 
                 style="margin-left: 10px"

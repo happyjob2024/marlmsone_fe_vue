@@ -3,7 +3,7 @@
         <div class="backdrop">
             <div class="container">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content" style="width: 500px; margin: 0 auto; overflow-y: auto;">
                         <div class="modal-header">
                             <p class="conTitle">
                                 <span>수강인원 상세보기</span>
@@ -89,26 +89,6 @@ onMounted(() => {
 </script>
 
 <style>
-.backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: flex-start; /* 모달을 상단으로 이동 */
-    justify-content: center;
-    z-index: 1000;
-    padding-top: 50px; /* 원하는 만큼 위로 이동 */
-}
-.container {
-    width: 500px;
-    height: 650px;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
 .t-header {
     font-weight: bold;
 }
