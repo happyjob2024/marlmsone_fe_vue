@@ -11,6 +11,7 @@ import LectureRoomList from "@/views/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import EquManagementList from "@/views/adm/EquManagementList.vue";
+import CourseSize from "@/views/adm/CourseSize.vue";
 
 import LectureList from "@/views/std/LectureList.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
@@ -20,7 +21,6 @@ import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
-
 
 const routes = [
   {
@@ -94,6 +94,10 @@ const routes = [
             path: "a_surveyControl",
             component: <SurveyMgt />,
           },
+          {
+            path: "courseSize",
+            component: <CourseSize />,
+          },          
         ],
       },
       {
