@@ -19,7 +19,7 @@ const search = (page) => {
     const params = new URLSearchParams();
     params.append('lectureId', lectureId.value);
     params.append('currentPage', page);
-    params.append('pageSize', 5);
+    params.append('pageSize', pageSize);
     params.append('searchKey', key.value);
     params.append('searchValue', value.value);
 
@@ -100,19 +100,7 @@ defineExpose({ setId });
 </template>
 
 <style scoped>
-.search {
-    display: flex;
-    align-items: center;
-}
-
 .search select {
     width: 105px;
-    height: auto;
-    padding-left: 5px;
-}
-
-.search input {
-    width: 200px;
-    margin-right: 5px;
 }
 </style>
