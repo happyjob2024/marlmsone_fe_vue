@@ -4,8 +4,8 @@
     <span>장비 목록</span> 
     <span class="fr">
     <div class="btn_areaC mt30">
-		<button class="btnType gray" @click="router.back()" 
-        style="float: inline-end; margin-top: 10px"
+		<button class="btn btn-outline-dark" @click="router.back()" 
+        style="float: inline-end; margin-top: -10px"
         >돌아가기</button>			
 	</div>
     </span> 
