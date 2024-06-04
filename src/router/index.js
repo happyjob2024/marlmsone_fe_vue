@@ -1,27 +1,26 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+
 import Login from "../views/LoginView.vue";
+import MyPage from "../views/MyPage.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
+
 import LectureRoomList from "@/views/adm/LectureRoomList.vue";
 import EquipmentList from "@/views/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
-import LectureList from "@/views/std/LectureList.vue";
 import EquManagementList from "@/views/adm/EquManagementList.vue";
+
+import LectureList from "@/views/std/LectureList.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
+import LearningMaterials_S from '@/views/std/LearningMaterials_S.vue';
+
 import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
-import LectureRoom from "@/views/sampletest/lectureRoom.vue";
-import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
-import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
-import SurveyMgt from "../views/adm/SurveyMgt.vue";
-import LectureList from "@/views/std/LectureList.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
-import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
-import CheckGradesHandle from "@/views/tut/StdGrades.vue";
-import MyPage from "../views/MyPage.vue";
-import LearningMaterials_S from '@/views/std/LearningMaterials_S.vue';
+
 
 const routes = [
   {
