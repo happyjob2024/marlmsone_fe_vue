@@ -21,7 +21,7 @@ import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
-
+import LecList from "@/views/adm/LecList.vue";
 const routes = [
   {
     path: "/",
@@ -97,7 +97,11 @@ const routes = [
           {
             path: "courseSize",
             component: <CourseSize />,
-          },          
+          },  
+          {
+            path: "studentControl",
+            component: <LecList />,
+          },         
         ],
       },
       {
