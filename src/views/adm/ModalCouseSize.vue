@@ -1,7 +1,7 @@
 <template>
     <teleport to="body">
         <div class="backdrop">
-            <div class="container" style="width: 500px">
+            <div class="container">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -17,7 +17,7 @@
                                     "test_score": 0,"tot_score": 286,"max_score": 100,"min_score": 43,"avg_score": 71,
                                     "fail_cnt": 2,"fail_rate": 0.0}],"pageSize": 6,"currentPage": 1} -->
                             <table class="table table-bordered ">
-                                <colgroup>ㅋ
+                                <colgroup>
                                     <col width="25%">
                                     <col width="25%">
                                     <col width="25%">
@@ -56,6 +56,11 @@
                                     </tr>                                    
                                 </tbody>
                             </table>
+                            <BarChart 
+                                :lectureName="data.lec_name"
+                                :maxPnum="data.max_pnum" 
+                                :prePnum="data.pre_pnum"
+                                :failCnt="data.fail_cnt"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" @click="$emit('closeModal', false)">
@@ -71,6 +76,7 @@
 
 <script setup>
 import { onMounted } from 'vue';
+import BarChart from './BarChart.vue';
 
 const props = defineProps({
     data: Object,
@@ -83,6 +89,26 @@ onMounted(() => {
 </script>
 
 <style>
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-start; /* 모달을 상단으로 이동 */
+    justify-content: center;
+    z-index: 1000;
+    padding-top: 50px; /* 원하는 만큼 위로 이동 */
+}
+.container {
+    width: 500px;
+    height: 650px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
 .t-header {
     font-weight: bold;
 }
