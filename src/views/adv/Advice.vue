@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div id="advice">
         <p >
            <a href="/dashboard/home" class="btn_set home"></a>
@@ -8,17 +9,22 @@
         <p class="conTitle">
            <span>수강 상담 관리 </span>
            <span class="fr">
-                <select >
-                    <option>
+                <select v-model="lecId" @change="getAdvList()">
+                    <option value="">
                         전체 과정 
                     </option>
-                    <option v-for="(contants, i) in lecList" :key="i">
-                        {{ checkDate[i] }}<span>{{" "}}</span>{{ contants.lec_name }}
+                    <option v-for="(contants, i) in lecList" :key="i" :value="contants.lec_id">
+                        <template v-if="contants.end_date > currentDate">
+                            {{ '(진행중)' }}<span>{{" "}}</span>{{ contants.lec_name }}
+                        </template>
+                        <template v-else>
+                            {{ '(종료)' }}<span>{{" "}}</span>{{ contants.lec_name }}
+                        </template>
                     </option>
-                    
+                        
                 </select>
                 <a class="btn btn-primary mx-2" style="margin-left: 10px">
-                    <span>상담 등록</span>
+                    <span @click="openModal('new')">상담 등록</span>
                 </a>
            </span>
         </p>
@@ -45,43 +51,84 @@
             </thead>
             <tbody>
                 <template v-if="true">
-                    <tr>
-                        <td>1</td>
-                        <td>vue3</td>
-                        <td>홍길동</td>
-                        <td>2024-05-30</td>
-                        <td>사장님</td>
+                    <tr v-for="(contants , i) in advList" :key="i">
+                        <td :data-adv-id="contants.adv_id" @click="getDetail($event)" >{{ contants.adv_id}}</td>
+                        <td>{{ contants.lec_name}}</td>
+                        <td @click="getDetail($event)">{{ contants.std_id}}</td>
+                        <td>{{ contants.adv_date}}</td>
+                        <td>{{ contants.tut_id}}</td>
                     </tr>
                 </template>
             </tbody>
         </table>
+        <Pagination
+            :currentPage="currentPage"
+            :totalItems="totalItems"
+            @search="getAdvList($event)"
+            v-if="totalItems > 0 "
+        />
     </div>
-        
-        
+    <AdviceModal v-if="modalState"  @closeModal = "modalState = $event" :lecProps="lecList" 
+        @saveAndReload ="getAdvList()" :advProps="advDetail"/>
+    <AdviceModalDetail v-if="mdetailState" @closeModal="mdetailState = $event" :advProps="advDetail"/>
+    </div>
 </template>
 
 
 
 <script>
 import axios from 'axios';
+import Pagination from '@/components/common/PaginationComponent.vue';
+import AdviceModal from './AdviceModal.vue';
+import AdviceModalDetail from './AdviceModalDetail.vue';
 
 export default {
     data() {
         return {
             lecList: [],
+            advList: [],
+            advDetail: {},
+            currentPage: 0,
+            totalItems: 0,
+            lecId: '',
+            modalState: false,
+            mdetailState: false,
         };
     },
     methods: {
-        getLecList() {
+        getLecList() {   // 셀렉트박스 출력용 강의 목록 조회
             let param = new URLSearchParams();
             param.append('currentPage', 1);
             param.append('pageSize', 5);
             axios.post('/adv/lecList2.do', param).then((res) => {
                 this.lecList = res.data.listData;
-            }
-        )
+            })
+        },
+        getAdvList() {  // 상담 내역 조회
+            let cpage = 1;
+            let param = new URLSearchParams();
+            param.append('currentPage', cpage);
+            param.append('pageSize', 5);
+            param.append('lec_id', this.lecId);
+            axios.post('/adv/advList2.do', param).then((res) => {
+                this.advList = res.data.listData;
+                this.currentPage = cpage;
+                this.totalItems = res.data.listCnt;
 
-        }
+            })
+        },
+        openModal(type) {  // 모달창 띄우기
+            (type === 'new' ? this.modalState = true : this.mdetailState = true);
+        },
+        getDetail(event) { // 상담 내역 상세내역 조회
+            let param = new URLSearchParams();
+            param.append('adv_id', event.target.getAttribute('data-adv-id'));
+            param.append('lec_id', this.lecId);
+            axios.post('/adv/advDetail.do', param).then((res) => {
+                this.advDetail = res.data.data;
+                this.openModal('detail'); //상세 내역 출력용 모달을 띄우기
+            })
+        },
     },
     computed: {
         userInfo() {
@@ -96,20 +143,22 @@ export default {
         },
         checkDate() {
             const progress = [];
-                this.lecList.map((item, index) => {
-                    if (item.end_date > this.currentDate) {
-                        progress[index] = '(진행중)';
-                    } else {
-                        progress[index] = '(종료)';
-                    }
-                })
+            this.lecList.map((item, index) => {
+                if (item.end_date > this.currentDate) {
+                    progress[index] = '(진행중)';
+                } else {
+                    progress[index] = '(종료)';
+                }
+            })
             return progress;
         },
     },
     mounted() {
         this.getLecList();
+        this.getAdvList();
     },
-}
+    components: { Pagination, AdviceModal, AdviceModalDetail },
+};
 
 </script>
 
