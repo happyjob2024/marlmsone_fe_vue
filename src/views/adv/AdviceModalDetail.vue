@@ -10,7 +10,7 @@
                                     <span>수강 상담 관리</span>
                                 </p>
                             </div>
-                            <div class="modal-body">
+                            <div >
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">과정명</span>
                                     <input class="form-control" type="text" readonly v-bind:value="advProps.lec_name" />
