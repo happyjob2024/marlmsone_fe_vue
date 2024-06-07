@@ -1,0 +1,49 @@
+.modal th {
+    text-align: center;
+    font-size: 12px;
+    background-color: rgb(212, 212, 212);
+}
+
+.modal input::placeholder {
+    font-size: 12px;
+}
+
+.modal .background {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal .main {
+    background-color: white;
+    padding: 10px;
+}
+
+.modal .title {
+    line-height: 60px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal .btn {
+    font-size: 12px;
+}
+
+.modal .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.modal .buttons .btn {
+    font-size: 15px;
+}
+
+.modal .buttons .btn:first-child {
+    margin-right: 15px;
+}

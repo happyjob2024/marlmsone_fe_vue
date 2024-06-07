@@ -10,6 +10,8 @@ import './assets/css/admin/reset.css';
 import './assets/css/admin/basic.css';
 import './assets/css/admin/common.css';
 import './assets/css/admin/layout.css';
+import './assets/css/common/modal.css';
+import './assets/css/common/search.css';
 //bootstrap lib css적용
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,7 +20,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 // 실제 데이터를 json으로 주고받기 위해 무언가 요청할 때 사용할 수 있도록 설정
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Content-Type'] =
+    'application/x-www-form-urlencoded';
 
 const app = createApp(App);
 app.use(store).use(router).use(Modal, { dynamic: true }).mount('#app');

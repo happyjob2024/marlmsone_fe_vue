@@ -17,28 +17,25 @@ const complete = (data) => {
 </script>
 
 <template>
-    <div class="background" @click="closeModal">
-        <div class="main">
-            <div class="container">
-                <VueDaumPostcode @complete="complete" />
+    <div class="modal show">
+        <div class="background" @click="closeModal">
+            <div class="main">
+                <div class="container">
+                    <VueDaumPostcode @complete="complete" />
+                </div>
+                <button
+                    class="btn btn-primary"
+                    style="float: right"
+                    @click="closeModal()"
+                >
+                    닫기
+                </button>
             </div>
-            <button
-                class="btn btn-primary"
-                style="float: right"
-                @click="closeModal()"
-            >
-                닫기
-            </button>
         </div>
     </div>
 </template>
 
 <style scoped>
-.main {
-    padding: 20px;
-    background: gray;
-}
-
 .container {
     width: 600px;
     height: 400px;

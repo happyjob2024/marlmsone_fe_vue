@@ -1,15 +1,31 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+
 import Login from "../views/LoginView.vue";
+import MyPage from "../views/MyPage.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Notice from "../views/system/Notice";
 import SamplePage5 from "@/views/sampletest/SamplePage5.vue";
 import LectureHandle from "@/views/sampletest/sampletest5/LectureHandle.vue";
-import LectureRoom from "@/views/sampletest/lectureRoom.vue";
-import LectureRoomList from "@/views/sampletest/adm/LectureRoomList.vue";
-import EquipmentList from "@/views/sampletest/adm/EquipmentList.vue";
+import RegisterListControl from "@/views/register/RegisterListControl";
+
+import LectureRoomList from "@/views/adm/LectureRoomList.vue";
+import EquipmentList from "@/views/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
+import EquManagementList from "@/views/adm/EquManagementList.vue";
+import CourseSize from "@/views/adm/CourseSize.vue";
+
+import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
+import LecturePlan from "@/views/tut/LecturePlan.vue";
+import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
+import TestGenerate from "@/views/tut/TestGenerate.vue";
+import CheckGrades from "@/views/tut/CheckGrades.vue";
+
 import LectureList from "@/views/std/LectureList.vue";
+import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
+import LearningMaterials_S from "@/views/std/LearningMaterials_S.vue";
+
 import Advice from "@/views/adv/Advice.vue";
+
 
 const routes = [
   {
@@ -48,23 +64,23 @@ const routes = [
         children: [
           {
             path: "advice",
-            component: <Advice />
-          }
+            component: <Advice />,
+          },
         ]
       },
       {
         path: 'sampletest',
         children: [
           {
-            path: 'samplepage5',
+            path: "samplepage5",
             component: <SamplePage5 />,
           },
           {
-            path: 'detail/:id',
+            path: "detail/:id",
             component: <LectureHandle />,
           },
           {
-            path: 'write',
+            path: "write",
             component: <LectureHandle />,
           },
         ],
@@ -77,25 +93,87 @@ const routes = [
             component: <LectureRoom />,
           },
           {
-            path: 'LectureRoomList',
+            path: "LectureRoomList",
             component: <LectureRoomList />,
           },
           {
-            path: 'detail/:id',
+            path: "Equipmentdetail/:id",
             component: <EquipmentList />,
           },
           {
             path: 'a_surveyControl',
-            component: <SurveyMgt />
+            component: <SurveyMgt />,
+          },
+          {
+            path: "equManagement",
+            component: <EquManagementList />,
+          },
+          {
+            path: "a_surveyControl",
+            component: <SurveyMgt />,
+          },
+          {
+            path: "courseSize",
+            component: <CourseSize />,
           },
         ],
       },
       {
-        path: 'std',
+        path: "tut",
         children: [
           {
-            path: 'lectureList',
-            component: <LectureList />
+            path: "t_learningMaterials",
+            component: <T_learningMaterials />,
+          },
+          {
+            path: "lecturePlan",
+            component: <LecturePlan />,
+          },
+          {
+            path: "lecturePlanDetail/:id",
+            component: <LecturePlanHandle />,
+          },
+          {
+            path: "t_surveyControl",
+            component: <SurveyMgt />,
+          },
+          {
+            path: "testGenerate",
+            component: <TestGenerate />,
+          },
+          {
+            path: "checkGrades",
+            component: <CheckGrades />,
+          },
+        ],
+      },
+      {
+        path: "std",
+        children: [
+          {
+            path: "lectureList",
+            component: <LectureList />,
+          },
+          {
+            path: "myLecInfo",
+            component: <MyLectureInfo />,
+          },
+          {
+            path: "s_learningMaterials",
+            component: <LearningMaterials_S />,
+          },
+        ],
+      },
+      {
+        path: "mypage",
+        component: MyPage,
+      },
+      {
+        path: "register",
+        children: [
+          {
+            path: "registerListControl",
+            component: <RegisterListControl />,
           },
         ],
       },

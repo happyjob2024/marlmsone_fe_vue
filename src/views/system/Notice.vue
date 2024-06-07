@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import NoticeList from './notice/NoticeList.vue';
+import NoticeList from './notice/NoticeList';
 export default {
     name: 'NoticeComponent',
     components: {
