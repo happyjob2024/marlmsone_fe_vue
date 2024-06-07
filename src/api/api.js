@@ -12,6 +12,7 @@ export const Tut = {
     TutLectureWeekPlanDelete: '/tut/WeekPlanDelete.do',
     TutCheckGradesList: '/tut/checkGradesList.do',
     StdGradesList: '/tut/checkStdList.do',
+    TestList: '/tut/testListRtn.do',
 };
 
 export const LectureRoom = {

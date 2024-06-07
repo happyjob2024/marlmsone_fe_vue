@@ -33,7 +33,7 @@
 								</select>
                   <input
                     type="text"
-                    style="width: 200px"
+                    style="width: 200px;"
                     class="form-control"
                     v-model="paramObj.searchInfo"
                   />
