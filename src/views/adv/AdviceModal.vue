@@ -7,7 +7,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <p class="conTitle">
-                  <span>수강 상담 관리 </span>
+                  <span>수강 상담 관리</span>
                 </p>
               </div>
               <div >
