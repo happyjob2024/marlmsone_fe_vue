@@ -54,7 +54,7 @@
                     <tr v-for="(contants , i) in advList" :key="i">
                         <td :data-adv-id="contants.adv_id" @click="getDetail($event)" >{{ contants.adv_id}}</td>
                         <td>{{ contants.lec_name}}</td>
-                        <td @click="getDetail($event)">{{ contants.std_id}}</td>
+                        <td v-bind:data-adv-id="contants.adv_id" @click="getDetail($event)">{{ contants.std_id}}</td>
                         <td>{{ contants.adv_date}}</td>
                         <td>{{ contants.tut_id}}</td>
                     </tr>
@@ -70,7 +70,8 @@
     </div>
     <AdviceModal v-if="modalState"  @closeModal = "modalState = $event" :lecProps="lecList" 
         @saveAndReload ="getAdvList()" :advProps="advDetail"/>
-    <AdviceModalDetail v-if="mdetailState" @closeModal="mdetailState = $event" :advProps="advDetail"/>
+    <AdviceModalDetail v-if="mdetailState" @closeModal="mdetailState = $event" :advProps="advDetail"
+    @saveAndReload ="getAdvList()"/>
     </div>
 </template>
 
@@ -104,8 +105,8 @@ export default {
                 this.lecList = res.data.listData;
             })
         },
-        getAdvList() {  // 상담 내역 조회
-            let cpage = 1;
+        getAdvList(cpage) {  // 상담 내역 조회
+            cpage = cpage || 1;
             let param = new URLSearchParams();
             param.append('currentPage', cpage);
             param.append('pageSize', 5);
@@ -114,6 +115,7 @@ export default {
                 this.advList = res.data.listData;
                 this.currentPage = cpage;
                 this.totalItems = res.data.listCnt;
+                console.log("이벤트입니다 : ",event);
 
             })
         },

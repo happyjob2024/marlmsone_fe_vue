@@ -5,66 +5,60 @@
         <div class="container" style="width: 500px">
           <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-              <p class="conTitle">
-                <span>수강 상담 관리</span>
-              </p>
-            </div>
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <span class="input-group-text">과정 명</span>
-                <select v-model="this.newAdv.lec_name"  @change="getStdList" class="form-control">
-                  <option>
-                    과정 명 선택
-                  </option>
-                  <option v-for="(list, i) in lecProps" :key="i" :value="list.lec_id" >
-                    {{list.lec_name }}
-                  </option>
-                </select>
-                
+              <div class="modal-header">
+                <p class="conTitle">
+                  <span>수강 상담 관리</span>
+                </p>
               </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">학생 명</span>
-                <select v-model="this.newAdv.std_id" class="form-control">
-                  <option> 학생 명 선택</option>
-                  <option v-for="(list, i) in studentList" :key="i" :value="list.std_id" >
-                    {{ list.std_name }}
-                  </option>
-                </select>
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">상담 일자</span>
-                <Datepicker
-                  v-model="picked"                 
-                  :inputFormat="inputFormat"
-                  :locale="locale"
-                  
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">과정 명</span>
+                  <select v-model="this.newAdv.lec_name"  @change="getStdList" class="form-control">
+                    <option>
+                      과정 명 선택
+                    </option>
+                    <option v-for="(list, i) in lecProps" :key="i" :value="list.lec_id" >
+                      {{list.lec_name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">학생 명</span>
+                  <select v-model="this.newAdv.std_id" class="form-control">
+                    <option> 학생 명 선택</option>
+                    <option v-for="(list, i) in studentList" :key="i" :value="list.std_id" >
+                      {{ list.std_name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">상담 일자</span>
+                  <Datepicker
+                    v-model="picked"                 
+                    :inputFormat="inputFormat"
+                    :locale="locale"
                   />
-                <span class="input-group-text">상담 장소</span>
-                <input v-model="this.newAdv.adv_place" type="text" class="form-control"/>
+                  <span class="input-group-text">상담 장소</span>
+                  <input v-model="this.newAdv.adv_place" type="text" class="form-control"/>
+                </div>
+                <div  style="min-width: 200px">
+                  <span class="input-group-text">상담 내용</span>
+                  <QuillEditor v-model="this.newAdv.adv_content"/>
+                  
+                </div>
               </div>
-              <div  style="min-width: 200px">
-                <span class="input-group-text">내용</span>
-                <textarea v-model="this.newAdv.adv_content" style="resize: none; height: 200px " class="form-control" />
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info" v-on:click="saveAdvice">저장</button>
+                <button type="button" class="btn btn-light" @click="this.$emit('closeModal', false)">
+                    취소
+                </button>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-info" v-on:click="saveAdvice">저장</button>
-              <button type="button" class="btn btn-light" @click="this.$emit('closeModal', false)">
-                  취소
-              </button>
-              
             </div>
           </div>
         </div>
       </div>
-      </div>
     </teleport>
-    <VCalendar v-if="true"/>
-    
-    
   </div>
-  
 </template>
 
 
@@ -73,6 +67,7 @@ import axios from 'axios';
 import Datepicker from 'vue3-datepicker'; //달력 패키지
 import { ref, reactive, defineComponent } from 'vue';
 import { ko } from 'date-fns/locale';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   props: ['lecProps','advProps'],
@@ -116,7 +111,7 @@ export default {
     }
   },
   components: {
-    Datepicker,
+    Datepicker,QuillEditor
   },
   setup() {
     const picked = ref(new Date());
@@ -133,7 +128,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .backdrop {
     display: flex;
     position: fixed;
