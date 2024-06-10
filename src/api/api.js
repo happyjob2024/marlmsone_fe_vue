@@ -1,4 +1,3 @@
-
 export const SamplePage5 = {
     LectureRoomList: '/adm/lectureRoomListjson.do',
 };
@@ -27,8 +26,8 @@ export const LectureRoomSave = {
 };
 
 export const SignUp = {
-    CheckId: "/check_loginID.do",
-    Register: "/register.do",
+    CheckId: '/check_loginID.do',
+    Register: '/register.do',
 };
 
 export const EquManagementList = {
@@ -46,4 +45,15 @@ export const MyPage = {
     UpdatePassword: '/personal/personalPwdChange.do',
     Quit: '/personal/personalQuit.do',
     Update: '/personal/personalBasicSave.do',
+};
+
+export const CourseSize = {
+    GetLectureList: '/adm/selectCoursejson.do',
+};
+
+export const Employ = {
+    Post: '/employ/stdEmploy.do',
+    Delete: '/employ/delEmploy.do',
+    GetList: '/employ/listEmp2.do',
+    GetStudents: '/employ/empstdList2.do',
 };
