@@ -1,9 +1,9 @@
 <template>
     <div>
         <teleport to="body">
-            <div class="backdrop">
-                <div class="container" style="width: 600px">
-                    <div class="modal-dialog">
+            <div class="modal-overlay">
+                <div class="container" style="width: 600px; height:658px">
+                    <div >
                         <div class="modal-content">
                             <div class="modal-header">
                                 <p class="conTitle">
@@ -128,19 +128,22 @@ export default {
 }
 </script>
 
-<style>
-.backdrop {
-    display: flex;
-    position: fixed;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.5);
+<style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.container {
-    background: white;
-    padding: 1.5rem;
-    height: 70%;
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 </style>
