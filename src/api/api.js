@@ -57,3 +57,4 @@ export const LecList = {
     std_list : '/adm/list_std_json.do',
     
 };
+

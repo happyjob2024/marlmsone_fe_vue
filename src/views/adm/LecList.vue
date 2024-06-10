@@ -32,7 +32,7 @@
       </div>
       <Pagination v-bind="{ currentPage, totalItems: total, itemsPerPage: 6 }" @search="searchLecture($event)" />
   
-      <span class="conNm">학생 목록</span>
+      <span class="conTitle mt50">학생 목록</span>
       <select v-model="searchKeyStd">
         <option value="all">전체</option>
         <option value="stdNm">학생명</option>
@@ -47,11 +47,11 @@
   
       <div class="date-picker">
         <label for="from_date">가입일 조회</label>
-        <input type="date" style="width: 15%" class="form-control" v-model="paramObj.from_date" />
-        ~
+        <input type="date" style="width: 15%" class="form-control" v-model="paramObj.from_date" /> 
+        ~ 
         <input type="date" style="width: 15%" class="form-control" v-model="paramObj.to_date" />
         <span class="fr">
-          <a class="btn btn-light" @click="searchStudentDate()">
+          <a class="btn btn-light" @click="searchStudentDate(paramObj)">
             <span>검색</span>
           </a>
         </span>
@@ -68,34 +68,55 @@
         <tr v-for="(stu, i) in studata" :key="i">
           <td>{{ stu.std_num }}</td>
           <td>{{ stu.lec_name }}</td>
-          <td>{{ stu.name }}({{ stu.loginID }})</td>
+          <td  @click="modalHandler(stu.std_num, stu.loginID)">
+          {{ stu.name }}({{ stu.loginID }})
+          </td>
           <td>{{ stu.tel }}</td>
           <td>{{ stu.join_date }}</td>
           <td></td>
         </tr>
       </table>
+      <DetailStudent 
+      v-if="modalBoolean" @closeModal="modalBoolean= $event" 
+        :std_num="std_num"
+        :loginID="loginID"
+        @closeAndSearch="modalClose"
+        :data="dataList"
+      />  
     </div>
     <!-- <Pagination v-bind="{ currentPage_std, totalCnt_std: stutotal, itemsPerPage: 5 }" @search="searchLecture($event)" /> -->
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, provide } from 'vue';
   import Pagination from '@/components/common/PaginationComponent.vue';
-  import { LecList } from '@/api/api';
-  import { axiosAction } from '.'; // 경로를 적절히 수정해야 할 수 있습니다.
-  
+  import { LecList, SamplePage7 } from '@/api/api';
+  import { axiosAction } from '.'; 
+  import DetailStudent from './DetailStudent.vue';
+
+//강의를 출력하기 위한 변수
   const dataList = ref([]);
   const total = ref(0);
   const currentPage = ref(1);
   const searchWord_lec =ref([]);
 
+//데이터를 deepchild까지 전달하기 위함
+provide ('dataList', dataList);
+
+//학생 정보를 출력하기 위한 변수
   const studata = ref([]);
   const stutotal = ref(0);
   const searchKeyStd = ref('');
   const searchWordStd = ref('');
   const paramObj = ref({ from_date: '', to_date: '' });
- 
 
+//팝업 창을 만들기 위한 변수
+  const modalBoolean = ref(false);
+  const std_num =ref(0);
+  const loginID =ref(0);
+  
+
+//강의 리스트 출력을 위한 메소드 
   const searchLecture = async (cpage = 1) => {
     let param = new URLSearchParams();
     param.append('searchWord_lec',searchWord_lec.value);
@@ -115,51 +136,89 @@
     }
   };
   
-  const searchStu = async (lec_id, cpage = 1) => {
-    let param = new URLSearchParams();
-    param.append('lec_id', lec_id);
-    param.append('currentPage_std', cpage);
-    param.append('pageSize_std', 5);
-    param.append('searchKey_std', searchKeyStd.value);
-    param.append('searchWord_std', searchWordStd.value);
-    param.append('totalCnt_std','');
-    param.append('from_data', paramObj.value);
-    param.append('to_date', paramObj.value);
-    const stulist = await axiosAction(LecList.std_list, param);
   
-    if (stulist) {
-      console.log('학생정보:', stulist.list_std);
-      console.log('총 개수:', stulist.totalCnt_std);
-      studata.value = stulist.list_std;
-      stutotal.value = stulist.totalCnt_std;
-    }
-  };
+
+  const searchStu = async (lec_id = null, cpage = 1) => {
+    console.log('lec_id:', lec_id);
+  console.log('currentPage_std:', cpage);
+  console.log('from_date:', paramObj.value.from_date);
+  console.log('to_date:', paramObj.value.to_date);
+  let param = new URLSearchParams();
+  if (lec_id !== null) {
+    param.append('lec_id', lec_id);
+  }
+  param.append('currentPage_std', cpage);
+  param.append('pageSize_std', 5);
+  param.append('searchKey_std', searchKeyStd.value);
+  param.append('searchWord_std', searchWordStd.value);
+  param.append('totalCnt_std', '');
+  param.append('from_date', paramObj.value.from_date); // corrected from 'from_data'
+  param.append('to_date', paramObj.value.to_date);
+
+  const stulist = await axiosAction(LecList.std_list, param);
+
+  if (stulist) {
+    console.log('학생정보:', stulist.list_std);
+    console.log('총 개수:', stulist.totalCnt_std);
+    studata.value = stulist.list_std;
+    stutotal.value = stulist.totalCnt_std;
+  }
+};
+
+// 학생 리스트 날짜 검색 기능
+const searchStudentDate = () => {
+  searchStu(null);
+};
+
+//전체 강의 출력  
   const allLecture = () => {
   searchWord_lec.value = '';
   searchLecture(1);
 };
+
+//강의리스트 검색 기능 
   const searchData = () => {
     searchLecture(1);
   };
-  
+
+//학생 리스트 전체 조회
   const allStu = async () => {
   searchStu('', 1);
 };
+
+//학생 리스트 검색 기능 
 const searchStudent = () => {
   searchStu(1);
-}
-const searchStudentDate = (data) => {
-  searchStu(data);
-}
-  onMounted(() => {
+};
+
+
+
+//팝업창 제어 기능 
+const modalHandler = (paramNum, paramId) => {
+  console.log('열려라 참깨~~~~~~!!!!!!!');
+  modalBoolean.value = true;
+  std_num.value = paramNum;
+  loginID.value = paramId;
+  
+  console.log('std_num:', paramNum, 'loginID:', loginID.value);
+};
+
+//팝업창 닫기
+const modalClose = (param) => {
+    modalBoolean.value = param;
+    searchStu();
+  };
+
+//훅
+onMounted(() => {
     searchLecture();
     searchStu();
     allLecture();
     allStu();
     searchData();
-  });
-  </script>
-  
+});
+</script>
+
   <style>
 
 .lecure-name {
@@ -170,6 +229,7 @@ const searchStudentDate = (data) => {
 .btn-sm {
   margin-left: 10px;
 }
+
 
 </style>
   
