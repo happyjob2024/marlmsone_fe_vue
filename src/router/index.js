@@ -15,6 +15,7 @@ import EquManagementList from "@/views/adm/EquManagementList.vue";
 import LectureList from "@/views/std/LectureList.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import LearningMaterials_S from '@/views/std/LearningMaterials_S.vue';
+import StudentQnA from '@/views/StudentQnA.vue';
 
 import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
@@ -142,6 +143,10 @@ const routes = [
         path: "mypage",
         component: MyPage,
       },
+      {
+        path: "qna",
+        component: <StudentQnA />
+      }
     ],
     component: Dashboard,
   },
