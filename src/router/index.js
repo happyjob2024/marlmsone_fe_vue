@@ -14,17 +14,18 @@ import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import EquManagementList from "@/views/adm/EquManagementList.vue";
 import CourseSize from "@/views/adm/CourseSize.vue";
 
-import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
 import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
+import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
 
 import LectureList from "@/views/std/LectureList.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import LearningMaterials_S from "@/views/std/LearningMaterials_S.vue";
 
 import Advice from "@/views/adv/Advice.vue";
+import StudentQnA from '@/views/StudentQnA.vue';
 
 
 const routes = [
@@ -167,6 +168,10 @@ const routes = [
       {
         path: "mypage",
         component: MyPage,
+      },
+      {
+        path: "qna",
+        component: <StudentQnA />
       },
       {
         path: "register",
