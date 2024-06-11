@@ -1,4 +1,5 @@
 <template>
+  <div class="container mt-5">
     <div class="divComGrpCodList">
       <p class="Location">
         <span class="btn_nav bold">인원 관리</span>
@@ -6,91 +7,124 @@
       </p>
       <p class="conTitle">
         <span class="conNm">강의 리스트</span>
+       
         <span class="fr">
           <span>강의명</span>
-          <input type="text" class="lecure-name" v-model="searchWord_lec" />
-          <button class="btn btn-light btn-sm" @click="allLecture">전체 검색</button>
-          <button class="btn btn-secondary btn-sm" @click="searchData">검색</button>
+          <input type="text" class="form-control d-inline-block w-25" v-model="searchWord_lec" />
+          <button class="btn btn-light" @click="allLecture">전체 검색</button>
+          <button class="btn btn-secondary" @click="searchData">검색</button>
         </span>
+       
       </p>
+      
       <div>
         <b> 총 원 : {{ total }} 현재 페이지 번호 : {{ currentPage }} </b>
       </div>
-      <div class="row">
-        <table class="col">
-          <tr>
-            <td>과정 ID</td>
-            <td>과정명</td>
-            <td>기간</td>
-          </tr>
-          <tr v-for="(lecture, i) in dataList" :key="i">
-            <td>{{ lecture.lec_id }}</td>
-            <td @click="searchStu(lecture.lec_id)">{{ lecture.lec_name }}</td>
-            <td>{{ lecture.start_date }} ~ {{ lecture.end_date }}</td>
-          </tr>
+      <div class="lectureList mt-3" id="lectureList">
+        <table class="table table-striped">
+          <caption>caption</caption>
+          <colgroup>
+            <col width="5%">
+            <col width="30%">
+            <col width="10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>과정 ID</th>
+              <th>과정명</th>
+              <th>기간</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(lecture, i) in dataList" :key="i">
+              <td>{{ lecture.lec_id }}</td>
+              <td @click="searchStu(lecture.lec_id)">{{ lecture.lec_name }}</td>
+              <td>{{ lecture.start_date }} ~ {{ lecture.end_date }}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <Pagination v-bind="{ currentPage, totalItems: total, itemsPerPage: 6 }" @search="searchLecture($event)" />
-  
-      <span class="conTitle mt50">학생 목록</span>
-      <select v-model="searchKeyStd">
-        <option value="all">전체</option>
-        <option value="stdNm">학생명</option>
-        <option value="stdId">ID</option>
-        <option value="tel">전화번호</option>
-      </select>
-      <input type="text" v-model="searchWordStd" />
-      <button class="btn btn-light" @click="searchStudent()">검색</button>
-  
-      <button @click="allStu" class="btn btn-light">전체 학생</button>
-      <button @click="getDapv" class="btn btn-light">미수강 학생</button>
-  
-      <div class="date-picker">
-        <label for="from_date">가입일 조회</label>
-        <input type="date" style="width: 15%" class="form-control" v-model="paramObj.from_date" /> 
-        ~ 
-        <input type="date" style="width: 15%" class="form-control" v-model="paramObj.to_date" />
+
+      <p class="conTitle mt-5">
+        <span>학생 목록</span>
         <span class="fr">
-          <a class="btn btn-light" @click="searchStudentDate(paramObj)">
+          <select class="form-control d-inline-block w-auto" v-model="searchKeyStd">
+            <option value="all">전체</option>
+            <option value="stdNm">학생명</option>
+            <option value="stdId">ID</option>
+            <option value="tel">전화번호</option>
+          </select>
+          <input type="text" class="form-control d-inline-block w-auto ml-2" v-model="searchWordStd" />
+          <button class="btn btn-light ml-2" @click="searchStudent()">검색</button>
+        </span>
+      </p>
+      <button @click="allStu" class="btn btn-light mt-2">전체 학생</button>
+      <button @click="getDapv" class="btn btn-light mt-2">미수강 학생</button>
+
+      <div class="date-picker mt-4">
+        <label for="from_date">가입일 조회</label>
+        <input type="date" class="form-control d-inline-block w-auto ml-2" v-model="paramObj.from_date" />
+        ~
+        <input type="date" class="form-control d-inline-block w-auto ml-2" v-model="paramObj.to_date" />
+        <span class="fr">
+          <a class="btn btn-light ml-2" @click="searchStudentDate(paramObj)">
             <span>검색</span>
           </a>
         </span>
       </div>
-      <table class="col">
-        <tr>
-          <td>학번</td>
-          <td>수강강의</td>
-          <td>학생 명(ID)</td>
-          <td>휴대전화</td>
-          <td>가입일자</td>
-          <td></td>
-        </tr>
-        <tr v-for="(stu, i) in studata" :key="i">
-          <td>{{ stu.std_num }}</td>
-          <td>{{ stu.lec_name }}</td>
-          <td  @click="modalHandler(stu.std_num, stu.loginID)">
-          {{ stu.name }}({{ stu.loginID }})
-          </td>
-          <td>{{ stu.tel }}</td>
-          <td>{{ stu.join_date }}</td>
-          <td></td>
-        </tr>
-      </table>
-      <DetailStudent 
-      v-if="modalBoolean" @closeModal="modalBoolean= $event" 
-        :std_num="std_num"
-        :loginID="loginID"
-        @closeAndSearch="modalClose"
-        :data="dataList"
-      />  
+      <div class="div_list_student mt-4" id="div_list_student">
+        <table class="table table-striped">
+          <caption>caption</caption>
+          <colgroup>
+            <col width="10%">
+            <col width="10%">
+            <col width="20%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>학번</th>
+              <th>수강강의</th>
+              <th>학생 명(ID)</th>
+              <th>휴대전화</th>
+              <th>가입일자</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(stu, i) in studata" :key="i">
+              <td>{{ stu.std_num }}</td>
+              <td>{{ stu.lec_name }}</td>
+              <td @click="modalHandler(stu.std_num, stu.loginID)">
+                {{ stu.name }}({{ stu.loginID }})
+              </td>
+              <td>{{ stu.tel }}</td>
+              <td>{{ stu.join_date }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <DetailStudent 
+          v-if="modalBoolean" 
+          @closeModal="modalBoolean= $event" 
+          :std_num="std_num"
+          :loginID="loginID"
+          @closeAndSearch="modalClose"
+          :data="dataList"
+        />  
+      </div>
     </div>
-    <!-- <Pagination v-bind="{ currentPage_std, totalCnt_std: stutotal, itemsPerPage: 5 }" @search="searchLecture($event)" /> -->
-  </template>
+  </div>
+  <!-- <Pagination v-bind="{ currentPage_std, totalCnt_std: stutotal, itemsPerPage: 5 }" @search="searchLecture($event)" /> -->
+</template>
   
   <script setup>
   import { ref, onMounted, provide } from 'vue';
   import Pagination from '@/components/common/PaginationComponent.vue';
-  import { LecList, SamplePage7 } from '@/api/api';
+  import { LecList } from '@/api/api';
   import { axiosAction } from '.'; 
   import DetailStudent from './DetailStudent.vue';
 
@@ -213,9 +247,7 @@ const modalClose = (param) => {
 onMounted(() => {
     searchLecture();
     searchStu();
-    allLecture();
-    allStu();
-    searchData();
+  
 });
 </script>
 

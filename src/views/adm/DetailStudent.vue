@@ -1,48 +1,49 @@
 <template>
   <div>
     <div class="backdrop">
-      <div class="container">
+      <div class="container mt-5">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content p-4">
             <div>
-             
+              <h3>학생 상세 정보</h3>
+              <br>
               <div class="modal-student" v-if="student">
-                <table>
+                <table class="table table-bordered">
                   <tr>
-                    <td>ID</td>
+                    <td class="font-weight-bold">ID</td>
                     <td>{{ student.loginID }}</td>
-                    <td>학번</td>
+                    <td class="font-weight-bold">학번</td>
                     <td>{{ student.std_num }}</td>
                   </tr>
                   <tr>
-                    <td>이름</td>
+                    <td class="font-weight-bold">이름</td>
                     <td>{{ student.name }}</td>
-                    <td>생년월일</td>
+                    <td class="font-weight-bold">생년월일</td>
                     <td>{{ student.regi_date }}</td>
                   </tr>
                   <tr>
-                    <td>전화번호</td>
+                    <td class="font-weight-bold">전화번호</td>
                     <td>{{ student.tel }}</td>
-                    <td>성별</td>
+                    <td class="font-weight-bold">성별</td>
                     <td>{{ student.sex }}</td>
                   </tr>
                   <tr>
-                    <td>이메일</td>
+                    <td class="font-weight-bold">이메일</td>
                     <td colspan="3">{{ student.mail }}</td>
                   </tr>
                   <tr>
-                    <td>주소</td>
+                    <td class="font-weight-bold">주소</td>
                     <td colspan="3">{{ student.addr }}</td>
                   </tr>
                 </table>
               </div>
-              <div>
-                <p>수강 내역</p>
-                <button type="button" class="btn btn-light"  @click="modalHandler(props.loginID)">수강등록</button>
-                <button type="button" class="btn btn-light" @click="$emit('closeModal', false)">닫기</button>
+              <div class="mt-3">
+                <p class="font-weight-bold">수강 내역</p>
+                <button type="button" class="btn btn-primary" @click="modalHandler(props.loginID)">수강등록</button>
+                <button type="button" class="btn btn-secondary" @click="$emit('closeModal', false)">닫기</button>
               </div>
-              <div v-if="lecture && lecture.length">
-                <table>
+              <div v-if="lecture && lecture.length" class="mt-3">
+                <table class="table table-striped">
                   <thead>
                     <tr>
                       <th>강의ID</th>
@@ -61,7 +62,7 @@
                   </tbody>
                 </table>
               </div>
-              <div v-else>
+              <div v-else class="mt-3">
                 <p>수강 내역이 없습니다.</p>
               </div>
             </div>
@@ -69,15 +70,13 @@
         </div>
       </div>
     </div>
+    <LectureRegi
+      v-if="modalBoolean"
+      :loginID="loginID"
+      @closeModal="modalBoolean = $event"
+      @closeAndSearch="modalClose"
+    />
   </div>
-  <LectureRegi
-  v-if="modalBoolean" 
-  :loginID="loginID"
-
-  @closeModal="modalBoolean= $event" 
-  @closeAndSearch="modalClose"
-  
-  />
 </template>
 
 <script setup>

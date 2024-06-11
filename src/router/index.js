@@ -22,7 +22,7 @@ import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import LecList from "@/views/adm/LecList.vue";
-
+import NList from "@/views/adm/NList.vue";
 const routes = [
   {
     path: "/",
@@ -102,7 +102,11 @@ const routes = [
           {
             path: "studentControl",
             component: <LecList />,
-          },         
+          }, 
+          {
+            path: "tutorControl",
+            component: <NList/>,
+          },        
         ],
       },
       {
