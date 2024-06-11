@@ -28,16 +28,17 @@
 							</p>
 
 							<p class="conTitle">
-								<span>시험 문제 관리</span> <span class="fr"> <label
-									for="deactiveCk"> <input type="checkbox"
-										name="deactiveCk" id="deactiveCk" onchange="showDeactiveCk(event)"> 비활성화 문제&nbsp;&nbsp;
+								<span>시험 문제 관리</span> <span class="fr"> 
+									<label for="deactiveCk"> 
+										<input type="checkbox" name="deactiveCk" id="deactiveCk" onchange="showDeactiveCk(event)"> 
+										비활성화 문제&nbsp;&nbsp;
 								</label> 
-								<select id="lecList" style="width: 200px" v-model="lecTypeId">	
-							<option value="">시험분류 선택</option>
-							<option v-for="(list, i) in lectype" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option> 
-									</select>						
-								&nbsp; <a class="btnType blue" href="javascript:newreg();"
-									name="newreg" id="newreg"><span>문제등록</span></a>
+								<select id="lecList" style="width: 200px" v-model="lecTypeId" @change="testListRtn()">	
+									<option value="">시험분류 선택</option>
+									<option v-for="(list, i) in lectype" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option> 
+								</select>						
+								&nbsp; 
+	<a class="btnType blue" @click="modalHandler()" name="newreg" id="newreg"><span>문제등록</span></a>
 								</span>
 							</p>
 
@@ -114,6 +115,13 @@
 					</li>
 				</ul>
 			</div>
+			<TestControlModal 
+			v-if="modalBoolean"
+        @closeModal="modalBoolean = false"
+        />
+        <!-- :testListRtn="testListRtn"
+        :que_id="que_id"
+        :currentPage="currentPage" -->
 		</div>
 
 
@@ -124,6 +132,7 @@ import { onMounted, ref, watch } from 'vue';
 import Pagination from '@/components/common/PaginationComponent.vue';
 import { axiosAction } from '.';
 import { Tut } from '@/api/api';
+import TestControlModal from './TestControlModal.vue';
 
 const dataList = ref([]);
 const total = ref(0);
@@ -131,13 +140,17 @@ const currentPage = ref(0);
 const lectype = ref([]);
 const lecTypeId = ref('');
 // const paramObj = ref({});
+const modalBoolean = ref(false);
+
+
+
 
 const testListRtn = async (cpage) => {
     cpage = cpage || 1;
     let param = new URLSearchParams();
     param.append('cpage', cpage);
     param.append('pagesize', 6);
-	param.append('lec_type_id', lecTypeId.value);
+	param.append('lecList', lecTypeId.value);
 
     // axios.post('/adm/lectureRoomListjson.do', param).then((res) => {
     // dataList.value = res.data.listdata;
@@ -155,9 +168,20 @@ const testListRtn = async (cpage) => {
     }
 };
 
-  watch(lecTypeId, () => {
-    testListRtn();
-  });
+const modalHandler = (param) => {
+    modalBoolean.value = true;
+    // equipId.value=param
+// console.log(param)
+};
+
+const modalClose =(param) => {
+    modalBoolean.value = param;
+    getEquipmentList();
+}
+
+//   watch(lecTypeId, () => {
+//     testListRtn();
+//   });
 
 onMounted(() => {
     testListRtn();
