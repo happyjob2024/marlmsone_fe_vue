@@ -19,14 +19,14 @@ import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
 import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
+import ProjectControl from "@/views/tut/ProjectControl.vue";
 
 import LectureList from "@/views/std/LectureList.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
 import LearningMaterials_S from "@/views/std/LearningMaterials_S.vue";
 
 import Advice from "@/views/adv/Advice.vue";
-import StudentQnA from '@/views/StudentQnA.vue';
-
+import StudentQnA from "@/views/StudentQnA.vue";
 
 const routes = [
   {
@@ -67,10 +67,10 @@ const routes = [
             path: "advice",
             component: <Advice />,
           },
-        ]
+        ],
       },
       {
-        path: 'sampletest',
+        path: "sampletest",
         children: [
           {
             path: "samplepage5",
@@ -102,7 +102,7 @@ const routes = [
             component: <EquipmentList />,
           },
           {
-            path: 'a_surveyControl',
+            path: "a_surveyControl",
             component: <SurveyMgt />,
           },
           {
@@ -125,6 +125,10 @@ const routes = [
           {
             path: "t_learningMaterials",
             component: <T_learningMaterials />,
+          },
+          {
+            path: "projectControl",
+            component: <ProjectControl />,
           },
           {
             path: "lecturePlan",
@@ -171,7 +175,7 @@ const routes = [
       },
       {
         path: "qna",
-        component: <StudentQnA />
+        component: <StudentQnA />,
       },
       {
         path: "register",
