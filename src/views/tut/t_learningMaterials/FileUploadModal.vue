@@ -41,7 +41,13 @@
               </td>
               <th scope="row">등록일자</th>
               <td colspan="3">
-                <input type="text" class="inputTxt p100" readonly />
+                <input
+                  type="text"
+                  class="inputTxt p100"
+                  v-model="registrationDate"
+                  readonly
+                  disabled
+                />
               </td>
             </tr>
             <tr>
@@ -88,10 +94,19 @@ export default {
     return {
       lectureList: [],
       lecList: [],
-      lectureValue: 0,
+      registrationDate: "",
     };
   },
   methods: {
+    getCurrentDate() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    },
+
+    // 학습자료 등록
     saveLearningMatDetail() {
       let checkResult = nullcheck([
         { inval: this.$refs.title.value, msg: "제목을 입력해 주세요." },
@@ -113,8 +128,7 @@ export default {
       axios.post("/tut/saveLearningMaterials.do", param).then((res) => {
         if (res.data) {
           alert("학습 자료가 등록 되었습니다.");
-          this.$emit("closeModal", false);
-          this.getSearchLearnMatList(this.currentPage);
+          this.$emit("closeAndreload", lectureValue);
         } else {
           alert("학습 자료 등록에 실패했습니다. 다시 등록해주세요.");
         }
@@ -129,6 +143,7 @@ export default {
   },
   mounted() {
     this.getLectureList();
+    this.registrationDate = this.getCurrentDate();
   },
 };
 </script>
