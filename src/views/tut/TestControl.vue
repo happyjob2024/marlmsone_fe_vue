@@ -118,6 +118,7 @@
 			<TestControlModal 
 			v-if="modalBoolean"
         @closeModal="modalBoolean = false"
+		:lectype="lectype"
         />
         <!-- :testListRtn="testListRtn"
         :que_id="que_id"
