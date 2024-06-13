@@ -6,23 +6,16 @@
   <div
     id="mat_de"
     class="layerPop layerType2"
-    style="
-      width: 700px;
-      height: 50%;
-      display: block;
-      position: absolute;
-      top: 20%;
-      right: 27%;
-    "
+    style="width: 700px; display: block; position: fixed; top: 25%; left: 30%"
   >
     <dl>
       <dt><strong>학습자료</strong></dt>
-      <dd class="content">
-        <table class="row">
+      <dd class="contain">
+        <table class="row2">
           <tbody>
             <tr>
               <th scope="row">제목<span class="font_red">*</span></th>
-              <td colspan="3">
+              <td colspan="6">
                 <input
                   type="text"
                   class="inputTxt p100"
@@ -30,13 +23,28 @@
                   v-model="detailLearnMat.learnTitle"
                 />
               </td>
+            </tr>
+            <tr>
               <th scope="row">등록일자</th>
               <td colspan="3">
                 <input
                   type="text"
                   class="inputTxt p100"
                   v-model="detailLearnMat.writeDate"
+                  style="background-color: #e2e5e6"
                   readonly
+                  disabled
+                />
+              </td>
+              <th scope="row">수정일자</th>
+              <td colspan="3">
+                <input
+                  type="text"
+                  class="inputTxt p100"
+                  v-model="registrationDate"
+                  style="background-color: #e2e5e6"
+                  readonly
+                  disabled
                 />
               </td>
             </tr>
@@ -87,10 +95,11 @@ import axios from "axios";
 import { nullcheck } from "@/common/common";
 
 export default {
-  props: ["getSearchLearnMatList", "detailModalProps", "currentPage"],
+  props: ["detailModalProps", "currentPage"],
   data() {
     return {
       detailLearnMat: {},
+      registrationDate: "",
     };
   },
   methods: {
@@ -100,6 +109,14 @@ export default {
         month: "2-digit",
         day: "2-digit",
       }).format(new Date(date));
+    },
+
+    getCurrentDate() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     },
 
     getLearningMatDetail() {
@@ -138,6 +155,7 @@ export default {
         });
     },
 
+    // 학습자료 수정
     updateLearningMatDetail() {
       let checkResult = nullcheck([
         { inval: this.$refs.title.value, msg: "제목을 입력해 주세요." },
@@ -146,7 +164,7 @@ export default {
 
       if (!checkResult) return;
 
-      let param = new URLSearchParams();
+      let param = new FormData();
       param.append("learnMatId", this.detailModalProps);
       param.append("updateLearnTitle", this.$refs.title.value);
       param.append("updateLearnContent", this.$refs.content.value);
@@ -157,31 +175,42 @@ export default {
         param.append("updateFile", file);
       }
 
-      axios.post("/tut/updateLearnMat.do", param).then((res) => {
-        if (res.data) {
-          alert("수정이 완료 되었습니다.");
-          this.$emit("closeModal", false);
-          this.getSearchLearnMatList(this.currentPage);
-        } else {
-          alert("수정을 실패했습니다.");
-        }
-      });
-    },
-
-    deleteLearningMatDetail() {
-      axios
-        .get(`/tut/deleteLearnMat.do/${this.detailModalProps}`)
-        .then((res) => {
+      if (
+        confirm("수정시 등록일자가 수정일자로 변경됩니다. 수정하시겠습니까?") ==
+        true
+      ) {
+        axios.post("/tut/updateLearnMat.do", param).then((res) => {
           if (res.data) {
-            alert("학습자료가 삭제되었습니다.");
-            this.$emit("closeModal", false);
-            this.getSearchLearnMatList();
+            alert("수정이 완료 되었습니다.");
+            this.$emit("closeAndreload");
+          } else {
+            alert("수정을 실패했습니다.");
           }
         });
+      } else {
+        return false;
+      }
+    },
+
+    // 학습자료 삭제
+    deleteLearningMatDetail() {
+      if (confirm("정말 삭제하시겠습니까?") == true) {
+        axios
+          .get(`/tut/deleteLearnMat.do/${this.detailModalProps}`)
+          .then((res) => {
+            if (res.data) {
+              alert("학습자료가 삭제되었습니다.");
+              this.$emit("closeAndreload");
+            }
+          });
+      } else {
+        return false;
+      }
     },
   },
   mounted() {
     this.detailModalProps ? this.getLearningMatDetail() : null;
+    this.registrationDate = this.getCurrentDate();
   },
 };
 </script>
@@ -202,5 +231,19 @@ div.layerType2 {
 
 a.pointer {
   cursor: pointer;
+}
+
+table.row2 {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.layerType2 > dl dd table.row2 > tbody > tr > th {
+  background: #bbc2cd;
+}
+
+div.layerType2 > dl dd {
+  padding: 40px !important;
 }
 </style>

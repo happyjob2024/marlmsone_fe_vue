@@ -6,20 +6,19 @@
   <div
     id="mat_de"
     class="layerPop layerType2"
-    style="
-      width: 700px;
-      height: 50%;
-      display: block;
-      position: absolute;
-      top: 20%;
-      right: 27%;
-    "
+    style="width: 700px; display: block; position: fixed; top: 25%; left: 30%"
   >
     <dl>
       <dt><strong>학습자료</strong></dt>
-      <dd class="content">
-        <table class="row">
+      <dd class="contain">
+        <table class="row2">
           <tbody>
+            <tr>
+              <th scope="row">제목<span class="font_red">*</span></th>
+              <td colspan="6">
+                <input type="text" class="inputTxt p100" ref="title" />
+              </td>
+            </tr>
             <tr id="lectureList">
               <th>강의목록<span class="font_red">*</span></th>
               <td>
@@ -33,15 +32,16 @@
                   </option>
                 </select>
               </td>
-            </tr>
-            <tr>
-              <th scope="row">제목<span class="font_red">*</span></th>
-              <td colspan="3">
-                <input type="text" class="inputTxt p100" ref="title" />
-              </td>
               <th scope="row">등록일자</th>
               <td colspan="3">
-                <input type="text" class="inputTxt p100" readonly />
+                <input
+                  type="text"
+                  class="inputTxt p100"
+                  v-model="registrationDate"
+                  style="background-color: #e2e5e6"
+                  readonly
+                  disabled
+                />
               </td>
             </tr>
             <tr>
@@ -88,10 +88,19 @@ export default {
     return {
       lectureList: [],
       lecList: [],
-      lectureValue: 0,
+      registrationDate: "",
     };
   },
   methods: {
+    getCurrentDate() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    },
+
+    // 학습자료 등록
     saveLearningMatDetail() {
       let checkResult = nullcheck([
         { inval: this.$refs.title.value, msg: "제목을 입력해 주세요." },
@@ -113,8 +122,7 @@ export default {
       axios.post("/tut/saveLearningMaterials.do", param).then((res) => {
         if (res.data) {
           alert("학습 자료가 등록 되었습니다.");
-          this.$emit("closeModal", false);
-          this.getSearchLearnMatList(this.currentPage);
+          this.$emit("closeAndreload", lectureValue);
         } else {
           alert("학습 자료 등록에 실패했습니다. 다시 등록해주세요.");
         }
@@ -129,6 +137,7 @@ export default {
   },
   mounted() {
     this.getLectureList();
+    this.registrationDate = this.getCurrentDate();
   },
 };
 </script>
@@ -149,5 +158,19 @@ div.layerType2 {
 
 a.pointer {
   cursor: pointer;
+}
+
+table.row2 {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.layerType2 > dl dd table.row2 > tbody > tr > th {
+  background: #bbc2cd;
+}
+
+div.layerType2 > dl dd {
+  padding: 40px !important;
 }
 </style>
