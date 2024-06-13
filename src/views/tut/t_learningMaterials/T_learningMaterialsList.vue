@@ -6,7 +6,7 @@
     </p>
     <p class="conTitle">
       <span class="conNm">학습자료</span>
-      <span class="fr">
+      <span>
         <span>강의명 </span>
         <select
           id="searchKey"
@@ -26,7 +26,7 @@
       </span>
     </p>
     <div>
-      <div id="listCount">
+      <div id="listCount" style="margin-bottom: 10px">
         <b>
           총건수 : {{ totalItems }} , 현재 페이지 번호 : {{ currentPage }}
         </b>

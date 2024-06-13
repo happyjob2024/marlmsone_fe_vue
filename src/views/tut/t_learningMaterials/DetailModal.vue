@@ -6,23 +6,16 @@
   <div
     id="mat_de"
     class="layerPop layerType2"
-    style="
-      width: 700px;
-      height: 50%;
-      display: block;
-      position: absolute;
-      top: 20%;
-      right: 27%;
-    "
+    style="width: 700px; display: block; position: fixed; top: 25%; left: 30%"
   >
     <dl>
       <dt><strong>학습자료</strong></dt>
-      <dd class="content">
-        <table class="row">
+      <dd class="contain">
+        <table class="row2">
           <tbody>
             <tr>
               <th scope="row">제목<span class="font_red">*</span></th>
-              <td colspan="3">
+              <td colspan="6">
                 <input
                   type="text"
                   class="inputTxt p100"
@@ -38,6 +31,7 @@
                   type="text"
                   class="inputTxt p100"
                   v-model="detailLearnMat.writeDate"
+                  style="background-color: #e2e5e6"
                   readonly
                   disabled
                 />
@@ -48,6 +42,7 @@
                   type="text"
                   class="inputTxt p100"
                   v-model="registrationDate"
+                  style="background-color: #e2e5e6"
                   readonly
                   disabled
                 />
@@ -236,5 +231,19 @@ div.layerType2 {
 
 a.pointer {
   cursor: pointer;
+}
+
+table.row2 {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.layerType2 > dl dd table.row2 > tbody > tr > th {
+  background: #bbc2cd;
+}
+
+div.layerType2 > dl dd {
+  padding: 40px !important;
 }
 </style>
