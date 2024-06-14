@@ -80,6 +80,9 @@
     </div>
 
     <div class="lectureInfoTitle"><h2>과제 정보</h2></div>
+    <div id="listCount" style="margin-bottom: 5px">
+      <b> 총건수 : {{ totalItems }} , 현재 페이지 번호 : {{ currentPage }} </b>
+    </div>
     <div class="divMatList">
       <table class="col" style="margin-bottom: 10px">
         <colgroup>
@@ -106,7 +109,6 @@
               <td>
                 <a
                   class="pointer"
-                  style="text-decoration: none; color: blue"
                   @click="detailModalHandler(list.projectId)"
                   >{{ list.projectTitle }}</a
                 >
@@ -114,10 +116,7 @@
               <td>{{ formatDate(list.startDate) }}</td>
               <td>{{ formatDate(list.deadLineDate) }}</td>
               <td>
-                <a
-                  class="pointer"
-                  style="text-decoration: none; color: blue"
-                  @click="submitModalHandler(list.projectId)"
+                <a class="pointer" @click="submitModalHandler(list.projectId)"
                   >자세히 보기</a
                 >
               </td>
@@ -131,8 +130,7 @@
         </tbody>
       </table>
       <Pagination
-        :currentPage="currentPage"
-        :totalItems="totalItems"
+        v-bind="{ currentPage, totalItems, itemsPerPage: pageSize }"
         @search="getProjectList($event)"
         v-if="totalItems > 0"
       />
@@ -141,20 +139,18 @@
       v-if="uploadModalState"
       @closeModal="uploadModalState = false"
       @closeAndreload="closeAndreload"
-      :uploadModalProps="uploadModalProps"
-      :currentPage="currentPage"
+      v-bind="{ uploadModalProps }"
     />
     <TestDetailModal
       v-if="detailModalState"
       @closeModal="detailModalState = false"
       @closeAndreload="closeAndreload"
-      :detailModalProps="detailModalProps"
-      :currentPage="currentPage"
+      v-bind="{ detailModalProps }"
     />
     <TestSubmitModal
       v-if="submitModalState"
       @closeModal="submitModalState = false"
-      :submitModalProps="submitModalProps"
+      v-bind="{ submitModalProps }"
     />
   </div>
 </template>
@@ -192,51 +188,52 @@ export default {
       }).format(new Date(date));
     },
 
-    saveAlert() {
-      alert("강의명을 선택해주세요");
-    },
-
     // 강의 리스트
     getLectureList() {
       axios.get("/tut/projectLectureListjson").then((res) => {
         this.lectureList = res.data.lectureList;
         this.lectureValue = res.data.lectureList[0].lec_id;
+        this.getLectureDetailList(res.data.lectureList[0].lec_id);
+        this.getProjectList(1, res.data.lectureList[0].lec_id);
       });
     },
 
     // 강의 상세 리스트
-    getLectureDetailList() {
+    getLectureDetailList(lectureValue) {
+      lectureValue = lectureValue || document.getElementById("searchKey").value;
+
       let param = new URLSearchParams();
 
       param.append("tutorId", sessionStorage.getItem("loginId"));
-      param.append("lectureId", this.lectureValue);
+      param.append("lectureId", lectureValue);
       axios.post("/tut/projectLectureDetail", param).then((res) => {
         this.lectureDetailList = res.data.detailTutorLecture;
-        //console.log(this.lectureDetailList);
-        //console.log(this.lectureDetailList.length);
-        //console.log(this.lectureValue);
       });
     },
 
     // 과제 리스트
-    getProjectList(currentPage) {
+    getProjectList(currentPage, lectureValue) {
       currentPage = currentPage || 1;
+      lectureValue = lectureValue || document.getElementById("searchKey").value;
+
+      let pageSize = 10;
 
       let param = new URLSearchParams();
       param.append("tutorId", sessionStorage.getItem("loginId"));
-      param.append("lectureId", this.lectureValue);
+      param.append("lectureId", lectureValue);
       param.append("currentPage", currentPage);
-      param.append("pageSize", 10);
+      param.append("pageSize", pageSize);
       axios.post("/tut/tutorProjectListjson", param).then((res) => {
         this.tutorProjectList = res.data.tutorProjectList;
         this.currentPage = currentPage;
+        this.pageSize = pageSize;
         this.totalItems = res.data.totalCount;
       });
     },
     closeAndreload() {
       this.uploadModalState = false;
       this.detailModalState = false;
-      this.getProjectList();
+      this.getProjectList(1);
     },
 
     uploadModalHandler() {
@@ -254,21 +251,18 @@ export default {
   },
   mounted() {
     this.getLectureList();
-    // this.lectureValue
-    //   ? [this.getLectureDetailList(), this.getProjectList()]
-    //   : null;
   },
   components: { Pagination, TestUploadModal, TestDetailModal, TestSubmitModal },
 };
 </script>
 
 <style>
-a.pointer {
-  cursor: pointer;
+a.pointer:hover {
+  font-weight: bold;
 }
 
 .lectureInfoTitle {
-  margin: 25px 0 15px 0;
+  margin: 25px 0 10px 0;
 }
 
 .lectureInfoTitle > h2 {

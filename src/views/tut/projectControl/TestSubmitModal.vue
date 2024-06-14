@@ -36,12 +36,7 @@
 
                 <td>{{ list.submit_con }}</td>
                 <td>
-                  <a
-                    class="pointer"
-                    style="text-decoration: none; color: blue"
-                    @click="fileDownload"
-                    >다운로드</a
-                  >
+                  <a class="pointer" @click="fileDownload">다운로드</a>
                 </td>
                 <td>{{ formatDate(list.submit_date) }}</td>
               </tr>
@@ -124,8 +119,4 @@ export default {
 };
 </script>
 
-<style>
-a.pointer {
-  cursor: pointer;
-}
-</style>
+<style></style>

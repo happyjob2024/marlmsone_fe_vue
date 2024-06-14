@@ -54,9 +54,7 @@
               <td colspan="6">
                 <input type="file" ref="fileRef" />
                 <div v-if="this.detailModalProps > 0" style="margin: 5px">
-                  <a class="pointer" style="text-decoration: none">{{
-                    detailTutorProject.project_orginal_fname
-                  }}</a>
+                  <span>{{ detailTutorProject.project_orginal_fname }}</span>
                 </div>
               </td>
             </tr>
@@ -80,7 +78,7 @@ import axios from "axios";
 import { nullcheck } from "@/common/common";
 
 export default {
-  props: ["uploadModalProps", "currentPage"],
+  props: ["uploadModalProps"],
   data() {
     return {
       lectureValue: 0,
@@ -124,34 +122,5 @@ export default {
 </script>
 
 <style>
-div.layerType2 {
-  position: absolute;
-  width: 400px;
-  padding: 0px;
-  margin: 0;
-  border: 5px solid #c0c0c0;
-  background-color: #f3f3f3;
-  z-index: 9999;
-  -moz-box-shadow: 2px 2px 3px #666;
-  -webkit-box-shadow: 2px 2px 3px #666;
-  box-shadow: 2px 2px 3px #666;
-}
-
-a.pointer {
-  cursor: pointer;
-}
-
-table.row2 {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div.layerType2 > dl dd table.row2 > tbody > tr > th {
-  background: #bbc2cd;
-}
-
-div.layerType2 > dl dd {
-  padding: 40px !important;
-}
+@import "../projectControl/TestModal.css";
 </style>
