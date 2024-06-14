@@ -10,7 +10,7 @@
   >
     <dl>
       <dt><strong>과제 등록</strong></dt>
-      <dd class="con">
+      <dd class="contain">
         <table class="row2">
           <tbody>
             <tr>
@@ -98,7 +98,7 @@ import axios from "axios";
 import { nullcheck } from "@/common/common";
 
 export default {
-  props: ["tutorProjectList", "detailModalProps", "currentPage"],
+  props: ["detailModalProps"],
   data() {
     return {
       detailTutorProject: {},
@@ -191,14 +191,18 @@ export default {
     },
 
     deleteProjectDetail() {
-      axios
-        .get(`/tut/deleteTutorProject/${this.detailModalProps}`)
-        .then((res) => {
-          if (res.data) {
-            alert("과제가 삭제되었습니다.");
-            this.$emit("closeAndreload");
-          }
-        });
+      if (confirm("정말 삭제하시겠습니까?") == true) {
+        axios
+          .get(`/tut/deleteTutorProject/${this.detailModalProps}`)
+          .then((res) => {
+            if (res.data) {
+              alert("과제가 삭제되었습니다.");
+              this.$emit("closeAndreload");
+            }
+          });
+      } else {
+        return false;
+      }
     },
   },
   mounted() {
@@ -208,34 +212,5 @@ export default {
 </script>
 
 <style>
-div.layerType2 {
-  position: absolute;
-  width: 400px;
-  padding: 0px;
-  margin: 0;
-  border: 5px solid #c0c0c0;
-  background-color: #f3f3f3;
-  z-index: 9999;
-  -moz-box-shadow: 2px 2px 3px #666;
-  -webkit-box-shadow: 2px 2px 3px #666;
-  box-shadow: 2px 2px 3px #666;
-}
-
-a.pointer {
-  cursor: pointer;
-}
-
-table.row2 {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div.layerType2 > dl dd table.row2 > tbody > tr > th {
-  background: #bbc2cd;
-}
-
-div.layerType2 > dl dd {
-  padding: 40px !important;
-}
+@import "../projectControl/TestModal.css";
 </style>
