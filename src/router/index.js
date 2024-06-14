@@ -13,6 +13,8 @@ import EquipmentList from "@/views/adm/EquipmentList.vue";
 import SurveyMgt from "../views/adm/SurveyMgt.vue";
 import EquManagementList from "@/views/adm/EquManagementList.vue";
 import CourseSize from "@/views/adm/CourseSize.vue";
+import LecList from "@/views/adm/LecList.vue";
+import NList from "@/views/adm/NList.vue";
 
 import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
@@ -27,6 +29,7 @@ import LearningMaterials_S from "@/views/std/LearningMaterials_S.vue";
 
 import Advice from "@/views/adv/Advice.vue";
 import StudentQnA from "@/views/StudentQnA.vue";
+
 
 const routes = [
   {
@@ -116,6 +119,14 @@ const routes = [
           {
             path: "courseSize",
             component: <CourseSize />,
+          },  
+          {
+            path: "studentControl",
+            component: <LecList />,
+          }, 
+          {
+            path: "tutorControl",
+            component: <NList/>,
           },
         ],
       },

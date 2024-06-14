@@ -51,6 +51,12 @@ export const CourseSize = {
     GetLectureList: '/adm/selectCoursejson.do',
 };
 
+export const LecList = {
+    lec_list : '/adm/plist_lec_json.do',
+    std_list : '/adm/list_std_json.do',
+    
+};
+
 export const Employ = {
     Post: '/employ/stdEmploy.do',
     Delete: '/employ/delEmploy.do',
