@@ -96,7 +96,7 @@ import { onMounted, ref, watch } from 'vue';
     param.append('pageSize', 5);
     param.append('searchKey', searchKey.value);
 
-    axios.post('/std/myLectureList.do', param).then((res) => {
+    axios.post('/std/myLecListJson.do', param).then((res) => {
       dataList.value = res.data.listData;
       listCount.value = res.data.listCnt;
       currentPage.value = page;
