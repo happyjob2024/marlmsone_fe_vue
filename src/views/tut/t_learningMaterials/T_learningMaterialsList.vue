@@ -55,7 +55,6 @@
               <td>
                 <a
                   class="pointer"
-                  style="text-decoration: none; color: blue"
                   @click="detailModalHandler(list.learn_data_id)"
                   >{{ list.learnTitle }}</a
                 >
@@ -71,7 +70,7 @@
         </tbody>
       </table>
       <Pagination
-        v-bind="{ currentPage, totalItems, pageSize }"
+        v-bind="{ currentPage, totalItems, itemsPerPage: pageSize }"
         @search="getSearchLearnMatList($event)"
         v-if="totalItems > 0"
       />
@@ -80,14 +79,12 @@
       v-if="fileModalState"
       @closeModal="fileModalState = false"
       @closeAndreload="closeAndreload"
-      :currentPage="currentPage"
     />
     <DetailModal
       v-if="detailModalState"
       @closeModal="detailModalState = false"
       @closeAndreload="closeAndreload"
-      :detailModalProps="detailModalProps"
-      :currentPage="currentPage"
+      v-bind="{ detailModalProps }"
     />
   </div>
 </template>
@@ -124,21 +121,23 @@ export default {
       axios.get("/tut/t_learningMaterialsReact").then((res) => {
         this.lecList = res.data.lectureList;
         this.lectureValue = res.data.lectureList[0].lec_id;
-        this.getSearchLearnMatList(res.data.lectureList[0].lec_id);
+        this.getSearchLearnMatList(1, res.data.lectureList[0].lec_id);
       });
     },
 
-    getSearchLearnMatList(lectureValue, currentPage) {
+    getSearchLearnMatList(currentPage, lectureValue) {
       currentPage = currentPage || 1;
       lectureValue = lectureValue || document.getElementById("searchKey").value;
+      let pageSize = 10;
 
       let param = new URLSearchParams();
       param.append("tutorId", sessionStorage.getItem("loginId"));
       param.append("lectureValue", lectureValue);
       param.append("currentPage", currentPage);
-      param.append("pageSize", 10);
+      param.append("pageSize", pageSize);
       axios.post("/tut/tutorLearnMatListReact", param).then((res) => {
         this.searchList = res.data.learningMatList;
+        this.pageSize = pageSize;
         this.currentPage = currentPage;
         this.totalItems = res.data.totalCount;
       });
@@ -150,7 +149,7 @@ export default {
       if (learnDataId) {
         // 등록시
         this.lectureValue = learnDataId;
-        this.getSearchLearnMatList(learnDataId);
+        this.getSearchLearnMatList(1, learnDataId);
       } else {
         // 수정, 삭제시
         this.getSearchLearnMatList();
@@ -175,8 +174,4 @@ export default {
 };
 </script>
 
-<style>
-a.pointer {
-  cursor: pointer;
-}
-</style>
+<style></style>
