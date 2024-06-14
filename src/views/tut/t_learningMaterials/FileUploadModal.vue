@@ -58,7 +58,7 @@
               <td colspan="6">
                 <input type="file" ref="fileRef" />
                 <div v-if="this.lectureValue > 0" style="margin: 5px">
-                  <a class="pointer" style="text-decoration: none">{{
+                  <a class="pointer">{{
                     detailLearnMat.materials_orginal_fname
                   }}</a>
                 </div>
@@ -143,34 +143,5 @@ export default {
 </script>
 
 <style>
-div.layerType2 {
-  position: absolute;
-  width: 400px;
-  padding: 0px;
-  margin: 0;
-  border: 5px solid #c0c0c0;
-  background-color: #f3f3f3;
-  z-index: 9999;
-  -moz-box-shadow: 2px 2px 3px #666;
-  -webkit-box-shadow: 2px 2px 3px #666;
-  box-shadow: 2px 2px 3px #666;
-}
-
-a.pointer {
-  cursor: pointer;
-}
-
-table.row2 {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div.layerType2 > dl dd table.row2 > tbody > tr > th {
-  background: #bbc2cd;
-}
-
-div.layerType2 > dl dd {
-  padding: 40px !important;
-}
+@import "./T_Modal.css";
 </style>
