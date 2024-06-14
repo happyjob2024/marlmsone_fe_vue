@@ -1,5 +1,6 @@
 <template>
-<input type="hidden" id="action" name="action" value="" /> 
+	<div>
+		<input type="hidden" id="action" name="action" value="" /> 
 		<input type="hidden" id="que_id" name="que_id" value="" />
 		<input type="hidden" id="use_yn" name="use_yn" value="" />
     
@@ -60,7 +61,7 @@
 									<thead>
 										<tr>
 											<th scope="col">전체선택&nbsp;<input type="checkbox"
-												name="allRowCheck" id="allRowCheck" onclick='selectAll()'></th>
+												v-model="selectAllCheckbox" @change="selectAll"></th>
 											<th scope="col">시험분류</th>
 											<th scope="col">문제</th>
 											<th scope="col">정답</th>
@@ -78,7 +79,7 @@
 									<tbody id="listTestbody">
 										<template v-if="dataList.length > 0">
               							<tr v-for="(list, i) in dataList" :key="i">
-                						<td><input type="checkbox" name="rowCheckbox" class="rowCheckbox" data-item-id="3"></td>
+                						<td><input type="checkbox" name="rowCheckbox" class="rowCheckbox" :value="list.que_id" v-model="selectedItems[i]" @change="testCheckList(i, list.que_id)"></td>
                 						<td>{{ list.lec_type_name }}</td>
                 						<td>{{ list.test_que }}</td>
                 						<td>{{ list.que_ans }}</td>
@@ -86,7 +87,7 @@
                 						<td>{{ list.que_ex2 }}</td>
                 						<td>{{ list.que_ex3 }}</td>
                 						<td>{{ list.que_ex4 }}</td>
-                						<td>비활성</td>
+                						<td><a class="btnType3 color1" @click="modalHandler(list.que_id)">수정</a></td>
               </tr>
             </template>
             <template v-else>
@@ -118,13 +119,15 @@
 			<TestControlModal 
 			v-if="modalBoolean"
         @closeModal="modalBoolean = false"
+		@closeRefresh="closeRefresh"
 		:lectype="lectype"
+		:que_id="que_id"
         />
         <!-- :testListRtn="testListRtn"
         :que_id="que_id"
         :currentPage="currentPage" -->
 		</div>
-
+	</div>
 
 </template>
 
@@ -142,9 +145,29 @@ const lectype = ref([]);
 const lecTypeId = ref('');
 // const paramObj = ref({});
 const modalBoolean = ref(false);
+const que_id = ref(0);
+const selectAllCheckbox = ref(false);
+const isSelectList = ref([]);
+const selectedItems = ref({});
 
+const testCheckList = (index, value) => {
+	if(selectedItems.value[index]){
+		isSelectList.value.push(value)
+	} else {
+		isSelectList.value.pop(value)
+	}
+}
 
-
+const selectAll = () => {
+	selectedItems.value = {};
+	isSelectList.value = [];
+	if (selectAllCheckbox.value) {
+		dataList.value.map((a, i) => {
+			selectedItems.value[i] = true;
+			isSelectList.value.push(a.que_id);
+		});
+	}
+};
 
 const testListRtn = async (cpage) => {
     cpage = cpage || 1;
@@ -171,18 +194,16 @@ const testListRtn = async (cpage) => {
 
 const modalHandler = (param) => {
     modalBoolean.value = true;
-    // equipId.value=param
+    que_id.value=param
 // console.log(param)
 };
 
-const modalClose =(param) => {
+const closeRefresh =(param) => {
     modalBoolean.value = param;
-    getEquipmentList();
+    testListRtn();
 }
 
-//   watch(lecTypeId, () => {
-//     testListRtn();
-//   });
+
 
 onMounted(() => {
     testListRtn();

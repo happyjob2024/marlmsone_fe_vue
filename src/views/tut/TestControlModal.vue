@@ -18,14 +18,15 @@
 						<tbody>
 							<tr>
 								<th scope="row">시험분류<span class="font_red">*</span></th>
-								<td colspan="7"><select name="sort" id="lec_type_id"
-									style="width: 100%;" v-model="question.lec_type_id">
-									<option value="" id="">강의 분류 선택</option>
-									<option v-for="(list, i) in lectype" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option>
+								<td colspan="7">
+									<select name="sort" id="lec_type_id" style="width: 100%;" v-model="question.lec_type_id">
+										<option value="undefined">강의 분류 선택</option>
+										<option v-for="(list, i) in lectype" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option>
 										<!-- <c:forEach items="${lecList}" var="list"> -->
 											<!-- <option value="${list.lec_type_id}">${list.lec_type_name}</option> -->
 										<!-- </c:forEach>  -->
-								</select></td>
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<th scope="row">문제 <span class="font_red">*</span></th>
@@ -74,7 +75,8 @@
 					<!-- e : 여기에 내용입력 -->
 
 					<div class="btn_areaC mt30">
-						<a @click="insertQue('I')" class="btnType blue" id="btnSave" name="btn"><span>저장</span></a>
+						<a @click="insertQue()" class="btnType blue" id="btnSave" name="btn"><span>저장</span></a>
+						<!-- <a @click="insertQue('U')" class="btnType blue" id="btnSave" name="btn"><span>저장</span></a> -->
 						<a @click="$emit('closeModal', false)" class="btnType gray" id="btnClose" name="btn"><span>취소</span></a>
 					</div>
 				</dd>
@@ -92,20 +94,20 @@ import { onMounted, ref } from 'vue';
 		lectype: [],
     });
 	const question = ref(new Object());
-	const updateHandler = ref(props.equipId ? 'U' :'I');
-	const emit = defineEmits(['closeModal']);
-
+	const updateHandler = ref(props.que_id ? 'U' :'I');
+	const emit = defineEmits(['closeRefresh']);
+	console.log('프롭스 ' , props.que_id ? 'U' :'I' )
 	const insertQue = () => {
     let param = new URLSearchParams(question.value);
-	console.log('액션은?? ', updateHandler, '리절트코드는? ', )
+	console.log('액션은?? ', updateHandler.value, '리절트코드는? ', )
     param.append('action', updateHandler.value);
-    param.append('lecrm_id', props.que_id);
+    // param.append('lecrm_id', props.que_id);
 
     axios.post('/tut/testSave.do', param).then((res) => {
         if (res.data.result) {
 			console.log('리절트코드 = ', res.data.result )
             alert(res.data.resultMsg);
-            emit('closeModal');
+            emit('closeRefresh');
         }
     });
 };
@@ -123,6 +125,8 @@ onMounted(() =>{
         props.que_id ? getQueDetail() : null;
 		// getQueDetail()
     });
+
+
 
 </script>
 
