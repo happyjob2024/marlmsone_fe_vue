@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="row">
-            <CardCouseSize v-for="data in dataList"
+            <CardCourseSize v-for="data in dataList"
                             :key="data.lec_id"
                             :data="data"/>
         </div>
@@ -54,7 +54,7 @@ import { onMounted, ref } from 'vue';
 import { CourseSize } from '@/api/api';
 import { axiosAction } from '.';
 import Pagination from '@/components/common/PaginationComponent.vue';
-import CardCouseSize from './CardCouseSize.vue';
+import CardCourseSize from './CardCourseSize.vue';
 
 const pageSize = 6;
 const currentPage = ref(0);
