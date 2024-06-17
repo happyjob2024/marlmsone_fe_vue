@@ -5,7 +5,7 @@
                 <span>주차별 강의 계획</span>
             </p>
             <button 
-                class="btn btn-light" 
+                class="btn btn-primary"
                 style="float: right;" 
                 @click="modalHandler()">
                 주차계획 신규등록
@@ -38,8 +38,11 @@
                         <td class="t-data-l">{{ data.learn_goal }}</td>
                         <td class="t-data-l">{{ data.learn_con }}</td>
                         <td class="t-button">
-                            <button
+                            <!-- <button
                                 class="btn btn-outline-secondary btn-sm"
+                                @click="modalHandler(data)"
+                            > -->
+                            <button class="btn btn-light mx-2"
                                 @click="modalHandler(data)"
                             >
                                 수정
@@ -114,7 +117,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .t-header-c {
     text-align: center;
     vertical-align: middle;

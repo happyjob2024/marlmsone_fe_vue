@@ -1,7 +1,7 @@
 <template>
     <teleport to="body">
-        <div class="backdrop">
-            <div class="container" style="width: 500px">
+        <div class="modal-overlay">
+            <div class="container" style="width: 600px; height:550px">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -9,7 +9,7 @@
                                 <span>강의 주차별 계획</span>
                             </p>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="width: 550px; height: 350px;">
                             <table class="table table-bordered">
                                 <colgroup>
                                     <col width="20%">
@@ -34,19 +34,21 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th class="table-active t-header">학습목표</th>
-                                        <input
+                                        <th class="table-active t-header">학습 목표</th>
+                                        <textarea
                                             type="text"
                                             class="form-control"
                                             v-model="dataDetail.learn_goal"
+                                            rows="3"
                                         />
                                     </tr>
                                     <tr>
-                                        <th class="table-active t-header">학습내용</th>
-                                        <input
+                                        <th class="table-active t-header">학습 내용</th>
+                                        <textarea
                                             type="text"
                                             class="form-control"
                                             v-model="dataDetail.learn_con"
+                                            rows="6"
                                         />
                                     </tr>
                                 </tbody>
@@ -55,7 +57,7 @@
                         <div class="modal-footer">
                             <button 
                                 type="button" 
-                                class="btn btn-info" 
+                                class="btn btn-info me-2" 
                                 @click="postWeekPlanDetail" 
                                 v-if="!dataDetail.week">등록</button>
                             <template v-else>
@@ -65,7 +67,7 @@
                                     @click="postWeekPlanDetail">수정</button>
                                 <button 
                                     type="button" 
-                                    class="btn btn-info" 
+                                    class="btn btn-info mx-2" 
                                     @click="deleteWeekPlanDetail">삭제</button>
                             </template>
                             <button 
@@ -150,15 +152,17 @@ onMounted(() => {
 });
 </script>
 
-<style>
-.backdrop {
-    display: flex;
-    position: fixed;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.5);
+<style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container {
     background: white;
