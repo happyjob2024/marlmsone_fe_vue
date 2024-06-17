@@ -94,10 +94,6 @@ const routes = [
         children: [
           {
             path: "lectureRoom",
-            component: <LectureRoom />,
-          },
-          {
-            path: "LectureRoomList",
             component: <LectureRoomList />,
           },
           {

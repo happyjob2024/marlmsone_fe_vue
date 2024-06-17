@@ -1,8 +1,10 @@
 <template>
     <div>
         <p class="Location">
-            <span class="btn_nav bold">통계</span>
-            <span class="btn_nav bold">수강인원</span>
+            <a class="btn_set home">메인으로</a> 
+            <span class="btn_nav bold">통계</span> 
+            <span class="btn_nav bold">수강인원</span> 
+            <a class="btn_set refresh">새로고침</a>
         </p>
         <p class="conTitle">
             <span class="conNm">수강인원</span>
