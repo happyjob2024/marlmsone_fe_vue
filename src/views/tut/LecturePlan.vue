@@ -14,9 +14,9 @@
                     > {{ option.text }}
                     </option>
                 </select>
-                <span>강의명 </span>
+                <span> 강의명 </span>
                 <input type="text" class="lecure-name" v-model="searchWord"/>
-                <button class="btn btn-secondary btn-sm" @click="searchTutLecture()">검색</button>
+                <button class="btn btn-primary btn mx-2" @click="searchTutLecture()">검색</button>
             </span>
         </p>
         <div>

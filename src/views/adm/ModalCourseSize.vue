@@ -1,15 +1,15 @@
 <template>
     <teleport to="body">
-        <div class="backdrop">
-            <div class="container">
-                <div class="modal-dialog">
+        <div class="modal-overlay">
+            <div class="container" style="width: 500px; height:670px">
+                <div>
                     <div class="modal-content" >
                         <div class="modal-header">
                             <p class="conTitle">
                                 <span>수강인원 상세보기</span>
                             </p>
                         </div>
-                        <div class="modal-body" style="width: 500px; height: 550px;">
+                        <div class="modal-body" style="width: 450px; height: 500px;">
                             <!-- {"totalCnt": 27,
                                 "lecList": [{"lec_id": 1,"tutor_id": null,"lec_name": "자바의이해","max_pnum": 51,"pre_pnum": 0,
                                     "start_date": "2024.03.05","end_date": "2024.06.15","process_day": null,"test_id": 0,
@@ -88,8 +88,19 @@ onMounted(() => {
 
 </script>
 
-<style>
+<style scoped>
 .t-header {
     font-weight: bold;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
