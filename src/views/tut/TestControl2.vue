@@ -2,7 +2,7 @@
 	<div>
 		<input type="hidden" id="action" name="action" value="" /> 
 		<input type="hidden" id="que_id" name="que_id" value="" />
-		<input type="hidden" id="use_yn" name="use_yn" value=""  v-model="use_yn"/>
+		<input type="hidden" id="use_yn" name="use_yn" value="" />
     
 
 		<!-- 모달 배경 -->
@@ -31,7 +31,7 @@
 							<p class="conTitle">
 								<span>시험 문제 관리</span> <span class="fr"> 
 									<label for="deactiveCk"> 
-										<input type="checkbox" name="deactiveCk" id="deactiveCk" v-model="deactiveCk" @change="testListRtn()"> 
+										<input type="checkbox" name="deactiveCk" id="deactiveCk" onchange="showDeactiveCk(event)"> 
 										비활성화 문제&nbsp;&nbsp;
 								</label> 
 								<select id="lecList" style="width: 200px" v-model="lecTypeId" @change="testListRtn()">	
@@ -69,22 +69,17 @@
 											<th scope="col">보기2</th>
 											<th scope="col">보기3</th>
 											<th scope="col">보기4</th>
-											<th scope="col">YN</th>
 											<th scope="col">
                                                 <div class="btn_areaC">
-						<a class="btnType3 color1" @click="testDeactivate(dataList.que_id)" v-if="!deactiveCk"><span id="activebtn" >비활성</span></a>
-						<a class="btnType3 color1" @click="testDeactivate(dataList.que_id)" v-if="deactiveCk"><span id="activebtn" >활성</span></a>
-					
-					</div>
+												<a class="btnType3 color1"
+												href="javascript:Deactivate('que_id');"><span id="activebtn" >비활성</span></a></div>
                                                 </th>
 										</tr>
 									</thead>
 									<tbody id="listTestbody">
 										<template v-if="dataList.length > 0">
               							<tr v-for="(list, i) in dataList" :key="i">
-                						<td>
-											<input type="checkbox" name="rowCheckbox" class="rowCheckbox" :value="list" v-model="selectedItems">
-										</td>
+                						<td><input type="checkbox" name="rowCheckbox" class="rowCheckbox" :value="list.que_id" v-model="selectedItems[i]" @change="testCheckList(i, list.que_id)"></td>
                 						<td>{{ list.lec_type_name }}</td>
                 						<td>{{ list.test_que }}</td>
                 						<td>{{ list.que_ans }}</td>
@@ -92,7 +87,6 @@
                 						<td>{{ list.que_ex2 }}</td>
                 						<td>{{ list.que_ex3 }}</td>
                 						<td>{{ list.que_ex4 }}</td>
-                						<td>{{ list.use_yn }}</td>
                 						<td><a class="btnType3 color1" @click="modalHandler(list.que_id)">수정</a></td>
               </tr>
             </template>
@@ -138,12 +132,11 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Pagination from '@/components/common/PaginationComponent.vue';
 import { axiosAction } from '.';
 import { Tut } from '@/api/api';
 import TestControlModal from './TestControlModal.vue';
-import axios from 'axios';
 
 const dataList = ref([]);
 const total = ref(0);
@@ -153,48 +146,35 @@ const lecTypeId = ref('');
 // const paramObj = ref({});
 const modalBoolean = ref(false);
 const que_id = ref(0);
-const selectedItems = ref([]);
-const deactiveCk = ref(false)
+const selectAllCheckbox = ref(false);
+const isSelectList = ref([]);
+const selectedItems = ref({});
 
-
-
-const selectAllCheckbox = computed(() => dataList.value.length === selectedItems.value.length);
-
-const selectAll = () => {
-	selectedItems.value = selectAllCheckbox.value ? [] : [...dataList.value];
-	console.log(selectedItems.value)
+const testCheckList = (index, value) => {
+	if(selectedItems.value[index]){
+		isSelectList.value.push(value)
+	} else {
+		isSelectList.value.pop(value)
+	}
 }
 
-// const testCheckList = (index, value) => {
-// 	if(selectedItems.value[index]){
-// 		isSelectList.value.push(value)
-// 	} else {
-// 		isSelectList.value.pop(value)
-// 	}
-// }
-
-// const selectAll = () => {
-// 	selectedItems.value = {};
-// 	isSelectList.value = [];
-// 	if (selectAllCheckbox.value) {
-// 		dataList.value.map((a, i) => {
-// 			selectedItems.value[i] = true;
-// 			isSelectList.value.push(a.que_id);
-// 		});
-// 	}
-// };
+const selectAll = () => {
+	selectedItems.value = {};
+	isSelectList.value = [];
+	if (selectAllCheckbox.value) {
+		dataList.value.map((a, i) => {
+			selectedItems.value[i] = true;
+			isSelectList.value.push(a.que_id);
+		});
+	}
+};
 
 const testListRtn = async (cpage) => {
     cpage = cpage || 1;
-	let use_yn = "Y"
-	if(deactiveCk.value){use_yn ="N"}
-
-
     let param = new URLSearchParams();
     param.append('cpage', cpage);
     param.append('pagesize', 6);
 	param.append('lecList', lecTypeId.value);
-	param.append('use_yn', use_yn);
 
     // axios.post('/adm/lectureRoomListjson.do', param).then((res) => {
     // dataList.value = res.data.listdata;
@@ -202,35 +182,20 @@ const testListRtn = async (cpage) => {
     // currentPage.value = cpage;
     // });
     const testList = await axiosAction(Tut.TestList, param);
-	
+
     if (testList) {
         dataList.value = testList.listdata;
         total.value = testList.listcnt;
         lectype.value = testList.lectureListData;
         currentPage.value = cpage;
-	console.log('확인')
+	console.log('asd' + total)
     }
 };
-
-	const testDeactivate = (selectedItems) => {
-		let param = new URLSearchParams(selectedItems);
-		param.append('que_id', que_id);
-		console.log('파라미터', param)
-
-		axios.post('/tut/testDeactivate.do', param).then((res) => {
-			if(res.data.result){
-				console.log('처리행수 = ', res.data.rtnCnt )
-				alert(res.data.deactResultMsg);
-			}
-
-    });
-
-	}
-
 
 const modalHandler = (param) => {
     modalBoolean.value = true;
     que_id.value=param
+// console.log(param)
 };
 
 const closeRefresh =(param) => {

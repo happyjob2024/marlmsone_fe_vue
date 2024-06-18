@@ -97,6 +97,7 @@ import { onMounted, ref } from 'vue';
 	const updateHandler = ref(props.que_id ? 'U' :'I');
 	const emit = defineEmits(['closeRefresh']);
 	console.log('프롭스 ' , props.que_id ? 'U' :'I' )
+	
 	const insertQue = () => {
     let param = new URLSearchParams(question.value);
 	console.log('액션은?? ', updateHandler.value, '리절트코드는? ', )
