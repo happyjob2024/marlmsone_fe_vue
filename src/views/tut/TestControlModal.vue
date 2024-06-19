@@ -96,17 +96,14 @@ import { onMounted, ref } from 'vue';
 	const question = ref(new Object());
 	const updateHandler = ref(props.que_id ? 'U' :'I');
 	const emit = defineEmits(['closeRefresh']);
-	console.log('프롭스 ' , props.que_id ? 'U' :'I' )
 	
 	const insertQue = () => {
     let param = new URLSearchParams(question.value);
-	console.log('액션은?? ', updateHandler.value, '리절트코드는? ', )
     param.append('action', updateHandler.value);
     // param.append('lecrm_id', props.que_id);
 
     axios.post('/tut/testSave.do', param).then((res) => {
         if (res.data.result) {
-			console.log('리절트코드 = ', res.data.result )
             alert(res.data.resultMsg);
             emit('closeRefresh');
         }
@@ -119,7 +116,6 @@ const getQueDetail = () => {
 
     axios.post('/tut/testModifyList.do', param).then((res) => {
         question.value = res.data.selinfo;
-		console.log('되니되니' + res.data.selinfo)
     });
 };
 onMounted(() =>{

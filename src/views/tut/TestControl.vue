@@ -201,19 +201,15 @@ const testListRtn = async (cpage) => {
         total.value = testList.listcnt;
         lectype.value = testList.lectureListData;
         currentPage.value = cpage;
-	console.log('확인', dataList)
     }
 };
 
 	const testDeactivate = (que_id) => {
-		console.log('파라미터1', que_id)
 		let param = new URLSearchParams();
 		param.append('que_id', que_id);
-		console.log('파라미터2', param)
 
 		axios.post('/tut/testDeactivate.do', param).then((res) => {
 			if(res.data.result){
-				console.log('처리행수 = ', res.data.rtnCnt )
 				alert(res.data.deactResultMsg);
 			}
 

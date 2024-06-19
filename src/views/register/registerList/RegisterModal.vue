@@ -102,22 +102,16 @@ export default {
   data() {
     return {
       lecData: {},
-      // lecInfo: {},
       lecrmList: [],
       tutList: [],
       typeList: [],
     };
   },
-  // computed: {
-  //   userInfo() {
-  //     return this.$store.getters.getLoginInfo;
-  //   },
-  // },
+
   methods: {
     insertRegisterDetail(action) {
       let param = new URLSearchParams(this.lecData);
       console.log(this.lecData)
-      // param.append("loginID", this.userInfo.loginId);
       param.append("action", action);
       
       axios.post("/register/saveRegister.do", param).then((res) => {
@@ -132,26 +126,17 @@ export default {
       let param = new URLSearchParams();
       param.append("lec_id", this.modalProps);//여기서 lec_id 를 맵퍼파일의 파라미터명과 일치 시켜줘야 한다.
 
-      console.log("getRegisterDetail 호출됨, register_id:", this.modalProps);
-      // if(this.modalProps.lecId) {
-      //   axios.post("/register/lecInfo.do", param).then((res) => {
-      //     this.lecData = res.data.lecinfo;
-      //     console.log("lecData:", this.lecData, res.data);
-      //   });
-      // }
+
       if(this.modalProps) {
         axios.post("/register/lecInfo.do", param).then((res) => {
           this.lecData = res.data.lecinfo;
-          console.log("lecInfo:", this.lecInfo, res.data);
         });
       }
 
       axios.post("/register/registerListControljson.do", param).then((res) => {
-        console.log("서버 응답 데이터:", res.data);
         this.lecrmList = res.data.lecrmList;
         this.tutList = res.data.tutList;
         this.typeList = res.data.typeList;
-        console.log("타입리스트 : " + this.typeList)
       });
     },
     

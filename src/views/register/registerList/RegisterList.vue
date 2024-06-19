@@ -243,11 +243,7 @@ export default {
 
     },
 
-    // toggleVisibility(lec_id){
-    //   this.isVisible = !this.isVisible;
-    //   this.getStdList(lec_id, 1);
-    //   this.stdinfo = lec_id;
-    // },
+
 
     delRegister(lec_id) {
       let param = new URLSearchParams();
@@ -256,20 +252,15 @@ export default {
       axios.post("/register/delRegister.do", param).then((res) => {
         if (res.data.result) {
           alert(res.data.resultMsg);
-          // this.$emit("closeModal", false);
           this.getRegisterList();
         }
       });
     },
 
     modalHandler(lecId) {
-      console.log("맹구" + lecId)
       this.modalState = true;
       this.modalProps = lecId
-      //  {
-      //   lecId: lecId,
-      // typeList: this.typeList
-      // };
+
     },
   },
   mounted() {
