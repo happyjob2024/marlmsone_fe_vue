@@ -1,8 +1,10 @@
 <template>
     <div>
         <p class="Location">
-            <span class="btn_nav bold">통계</span>
-            <span class="btn_nav bold">수강인원</span>
+            <a class="btn_set home">메인으로</a> 
+            <span class="btn_nav bold">통계</span> 
+            <span class="btn_nav bold">수강인원</span> 
+            <a class="btn_set refresh">새로고침</a>
         </p>
         <p class="conTitle">
             <span class="conNm">수강인원</span>
@@ -22,7 +24,7 @@
             </span>
         </p>
         <span class="fr">
-            <strong>수업일 조회</strong>
+            <strong>수업일 조회 </strong>
             <input type="date" v-model="fromDate"> ~ <input type="date" v-model="toDate">
             <button class="btn btn-primary" 
                 style="margin-left: 10px"
@@ -37,7 +39,7 @@
             </div>
         </div>
         <div class="row">
-            <CardCouseSize v-for="data in dataList"
+            <CardCourseSize v-for="data in dataList"
                             :key="data.lec_id"
                             :data="data"/>
         </div>
@@ -54,7 +56,7 @@ import { onMounted, ref } from 'vue';
 import { CourseSize } from '@/api/api';
 import { axiosAction } from '.';
 import Pagination from '@/components/common/PaginationComponent.vue';
-import CardCouseSize from './CardCouseSize.vue';
+import CardCourseSize from './CardCourseSize.vue';
 
 const pageSize = 6;
 const currentPage = ref(0);

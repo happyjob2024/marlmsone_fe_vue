@@ -1,9 +1,10 @@
 <template>
     <div>
         <p class="Location">
-            <a href="/dashboard/home" class="btn_set home"></a>
-            <span class="btn_nav bold">기준정보</span>
-            <span class="btn_nav bold">설문조사 관리</span>
+            <a class="btn_set home">메인으로</a> 
+            <span class="btn_nav bold">학습 관리</span> 
+            <span class="btn_nav bold">설문조사 관리</span> 
+            <a class="btn_set refresh">새로고침</a>
         </p>
         <p class="conTitle">
             <span>설문조사 관리</span>

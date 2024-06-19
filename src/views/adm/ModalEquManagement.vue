@@ -1,7 +1,7 @@
 <template>
 <teleport to="body">
-    <div class="backdrop">
-        <div class="container" style="width: 900px">
+    <div class="modal-overlay">
+        <div class="container" style="width: 650px; height:350px">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -9,18 +9,18 @@
                             <span>장비 등록</span>
                         </p>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="width: 600px; height: 180px;">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="120px">
-                                <col width="*">
-                                <col width="120px">
-                                <col width="*">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
                             </colgroup>
                             <tbody>
                                 <tr>
                                     <th scope="row">장비 명<span class="font_red">*</span></th>
-                                    <td><input type="text" class="inputTxt p100" v-model="equture.equ_name"/></td>
+                                    <td colspan="3"><input type="text" class="inputTxt p100" v-model="equture.equ_name"/></td>
                                 </tr>
                                 <tr>
                                     <th>장비 수<span class="font_red">*</span></th>
@@ -44,7 +44,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">비고</th>
-                                    <td><input type="text" class="inputTxt p100" v-model="equture.equ_note"/></td>
+                                    <td colspan="3"><input type="text" class="inputTxt p100" v-model="equture.equ_note"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -139,17 +139,19 @@ onMounted (() => {
 </script>
 
 <style>
-.backdrop {
-    display: flex;
+.modal-overlay {
     position: fixed;
-    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.5);
+    align-items: center;
 }
 .container {
-    background: rgb(255, 255, 255);
+    background: white;
     padding: 1.5rem;
     height: 50%;
 }

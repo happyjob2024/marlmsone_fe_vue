@@ -92,7 +92,7 @@ import { onMounted, ref } from 'vue';
         param.append('searchKey', searchKey.value);
         param.append('searchInfo', searchInfo.value);
 
-        axios.post('/std/studentLearnMatList', param).then((res) => {
+        axios.post('/std/stdLearnMatListJson', param).then((res) => {
             dataList.value = res.data.learningMatList;
             listCount.value = res.data.learnMatTotalCount;
             currentPage.value = page;

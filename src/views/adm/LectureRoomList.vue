@@ -1,23 +1,22 @@
 <template>
-<div class="content">
-  <p class="Location">
-    <a class="btn_set home">메인으로</a> 
-    <span class="btn_nav bold">시설 관리</span> 
-    <span class="btn_nav bold"> 강의실</span>
-    <a class="btn_set refresh">새로고침</a>
-  </p>
-
-  <div>
-    <p class="conTitle">
-      <span>강의실</span> 
+  <div class="content">
+    <p class="Location">
+      <a class="btn_set home">메인으로</a> 
+      <span class="btn_nav bold">시설 관리</span> 
+      <span class="btn_nav bold"> 강의실</span>
+      <a class="btn_set refresh">새로고침</a>
+    </p>
+    <div>
+      <p class="conTitle">
+        <span>강의실</span> 
         <span class="fr">
-          <span>강의실 명</span>
+          <span>강의실 명 </span>
           <input type="text" class="lecure-name" v-model="searchRoomName">
           <button class="btn btn-primary mx-1" @click="getLectureList()">검색</button>
           <button class="btn btn-primary mx" @click="modalRoom()">강의실 신규등록</button>
-      </span>
-    </p>
-  </div>
+        </span>
+      </p>
+    </div>
   <div class="divComGrpCodList">
     <table class="col">
       <caption>caption</caption>
@@ -38,9 +37,9 @@
           <th scope="col"></th>
         </tr>
       </thead>
-        
-     <tbody id="listLectureBody">
-       <tr v-for="data in dataList" :key="data.lecrm_id">
+
+      <tbody id="listLectureBody">
+        <tr v-for="data in dataList" :key="data.lecrm_id">
           <td @click="$router.push(`Equipmentdetail/${data.lecrm_id}`)">
             {{ data.lecrm_name }}</td>
           <td>{{ data.lecrm_size }}</td>
@@ -51,12 +50,12 @@
               class="btn btn-outline-dark"
               style="margin-right: 15px"
               @click="modalRoom(data.lecrm_id)"
-            >
-            수정
+              >
+              수정
             </button>
           </td>
-       </tr>
-     </tbody>
+        </tr>
+      </tbody>
     </table>
   </div>
   <Pagination 
@@ -65,14 +64,13 @@
   v-if="dataList.length > 0"
   />
   <ModalLerctureRoom 
-      v-if="modalState"
-      :lectureId="lectureId"
-      :lecrmId="lecrmId"
-      @closeModal="modalState=$event"
-      @closeAndSearch="modalClose"
-    />
-</div> 
-
+    v-if="modalState"
+    :lectureId="lectureId"
+    :lecrmId="lecrmId"
+    @closeModal="modalState=$event"
+    @closeAndSearch="modalClose"
+  />
+  </div>
 </template>
 
 <script setup>

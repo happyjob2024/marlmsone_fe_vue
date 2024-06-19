@@ -32,7 +32,7 @@
                         >상세보기</button>
             </div>
         </div>
-        <ModalCouseSize
+        <ModalCourseSize
             v-if="modalBoolean"
             :data="data"
             @closeModal="modalBoolean = $event"
@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import ModalCouseSize from './ModalCouseSize.vue';
+import ModalCourseSize from './ModalCourseSize.vue';
 
 defineProps({
     data: Object,

@@ -111,22 +111,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.search {
-    display: flex;
-    align-items: center;
-}
-
-.search label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-.search input {
-    width: 200px;
-    margin-right: 5px;
-}
-
 .item {
     cursor: pointer;
     color: black;

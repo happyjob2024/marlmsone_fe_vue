@@ -15,7 +15,8 @@
                     </option>
                 </select>
                 <input type="text" class="lecure-name" style="margin-left: 10px;" v-model="searchWord"/>
-                <button class="btn btn-secondary btn-sm" @click="getTutLectureList()">검색</button>
+                <button class="btn btn-primary btn mx-2" @click="getTutLectureList()">검색</button>
+
             </span>
         </p>
         <div>
