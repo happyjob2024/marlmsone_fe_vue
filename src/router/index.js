@@ -20,6 +20,7 @@ import LecturePlan from "@/views/tut/LecturePlan.vue";
 import LecturePlanHandle from "@/views/tut/LecturePlanHandle.vue";
 import TestGenerate from "@/views/tut/TestGenerate.vue";
 import CheckGrades from "@/views/tut/CheckGrades.vue";
+import TestControl from "@/views/tut/TestControl.vue";
 import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
 import ProjectControl from "@/views/tut/ProjectControl.vue";
 
@@ -157,6 +158,10 @@ const routes = [
             path: "checkGrades",
             component: <CheckGrades />,
           },
+          {
+            path: 'testControl',
+            component: <TestControl />,
+          }
         ],
       },
       {
