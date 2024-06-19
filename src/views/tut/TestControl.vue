@@ -72,9 +72,10 @@
 											<th scope="col">YN</th>
 											<th scope="col">
                                                 <div class="btn_areaC">
-						<a class="btnType3 color1" @click="testDeactivate(dataList.que_id)" v-if="!deactiveCk"><span id="activebtn" >비활성</span></a>
-						<a class="btnType3 color1" @click="testDeactivate(dataList.que_id)" v-if="deactiveCk"><span id="activebtn" >활성</span></a>
-					
+										
+						<a class="btnType3 color1" @click="testDeactivate(selectedItems)" v-if="!deactiveCk"><span id="activebtn" >비활성</span></a>
+						<a class="btnType3 color1" @click="testDeactivate(selectedItems)" v-if="deactiveCk"><span id="activebtn" >활성</span></a>
+				
 					</div>
                                                 </th>
 										</tr>
@@ -83,7 +84,7 @@
 										<template v-if="dataList.length > 0">
               							<tr v-for="(list, i) in dataList" :key="i">
                 						<td>
-											<input type="checkbox" name="rowCheckbox" class="rowCheckbox" :value="list" v-model="selectedItems">
+											<input type="checkbox" name="rowCheckbox" class="rowCheckbox" :value="list.que_id" v-model="selectedItems">
 										</td>
                 						<td>{{ list.lec_type_name }}</td>
                 						<td>{{ list.test_que }}</td>
@@ -158,31 +159,28 @@ const deactiveCk = ref(false)
 
 
 
-const selectAllCheckbox = computed(() => dataList.value.length === selectedItems.value.length);
+const selectAllCheckbox = computed({
+  get() {
+    return dataList.value.length > 0 && dataList.value.length === selectedItems.value.length;
+  },
+  set(value) {
+    if (value) {
+      selectedItems.value = dataList.value.map(item => item.que_id);
+    } else {
+      selectedItems.value = [];
+    }
+  }
+});
 
 const selectAll = () => {
-	selectedItems.value = selectAllCheckbox.value ? [] : [...dataList.value];
+	if (selectAllCheckbox.value) {
+    selectedItems.value = dataList.value.map(item => item.que_id);
+  } else {
+    selectedItems.value = [];
+  }
 	console.log(selectedItems.value)
 }
 
-// const testCheckList = (index, value) => {
-// 	if(selectedItems.value[index]){
-// 		isSelectList.value.push(value)
-// 	} else {
-// 		isSelectList.value.pop(value)
-// 	}
-// }
-
-// const selectAll = () => {
-// 	selectedItems.value = {};
-// 	isSelectList.value = [];
-// 	if (selectAllCheckbox.value) {
-// 		dataList.value.map((a, i) => {
-// 			selectedItems.value[i] = true;
-// 			isSelectList.value.push(a.que_id);
-// 		});
-// 	}
-// };
 
 const testListRtn = async (cpage) => {
     cpage = cpage || 1;
@@ -196,11 +194,6 @@ const testListRtn = async (cpage) => {
 	param.append('lecList', lecTypeId.value);
 	param.append('use_yn', use_yn);
 
-    // axios.post('/adm/lectureRoomListjson.do', param).then((res) => {
-    // dataList.value = res.data.listdata;
-    // total.value = res.data.listcnt;
-    // currentPage.value = cpage;
-    // });
     const testList = await axiosAction(Tut.TestList, param);
 	
     if (testList) {
@@ -208,14 +201,15 @@ const testListRtn = async (cpage) => {
         total.value = testList.listcnt;
         lectype.value = testList.lectureListData;
         currentPage.value = cpage;
-	console.log('확인')
+	console.log('확인', dataList)
     }
 };
 
-	const testDeactivate = (selectedItems) => {
-		let param = new URLSearchParams(selectedItems);
+	const testDeactivate = (que_id) => {
+		console.log('파라미터1', que_id)
+		let param = new URLSearchParams();
 		param.append('que_id', que_id);
-		console.log('파라미터', param)
+		console.log('파라미터2', param)
 
 		axios.post('/tut/testDeactivate.do', param).then((res) => {
 			if(res.data.result){
@@ -224,7 +218,8 @@ const testListRtn = async (cpage) => {
 			}
 
     });
-
+	testListRtn();
+	selectedItems.value = [];
 	}
 
 
