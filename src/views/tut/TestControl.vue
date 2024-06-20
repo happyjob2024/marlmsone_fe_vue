@@ -69,12 +69,11 @@
 											<th scope="col">보기2</th>
 											<th scope="col">보기3</th>
 											<th scope="col">보기4</th>
-											<th scope="col">YN</th>
 											<th scope="col">
                                                 <div class="btn_areaC">
 										
-						<a class="btnType3 color1" @click="testDeactivate(selectedItems)" v-if="!deactiveCk"><span id="activebtn" >비활성</span></a>
-						<a class="btnType3 color1" @click="testDeactivate(selectedItems)" v-if="deactiveCk"><span id="activebtn" >활성</span></a>
+						<a class="btnType3 color1 text-decoration-none" @click="testDeactivate(selectedItems)" v-if="!deactiveCk"><span id="activebtn" >비활성</span></a>
+						<a class="btnType3 color1 text-decoration-none" @click="testDeactivate(selectedItems)" v-if="deactiveCk"><span id="activebtn" >활성</span></a>
 				
 					</div>
                                                 </th>
@@ -93,8 +92,7 @@
                 						<td>{{ list.que_ex2 }}</td>
                 						<td>{{ list.que_ex3 }}</td>
                 						<td>{{ list.que_ex4 }}</td>
-                						<td>{{ list.use_yn }}</td>
-                						<td><a class="btnType3 color1" @click="modalHandler(list.que_id)">수정</a></td>
+                						<td><a class="btnType3 color1 text-decoration-none" @click="modalHandler(list.que_id)">수정</a></td>
               </tr>
             </template>
             <template v-else>

@@ -15,16 +15,13 @@
 							<col width="*">
 						</colgroup>
 
-						<tbody>
+						<tbody >
 							<tr>
 								<th scope="row">시험분류<span class="font_red">*</span></th>
 								<td colspan="7">
 									<select name="sort" id="lec_type_id" style="width: 100%;" v-model="question.lec_type_id">
 										<option value="undefined">강의 분류 선택</option>
 										<option v-for="(list, i) in lectype" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option>
-										<!-- <c:forEach items="${lecList}" var="list"> -->
-											<!-- <option value="${list.lec_type_id}">${list.lec_type_name}</option> -->
-										<!-- </c:forEach>  -->
 									</select>
 								</td>
 							</tr>
