@@ -1,9 +1,10 @@
 <template>
   <teleport to="body">
-      <div class="backdrop">
-        <!-- 원흉 1 컨테이너 -->
+    <!-- 원흉 1 백드랍에서 모달오버레이로 변경 -->
+      <div class="modal-overlay">
           <div class="container" style="width: 500px">
-              <div class="modal-dialog">
+            <!-- 원흉2 모달다이얼로그 삭제 -->
+              <div >
                   <div class="modal-content">
                       <div class="modal-header">
                           <p class="conTitle">
@@ -11,22 +12,20 @@
                             <span v-if="!modalProps">강의 등록</span>
                           </p>
                       </div>
-                      <!-- 원흉2 모달바디 -->
-                      <div class="modal-body">
+                      <!-- 모달바디 삭제 -->
+                      <div>
                         <!-- <input type="hidden" id="action" name="action" v-model="lecData.action" />  -->
                           <div class="input-group mb-3">
                               <span class="input-group-text">강의 명</span>
                               <input type="text" class="form-control" v-model="lecData.lec_name" />
                           </div>
-                          <tr>
-              <th scope="row">강의 분류</th>
-              <td colspan="3">
-                <select class="inputTxt p100" name="lec_type_id" id="lec_type_id" v-model="lecData.lec_type_id" >
-                <option value="" id="">강의 분류 선택</option>
+                          <div class="input-group mb-3">
+                          <label class="input-group-text" for="inputGroupSelect01">강의 분류</label>    
+                <select class="form-select" name="lec_type_id" id="lec_type_id" v-model="lecData.lec_type_id" >
+                <option value="undefined">강의 분류 선택</option>
                 <option v-for="(list, i) in typeList" :key="i" :value="list.lec_type_id">{{ list.lec_type_name }}</option>
-              </select></td>
-            </tr>
-
+              </select>
+            </div>
                           <!-- <div class="input-group mb-3">
                               <span class="input-group-text">강의 분류</span>
                               <input type="text" class="form-control"  />
@@ -43,27 +42,24 @@
                                   v-model="lecData.tutor_id"
                               />
                           </div> -->
-                          <tr>
-              <th scope="row">강사 명</th>
-              <td colspan="3">
-                <select class="inputTxt p100" name="tutor_id" id="tutor_id" v-model="lecData.tutor_id" >
-                <option value="" id="">강사 선택</option>
+                          <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">강사 선택</label>    
+                <select class="form-select" name="tutor_id" id="tutor_id" v-model="lecData.tutor_id" >
+                <option value="undefined" id="">강사 선택</option>
                 <option v-for="(list, i) in tutList" :key="i" :value="list.tutor_id">{{ list.t_name }}</option>
-              </select></td>
-            </tr>
-
+              </select>
+              </div>
                           <!-- <div class="input-group mb-3">
                               <span class="input-group-text">강의실 선택</span>
                               <input type="text" class="form-control"  v-model="lecData.lecrm_id"/>
                           </div> -->
-                          <tr>
-              <th scope="row">강의실 선택</th>
-              <td colspan="3">
-                <select class="inputTxt p100" name="lecrm_name" id="lecrm_name" v-model="lecData.lecrm_id" >
-                <option value="" id="">강의실 선택</option>
+                          <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">강의실 선택</label>        
+                <select class="form-select" name="lecrm_name" id="lecrm_name" v-model="lecData.lecrm_id" >
+                <option value="undefined" id="">강의실 선택</option>
                 <option v-for="(list, i) in lecrmList" :key="i" :value="list.lecrm_id">{{ list.lecrm_name }}</option>
-              </select></td>
-            </tr>
+              </select>
+                          </div>
                           <div class="input-group mb-3">
                               <span class="input-group-text">과정일수</span>
                               <input type="text" class="form-control" v-model="lecData.process_day"/>

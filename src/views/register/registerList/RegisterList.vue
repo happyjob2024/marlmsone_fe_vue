@@ -6,28 +6,11 @@
     </p>
     <p class="conTitle">
       <span>강의목록</span>
-      <span>
-        <table
-          style="border: 1px #50bcdf"
-          width="100%"
-          cellpadding="5"
-          cellspacing="0"
-          border="1"
-          align="left"
-        >
-          <tr style="border: 0px; border-color: blue">
-            <td
-              width="50"
-              height="25"
-              style="font-size: 100%; text-align: left"
-            >
-              <div
-                id="searchArea"
-                class="d-flex justify-content-around mb-2 mt-2"
-              >
+      
                 <span style="font-size: large">검색 조건을 입력하세요</span>
-                <select id="searchKey" name="searchKey" style="width: 80px;" v-model="paramObj.searchKey">
-                  <option value="all" id="all" selected="selected">전체</option>
+                <span class="search">
+                <select class="form-select"  v-model="paramObj.searchKey">
+                  <option value="all" >전체</option>
                   <option value="lec_name" id="lec_name">강의명</option>
                   <option value="t_name" id="t_name">강사명</option>
               </select>
@@ -37,32 +20,16 @@
                   class="form-control"
                   v-model="paramObj.searchInfo"
                 />
-                <!-- <input
-                  type="date"
-                  style="width: 15%"
-                  class="form-control"
-                  v-model="paramObj.searchstdate"
-                />
-                ~
-                <input
-                  type="date"
-                  style="width: 15%"
-                  class="form-control"
-                  v-model="paramObj.searcheddate"
-                /> -->
-                <span class="fr">
-                  <a class="btn btn-primary mx-2" @click="getRegisterList()">
+              </span>
+                <span>
+                  <a class="btn btn-primary" @click="getRegisterList()">
                     <span>검 색</span>
                   </a>
-                  <a class="btn btn-primary mx-2" @click="modalHandler()">
+                  <a class="btn btn-primary mx-1" @click="modalHandler()">
                     <span>신규등록</span>
                   </a>
                 </span>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </span>
+             
     </p>
 
     <div class="divComGrpCodList">
@@ -192,7 +159,7 @@ export default {
   data() {
     return {
       registerList: [],
-      paramObj: { searchInfo: "", searchKey: "", all: "all", lec_name: "lec_name", t_name: "t_name"},
+      paramObj: { searchInfo: "", searchKey: "all", all: "all", lec_name: "lec_name", t_name: "t_name"},
       currentPage: 0,
       totalItems: 0,
       studentList: [],
@@ -223,6 +190,7 @@ export default {
         this.tutList = res.data.tutList;
         this.typeList = res.data.typeList;
       });
+      
     },
 
  
@@ -265,9 +233,11 @@ export default {
   },
   mounted() {
     this.getRegisterList();
+    console.log('서치키 ',this.paramObj.searchKey)
   },
   components: { Pagination, NoticeModal, RegisterModal },
 };
 </script>
 
-<style></style>
+<style>
+</style>
