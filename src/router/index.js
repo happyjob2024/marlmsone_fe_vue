@@ -23,6 +23,7 @@ import CheckGrades from "@/views/tut/CheckGrades.vue";
 import TestControl from "@/views/tut/TestControl.vue";
 import T_learningMaterials from "@/views/tut/T_learningMaterials.vue";
 import ProjectControl from "@/views/tut/ProjectControl.vue";
+import LectureStudentInfo from "@/views/tut/LectureStudentInfo.vue";
 
 import LectureList from "@/views/std/LectureList.vue";
 import MyLectureInfo from "@/views/std/MyLectureInfo.vue";
@@ -30,7 +31,6 @@ import LearningMaterials_S from "@/views/std/LearningMaterials_S.vue";
 
 import Advice from "@/views/adv/Advice.vue";
 import StudentQnA from "@/views/StudentQnA.vue";
-
 
 const routes = [
   {
@@ -116,20 +116,24 @@ const routes = [
           {
             path: "courseSize",
             component: <CourseSize />,
-          },  
+          },
           {
             path: "studentControl",
             component: <LecList />,
-          }, 
+          },
           {
             path: "tutorControl",
-            component: <NList/>,
+            component: <NList />,
           },
         ],
       },
       {
         path: "tut",
         children: [
+          {
+            path: "lectureStudentInfo",
+            component: <LectureStudentInfo />,
+          },
           {
             path: "t_learningMaterials",
             component: <T_learningMaterials />,
@@ -159,9 +163,9 @@ const routes = [
             component: <CheckGrades />,
           },
           {
-            path: 'testControl',
+            path: "testControl",
             component: <TestControl />,
-          }
+          },
         ],
       },
       {
