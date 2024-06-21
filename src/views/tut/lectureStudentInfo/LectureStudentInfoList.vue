@@ -285,6 +285,7 @@ export default {
     getSearchStudentList(currentPage, lectureValue) {
       this.isClickedOption = true;
       currentPage = currentPage || 1;
+      lectureValue = lectureValue || this.lectureValue;
       let pageSize = 3;
 
       let param = new URLSearchParams();
