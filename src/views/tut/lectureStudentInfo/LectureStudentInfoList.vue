@@ -65,7 +65,7 @@
               <td>
                 <button
                   id="select"
-                  class="btn btn-primary mx-2 tablebtn"
+                  class="btn btn-info mx-2 tablebtn"
                   @click="getSearchStudentList(1, list.lec_id)"
                 >
                   조회
@@ -178,7 +178,7 @@
               <td>
                 <template v-if="list.approve_yn === 'N'">
                   <button
-                    class="btn btn-primary mx-2 tablebtn"
+                    class="btn btn-danger mx-2 tablebtn"
                     @click="lectureApprove(list.std_id, list.lec_Id)"
                   >
                     승인
@@ -186,7 +186,7 @@
                 </template>
                 <template v-else>
                   <button
-                    class="btn btn-primary mx-2 gray tablebtn"
+                    class="btn btn-secondary mx-2 gray tablebtn"
                     @click="lectureCancel(list.std_id, list.lec_Id)"
                   >
                     취소
@@ -360,17 +360,5 @@ export default {
 <style>
 .tablebtn {
   width: 100px;
-  background-color: #24b5ea;
-  border-color: #24b5ea;
-}
-
-.gray {
-  background-color: gray;
-  border-color: gray;
-}
-
-.gray:hover {
-  background-color: #1e1e1e;
-  border-color: #1e1e1e;
 }
 </style>

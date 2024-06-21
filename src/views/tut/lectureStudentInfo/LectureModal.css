@@ -16,13 +16,13 @@ a.pointer {
   text-decoration: none;
 }
 
-table.row2 {
+table.row3 {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
-table.row2 > tbody > tr > th {
+table.row3 > tbody > tr > th {
   padding: 0 15px;
   height: 37px;
   width: 200px;

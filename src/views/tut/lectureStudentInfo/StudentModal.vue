@@ -18,7 +18,7 @@
     <dl>
       <dt><strong>학생 정보</strong></dt>
       <dd class="contain">
-        <table class="row2">
+        <table class="row3">
           <colgroup>
             <col width="15%" />
             <col width="35%" />

@@ -11,7 +11,7 @@
     <dl>
       <dt><strong>강의 상세 정보</strong></dt>
       <dd class="contain">
-        <table class="row2">
+        <table class="row3">
           <tbody>
             <tr>
               <th scope="row">강의명</th>
